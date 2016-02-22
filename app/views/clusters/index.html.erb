@@ -1,0 +1,21 @@
+<h1><%= @request_type_name %></h1>
+<h3>Select a Cluster Below to View Details</h3>
+<div class='container'>
+  <div class='containing_div'>
+    <% @clusters.each do |cluster|%>
+      <%= link_to cluster_path(cluster), :target=>"_blank" do %>
+        <div class='list_option'>
+          <h3>Location:</h3>
+          <!--for each cluster, iterate over and display each unique street name-->
+          <h5>||
+          <% cluster.issues.select(:street_name).where.not(:street_name=>'').distinct().each do |street| %>
+            <%=street[:street_name] +' ||' %>
+          <% end %>
+          </h5>
+          <h3>Size: <%= cluster[:score] %></h3>
+        </div>
+      <% end %>
+      </br>
+    <% end %>
+  </div>
+</div>

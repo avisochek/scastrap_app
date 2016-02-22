@@ -1,0 +1,76 @@
+<%= require 'time' %>
+
+<h1> <%=@cluster.request_type[:name] %></h1>
+<h2>  cluster # <%=@cluster[:id_]%> </h2>
+<!-- create a map div -->
+<div id='map'></div>
+<div class='container'>
+  <div class='containing_div'>
+    <h1>Issues:</h1>
+    <table>
+      <thead>
+        <tr>
+          <td>age</td>
+          <td>status</td>
+          <td>street</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @issues.each do |issue|%>
+        <tr>
+          <!--display time since issue was created-->
+          <td><%= ((Time.now.getlocal-issue[:created_at].getlocal)/(60*60*24)).to_i%> days</td>
+          <td><%= issue[:status] %></td>
+          <td><%= issue[:street_name]%></td>
+          <td><%= link_to "details","https://seeclickfix.com/issues/"+issue[:id_].to_s,:target=>"blank"%></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- display map-->
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEs6NPvRS1jrPZTWGZUkdkFmIbdCPrBEo&callback=initMap"
+  async defer></script>
+<%= javascript_tag do %>
+  var map;
+  function initMap(category) {
+    // Create a map object and specify the DOM element for display.
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 41.31, lng: -72.898197},
+      scrollwheel: false,
+      zoom: 8
+    });
+
+  //create array of longitude, latitude coordinates
+  var geo_data=[]
+  var latlngbounds = new google.maps.LatLngBounds();
+  <% @issues.each do |issue| %>
+    var lat = <%=issue[:lat]%>
+    var lng = <%=issue[:lng]%>
+    geo_data.push(new google.maps.LatLng(lat,lng));
+  <% end %>
+
+  //use geo_data to create bounds and populate the map
+  geo_data.forEach(function(loc){
+          latlngbounds.extend(loc);
+          var color = "blue";
+          //if (meta_data[i]['status']==="Open"){color="red"}
+          var Circle = new google.maps.Circle({
+            strokeColor: color,
+            strokeOpacity: 0.8,
+            strokeWeight: .5,
+            fillColor: color,
+            fillOpacity: 0.35,
+            map: map,
+            center: loc,
+            radius: 10
+          });
+  });
+  map.setCenter(latlngbounds.getCenter());
+  map.fitBounds(latlngbounds);
+}
+<% end %>
