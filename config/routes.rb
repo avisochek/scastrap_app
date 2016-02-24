@@ -9,11 +9,18 @@ Rails.application.routes.draw do
   get'/clusters/show' => 'clusters#home'
 
 
-  ### api
+  ######
+  ######
+  ######
+  ## api
   ### check first if resource already exists
   get '/api/issue_exists/:id_' => 'api#issue_exists?'
   get '/api/cluster_exists/:id_' => 'api#cluster_exists?'
   get '/api/request_type_exists/:id_' => 'api#request_type_exists?'
+
+  ### check for latest id for reference
+  get 'api/latest_cluster_id' => 'api#get_latest_cluster_id'
+  get 'api/latest_batch_id' => 'api#get_latest_batch_id'
 
   ### update existing resources
   patch '/api/update_issue' => 'api#update_issue'
@@ -26,7 +33,8 @@ Rails.application.routes.draw do
   post '/api/create_issue' => 'api#create_issue'
   post '/api/create_cluster' => 'api#create_cluster'
   post '/api/create_request_type' => 'api#create_request_type'
-
+  post '/api/create_batch' => 'api#create_batch'
+  post '/api/create_cluster_issue' => 'api#create_cluster_issue'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

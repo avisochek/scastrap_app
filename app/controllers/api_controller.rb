@@ -34,6 +34,15 @@ class ApiController < ApplicationController
     end
   end
 
+  def get_latest_cluster_id
+    if Cluster.all.length>0
+      latest_cluster_id = Cluster.all.order(:id_).last.id_
+      render status: 200, json: {latest_cluster_id: latest_cluster_id}
+    else
+      render status: 200, json: {latest_cluster_id: "none"}
+    end
+  end
+
   ## for now, we assume
   ## that one a cluster is uploaded,
   ## it does not change
@@ -42,7 +51,7 @@ class ApiController < ApplicationController
   # end
 
   def create_cluster
-    if Cluster.new(issue_params)
+    if Cluster.new(cluster_params).save
       render status: 201, json: {message: "sucess!"}
     else
       render status: 403, json: {message: "could not create cluster"}
@@ -65,10 +74,35 @@ class ApiController < ApplicationController
   # end
 
   def create_request_type
-    if RequestType.new(issue_params)
+    if RequestType.new(request_type_params).save
       render status: 201, json: {message: "sucess!"}
     else
       render status: 403, json: {message: "could not create request type"}
+    end
+  end
+
+  def get_latest_batch_id
+    if Batch.all.length>0
+      latest_batch_id = Batch.all.order(:created_at).last.id_
+      render status: 200, json: {latest_batch_id: latest_batch_id}
+    else
+      render status: 200, json: {latest_batch_id: "none"}
+    end
+  end
+
+  def create_batch
+    if Batch.new(batch_params).save
+      render status: 201, json: {message: "sucess!"}
+    else
+      render status: 403, json: {message: "could not create batch"}
+    end
+  end
+
+  def create_cluster_issue
+    if ClustersIssues.new(cluster_issue_params).save
+      render status: 201, json: {message: "sucess!"}
+    else
+      render status: 403, json: {message: "could not create batch"}
     end
   end
 
@@ -80,19 +114,26 @@ class ApiController < ApplicationController
                       :status,
                       :lng,
                       :lat,
-                      :street_name,
-                      :cluster_id)
+                      :street_name)
       #params[:issue]
     end
 
     def cluster_params
-      params.require(:cluster).permit(:id_,:rtt,
+      params.require(:cluster).permit(:id_,
                                   :request_type_id,
                                   :score)
     end
 
     def request_type_params
       params.require(:request_type).permit(:id_,:name)
+    end
+
+    def batch_params
+      params.require(:batch).permit(:id_,:created_at)
+    end
+
+    def cluster_issue_params
+      params.require(:cluster_issue).permit(:cluster_id,:issue_id)
     end
 
     ## before fileters
