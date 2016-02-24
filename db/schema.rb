@@ -11,40 +11,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217075122) do
+ActiveRecord::Schema.define(version: 20160224165547) do
+
+  create_table "batches", id: false, force: :cascade do |t|
+    t.integer  "id_",        null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "clusters", id: false, force: :cascade do |t|
     t.integer  "id_",             null: false
-    t.string   "rtt"
-    t.string   "request_type_id"
+    t.integer  "request_type_id"
     t.integer  "score"
+    t.integer  "batch_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
 
-  create_table "issues", force: :cascade do |t|
-    t.integer  "id_"
-    t.integer  "repid"
+  add_index "clusters", ["batch_id"], name: "index_clusters_on_batch_id"
+  add_index "clusters", ["request_type_id"], name: "index_clusters_on_request_type_id"
+
+  create_table "clusters_issues", force: :cascade do |t|
+    t.integer  "cluster_id"
+    t.integer  "issue_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "issues", id: false, force: :cascade do |t|
+    t.integer  "id_",             null: false
     t.integer  "request_type_id"
-    t.string   "rtt"
     t.datetime "created_at",      null: false
-    t.boolean  "acknowledged"
     t.string   "status"
-    t.string   "address"
     t.float    "lng"
     t.float    "lat"
-    t.string   "neighborhood"
     t.string   "street_name"
-    t.string   "acknowledged_at"
-    t.string   "closed_at"
-    t.integer  "cluster_id"
     t.datetime "updated_at",      null: false
   end
 
-  add_index "issues", ["cluster_id"], name: "index_issues_on_cluster_id"
-
-  create_table "request_types", force: :cascade do |t|
-    t.integer  "id_"
+  create_table "request_types", id: false, force: :cascade do |t|
+    t.integer  "id_",        null: false
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
