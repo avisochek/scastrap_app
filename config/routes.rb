@@ -9,6 +9,25 @@ Rails.application.routes.draw do
   get'/clusters/show' => 'clusters#home'
 
 
+  ### api
+  ### check first if resource already exists
+  get '/api/issue_exists/:id_' => 'api#issue_exists?'
+  get '/api/cluster_exists/:id_' => 'api#cluster_exists?'
+  get '/api/request_type_exists/:id_' => 'api#request_type_exists?'
+
+  ### update existing resources
+  patch '/api/update_issue' => 'api#update_issue'
+  ## for now, clusters and request types are assumed to be static
+  ## once uploaded, so no need for these routes
+  #patch '/api/update_cluster/:id_' => 'api#update_cluster'
+  #patch '/api/update_request_type/:id_' => 'api#update_issue'
+
+  ### create new resources
+  post '/api/create_issue' => 'api#create_issue'
+  post '/api/create_cluster' => 'api#create_cluster'
+  post '/api/create_request_type' => 'api#create_request_type'
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
