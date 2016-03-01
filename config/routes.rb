@@ -2,11 +2,9 @@ Rails.application.routes.draw do
   get '/' => 'application#home'
 
   get '/clusters' => 'clusters#home'
-  get '/clusters/index/:request_type_id' => 'clusters#index'
-  get '/clusters/:cluster_id' => 'clusters#show', as: 'cluster'
-
-  ### redirect home when user refreshes the page
-  get'/clusters/show' => 'clusters#home'
+  get '/clusters/request_type_menu' => 'clusters#request_type_menu'
+  get '/clusters/cluster_menu/:request_type_id' => 'clusters#cluster_menu'
+  get '/clusters/:cluster_id' => 'clusters#show_cluster'
 
 
   ######

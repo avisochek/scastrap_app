@@ -1,10 +1,5 @@
 <div class='container'>
-  <h1>Select a Request Type Below</h1>
+  <h1>Clusters!</h1>
     <div class='containing_div'>
-      <% @request_types.each do |request_type| %>
-        <%= link_to '/clusters/index/'+request_type[:id_].to_s do%>
-          <h3 class='list_option'><%= request_type[:name] %> </h3>
-        <% end %>
-      <% end %>
     </div>
 </div>

@@ -1,14 +1,19 @@
 class ClustersController < ApplicationController
   def home
-    @request_types=RequestType.where.not :id_ => 0
   end
-  def index
+  def request_type_menu
+    @request_types=RequestType.where.not :id_ => 0
+    render :json => {:request_types => @request_types}
+  end
+  def cluster_menu
     request_type_id=params[:request_type_id]
     @clusters=Cluster.where(:request_type_id=>params[:request_type_id]).order(score: :desc)
     @request_type_name=RequestType.where(:id_=>params[:request_type_id]).first.name
+    render :json => {:clusters => @clusters, :request_type_name => @request_type_name}
   end
-  def show
+  def show_cluster
     @cluster=Cluster.find(params[:cluster_id])
     @issues=Cluster.find(params[:cluster_id]).issues
+    render :json => {:cluster => @cluster, :issues => @issues}
   end
 end
