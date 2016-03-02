@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get '/api/issue_exists/:id_' => 'api#issue_exists?'
   get '/api/cluster_exists/:id_' => 'api#cluster_exists?'
   get '/api/request_type_exists/:id_' => 'api#request_type_exists?'
+  get 'api/city_exists/:id_' => 'api#city_exists?'
 
   ### check for latest id for reference
   get 'api/latest_cluster_id' => 'api#get_latest_cluster_id'
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
   #patch '/api/update_request_type/:id_' => 'api#update_issue'
 
   ### create new resources
+  post '/api/create_city' => 'api#create_city'
   post '/api/create_issue' => 'api#create_issue'
   post '/api/create_cluster' => 'api#create_cluster'
   post '/api/create_request_type' => 'api#create_request_type'

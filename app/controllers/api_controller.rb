@@ -2,6 +2,24 @@ class ApiController < ApplicationController
   Key="xxxx"
   before_action :correct_key?
 
+## city
+  def city_exists?
+    if City.where(:id_=> params[:id_]).length == 0
+      render status: 200, json: {message: "false"}
+    else
+      render status: 200, json: {message: "true"}
+    end
+  end
+
+  def create_city
+    if City.new(city_params).save()
+      render status: 201, json: {message: "sucess!"}
+    else
+      render status: 403, json: {message: "could not create city"}
+    end
+  end
+
+## issue
   def issue_exists?
     if Issue.where(:id_=> params[:id_]).length == 0
       render status: 200, json: {message: "false"}
@@ -14,7 +32,7 @@ class ApiController < ApplicationController
     if Issue.find_by(:id_ => issue_params[:id_]).update(issue_params)
       render status: 201, json: {message: "sucess!"}
     else
-      render status: 403, json: {message: "could not update resource"}
+      render status: 403, json: {message: "could not update issue"}
     end
   end
 
@@ -26,6 +44,7 @@ class ApiController < ApplicationController
     end
   end
 
+## cluster
   def cluster_exists?
     if Cluster.where(:id_=> params[:id_]).length == 0
       render status: 200, json: {message: "false"}
@@ -58,6 +77,7 @@ class ApiController < ApplicationController
     end
   end
 
+## request_type
   def request_type_exists?
     if RequestType.where(:id_=> params[:id_]).length == 0
       render status: 200, json: {message: "false"}
@@ -81,6 +101,7 @@ class ApiController < ApplicationController
     end
   end
 
+## batch
   def get_latest_batch_id
     if Batch.all.length>0
       latest_batch_id = Batch.all.order(:created_at).last.id_
@@ -98,6 +119,7 @@ class ApiController < ApplicationController
     end
   end
 
+## cluster_issue
   def create_cluster_issue
     if ClustersIssues.new(cluster_issue_params).save
       render status: 201, json: {message: "sucess!"}
@@ -105,6 +127,7 @@ class ApiController < ApplicationController
       render status: 403, json: {message: "could not create batch"}
     end
   end
+
 
   private
     def issue_params
@@ -114,18 +137,20 @@ class ApiController < ApplicationController
                       :status,
                       :lng,
                       :lat,
-                      :street_name)
+                      :street_name,
+                      :city_id)
       #params[:issue]
     end
 
     def cluster_params
       params.require(:cluster).permit(:id_,
                                   :request_type_id,
-                                  :score)
+                                  :score,
+                                  :city_id)
     end
 
     def request_type_params
-      params.require(:request_type).permit(:id_,:name)
+      params.require(:request_type).permit(:id_,:name,:city_id)
     end
 
     def batch_params
@@ -134,6 +159,10 @@ class ApiController < ApplicationController
 
     def cluster_issue_params
       params.require(:cluster_issue).permit(:cluster_id,:issue_id)
+    end
+
+    def city_params
+      params.require(:city).permit(:id_,:name,:lat,:lng)
     end
 
     ## before fileters

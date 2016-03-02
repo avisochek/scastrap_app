@@ -23,6 +23,18 @@ class ApiTest < ActionDispatch::IntegrationTest
   end
 
   ## test api get requests for querying weather resource exists
+  test "city_exists? returns true when resource exists" do
+    get '/api/city_exists/1?key=xxxx'
+    assert_response(200)
+    result = JSON.parse(@response.body)
+    assert_equal "true", result['message']
+  end
+  test "city_exists? returns false when resource does not exist" do
+    get '/api/city_exists/9?key=xxxx'
+    assert_response(200)
+    result = JSON.parse(@response.body)
+    assert_equal "false", result['message']
+  end
   test "issue_exists? returns true when resource exists" do
     get '/api/issue_exists/1?key=xxxx'
     assert_response(200)
@@ -70,6 +82,19 @@ class ApiTest < ActionDispatch::IntegrationTest
     assert_response(201)
     assert_equal status, Issue.find(1)[:status]
     assert_equal street_name, Issue.find(1)[:street_name]
+  end
+
+  test "create city creates cities" do
+    id=6
+    lat = 42
+    lng = -72
+    name = "New York, NY"
+    post '/api/create_city?key=xxxx', :city => {:id_=>id,
+                                                :name=>name,
+                                                :lat=>lat,
+                                                :lng=>lng}
+    assert_response(201)
+    assert_equal City.find(id).name,name
   end
 
   test "create_issue creates issues" do
