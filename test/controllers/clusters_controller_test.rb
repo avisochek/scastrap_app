@@ -21,7 +21,6 @@ class ClustersControllerTest < ActionController::TestCase
     cluster_id=1
     get :show_cluster , :cluster_id=>cluster_id
     assert_response :success
-    puts JSON.parse(@response.body)
     assert_not_nil cluster_id, JSON.parse(@response.body)["issues"][0]
   end
 end

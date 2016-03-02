@@ -4,18 +4,24 @@
 
 <div class='container'>
   <h1>Clusters!</h1>
+  <div id="map"></div>
     <div class='containing_div'>
-      <div id="requestTypeMenu" style="display:none;" data-bind="foreach:requestTypes">
-        <pre data-bind="text: name, click: $root.goToClusterMenu"></pre></br>
+      <div id="requestTypeMenu" style="display:none;">
+        <h3>Select a Request Type</h3>
+        <div data-bind="foreach:requestTypes">
+          <pre data-bind="text: name, click: $root.goToClusterMenu"></pre></br>
+        </div>
       </div>
       <div id="clusterMenu" style="display:none;">
         <button data-bind="click: goToRequestTypeMenu"><</button>
+        <h3>Select a cluster<h3>
         <div  data-bind="foreach: clusters">
           <pre data-bind="text: 'fdsa', click: $root.goToClusterView"></pre></br>
         </div>
       </div>
       <div id="issueMenu" style="display:none;">
         <button data-bind="click: $root.goToClusterMenu"><</button>
+        <h3>Select an Issue to view details</h3>
         <div  data-bind="foreach: issues">
           <pre data-bind="text: street_name"></pre></br>
         </div>
@@ -52,6 +58,9 @@
         $.get('/clusters/request_type_menu/',
           function(data){self.requestTypes(data["request_types"]);
         });
+        $("#map").ready(function(){
+          showMap(null,city_coords={lat: 41.31, lng: -72.898197});
+        });
       });
 
       this.get('/#cluster_menu/:request_type_id', function(){
@@ -70,7 +79,9 @@
         $("#clusterMenu").hide();
         $("#issueMenu").show();
         $.get('/clusters/'+this.params.cluster_id,
-          function(data){self.issues(data["issues"]);
+          function(data){
+            self.issues(data["issues"]);
+            showMap(data["issues"],null)
         })
       });
 
@@ -81,4 +92,49 @@
   }
 
   ko.applyBindings(new ClusterViewModel());
+</script>
+
+<!--google maps api code-->
+<script>
+  function showMap(issues,city_coords){
+    // Create a map object and specify the DOM element for display.
+    var map = new google.maps.Map(document.getElementById('map'), {
+      //center: {lat: 41.31, lng: -72.898197},
+      scrollwheel: false,
+      zoom:8
+    });
+
+    if (issues){
+      //create array of longitude, latitude coordinates
+      var geo_data=[];
+      var latlngbounds = new google.maps.LatLngBounds();
+
+      issues.forEach(function(issue){
+        geo_data.push(new google.maps.LatLng(issue.lat,issue.lng));
+      });
+
+      //use geo_data to create bounds and populate the map
+      geo_data.forEach(function(loc){
+              latlngbounds.extend(loc);
+              var color = "blue";
+              //if (meta_data[i]['status']==="Open"){color="red"}
+              var Circle = new google.maps.Circle({
+                strokeColor: color,
+                strokeOpacity: 0.8,
+                strokeWeight: 0.5,
+                fillColor: color,
+                fillOpacity: 0.35,
+                map: map,
+                center: loc,
+                radius: 10
+              });
+      });
+      map.setCenter(latlngbounds.getCenter());
+      map.fitBounds(latlngbounds);
+    }else{
+      map.setCenter(city_coords);
+    };
+}
+
+
 </script>
