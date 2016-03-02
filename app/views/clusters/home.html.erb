@@ -1,5 +1,84 @@
+
+
+
+
 <div class='container'>
   <h1>Clusters!</h1>
     <div class='containing_div'>
+      <div id="requestTypeMenu" style="display:none;" data-bind="foreach:requestTypes">
+        <pre data-bind="text: name, click: $root.goToClusterMenu"></pre></br>
+      </div>
+      <div id="clusterMenu" style="display:none;">
+        <button data-bind="click: goToRequestTypeMenu"><</button>
+        <div  data-bind="foreach: clusters">
+          <pre data-bind="text: 'fdsa', click: $root.goToClusterView"></pre></br>
+        </div>
+      </div>
+      <div id="issueMenu" style="display:none;">
+        <button data-bind="click: $root.goToClusterMenu"><</button>
+        <div  data-bind="foreach: issues">
+          <pre data-bind="text: street_name"></pre></br>
+        </div>
+      </div>
     </div>
 </div>
+
+<!--Knockout.js and Sammy Based UI-->
+<!--Note: UI script must be placed below html to work-->
+<script>
+  function ClusterViewModel(){
+    var self = this;
+    self.requestTypes = ko.observable();
+    self.chosenRequestTypeId = ko.observable();
+    self.clusters = ko.observable();
+    self.chosenClusterId = ko.observable();
+    self.issues = ko.observable();
+    //self.chosenClusterId = ko.observable();
+    self.goToRequestTypeMenu = function() {
+      location.hash = "request_type_menu"
+    };
+    self.goToClusterMenu = function(request_type){
+      location.hash = "cluster_menu/"+request_type.id_
+    };
+    self.goToClusterView = function(cluster){
+      location.hash = "cluster_view/"+cluster.id_
+    }
+    Sammy(function(){
+
+      this.get('/#request_type_menu', function(){
+        $("#clusterMenu").hide();
+        $("#issueMenu").hide();
+        $("#requestTypeMenu").show();
+        $.get('/clusters/request_type_menu/',
+          function(data){self.requestTypes(data["request_types"]);
+        });
+      });
+
+      this.get('/#cluster_menu/:request_type_id', function(){
+        self.chosenRequestTypeId(this.params.request_type_id);
+        $("#requestTypeMenu").hide();
+        $("#issueMenu").hide();
+        $("#clusterMenu").show();
+        if(this.params.request_type_id!="undefined"){
+          $.get('/clusters/cluster_menu/'+this.params.request_type_id,
+            function(data){self.clusters(data["clusters"]);
+          });
+        }
+      });
+      this.get('/#cluster_view/:cluster_id',function(){
+        self.chosenClusterId(this.params.cluster_id);
+        $("#clusterMenu").hide();
+        $("#issueMenu").show();
+        $.get('/clusters/'+this.params.cluster_id,
+          function(data){self.issues(data["issues"]);
+        })
+      });
+
+    }).run();
+
+
+    this.goToRequestTypeMenu()
+  }
+
+  ko.applyBindings(new ClusterViewModel());
+</script>

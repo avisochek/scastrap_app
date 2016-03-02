@@ -31,7 +31,7 @@ gem 'bootstrap-sass',       '3.2.0.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'react-rails', '~> 1.0'
+#gem 'react-rails', '~> 1.0'
 
 group :development, :test do
   # Use sqlite3 for development and test
