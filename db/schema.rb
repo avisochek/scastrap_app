@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224165547) do
+ActiveRecord::Schema.define(version: 20160302043334) do
 
   create_table "batches", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
@@ -19,9 +19,19 @@ ActiveRecord::Schema.define(version: 20160224165547) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cities", id: false, force: :cascade do |t|
+    t.integer  "id_",        null: false
+    t.integer  "lat"
+    t.integer  "lng"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "clusters", id: false, force: :cascade do |t|
     t.integer  "id_",             null: false
     t.integer  "request_type_id"
+    t.integer  "city_id"
     t.integer  "score"
     t.integer  "batch_id"
     t.datetime "created_at",      null: false
@@ -29,6 +39,7 @@ ActiveRecord::Schema.define(version: 20160224165547) do
   end
 
   add_index "clusters", ["batch_id"], name: "index_clusters_on_batch_id"
+  add_index "clusters", ["city_id"], name: "index_clusters_on_city_id"
   add_index "clusters", ["request_type_id"], name: "index_clusters_on_request_type_id"
 
   create_table "clusters_issues", force: :cascade do |t|
@@ -41,6 +52,7 @@ ActiveRecord::Schema.define(version: 20160224165547) do
   create_table "issues", id: false, force: :cascade do |t|
     t.integer  "id_",             null: false
     t.integer  "request_type_id"
+    t.integer  "city_id"
     t.datetime "created_at",      null: false
     t.string   "status"
     t.float    "lng"
@@ -49,11 +61,17 @@ ActiveRecord::Schema.define(version: 20160224165547) do
     t.datetime "updated_at",      null: false
   end
 
+  add_index "issues", ["city_id"], name: "index_issues_on_city_id"
+  add_index "issues", ["request_type_id"], name: "index_issues_on_request_type_id"
+
   create_table "request_types", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
     t.string   "name"
+    t.integer  "city_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "request_types", ["city_id"], name: "index_request_types_on_city_id"
 
 end

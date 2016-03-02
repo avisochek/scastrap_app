@@ -6,14 +6,16 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+cities=[{:id_=>1,:name=>'New Haven, CT',:lng=>-72,:lat=>42}]
+cities.each {|city| City.create(city)}
 
-request_types=[{:id_=>1,:name=>'asdf'}]
+request_types=[{:id_=>1,:name=>'asdf',:city_id=>1}]
 request_types.each {|request_type| RequestType.create(request_type)}
 
 batches=[{:id_=>1,:created_at=>'2016-02-23T13:26:28-05:00'}]
 batches.each {|batch| Batch.create(batch)}
 
-clusters=[{:id_=>1,:score=>5,:request_type_id=>1,:batch_id=>1}]
+clusters=[{:id_=>1,:score=>5,:request_type_id=>1,:batch_id=>1,:city_id=>1}]
 clusters.each {|cluster| Cluster.create(cluster)}
 
 issues=[
@@ -24,7 +26,8 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.3151235,
-    :street_name => "Chapel Street"
+    :street_name => "Chapel Street",
+    :city_id=>1
   },
   {
     :id_=>2,
@@ -33,7 +36,8 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315123,
-    :street_name => "Chapel Street"
+    :street_name => "Chapel Street",
+    :city_id=>1
   },
   {
     :id_=>3,
@@ -42,7 +46,8 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315787,
-    :street_name => "Chapel Street"
+    :street_name => "Chapel Street",
+    :city_id=>1
   },
   {
     :id_=>4,
@@ -51,7 +56,8 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.314632,
-    :street_name => "Chapel Street"
+    :street_name => "Chapel Street",
+    :city_id=>1
   },
   {
     :id_=>5,
@@ -60,7 +66,8 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315275,
-    :street_name => "Chapel Street"
+    :street_name => "Chapel Street",
+    :city_id=>1
   }
 ]
 
