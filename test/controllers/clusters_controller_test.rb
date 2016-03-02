@@ -8,7 +8,8 @@ class ClustersControllerTest < ActionController::TestCase
     assert_select "h1","Clusters!"
   end
   test "should get request types" do
-    get :request_type_menu
+    city_id=1
+    get :request_type_menu,:city_id=>city_id
     assert_response :success
   end
   test "should get clusters" do

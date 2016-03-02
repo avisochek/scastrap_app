@@ -6,6 +6,12 @@
   <h1>Clusters!</h1>
   <div id="map"></div>
     <div class='containing_div'>
+      <div id="cityMenu" style="display:none;">
+        <h3>Select your City</h3>
+        <div data-bind="foreach:cities">
+          <pre data-bind="text: name, click: $root.goToRequestTypeMenu"></pre></br>
+        </div>
+      </div>
       <div id="requestTypeMenu" style="display:none;">
         <h3>Select a Request Type</h3>
         <div data-bind="foreach:requestTypes">
@@ -34,14 +40,25 @@
 <script>
   function ClusterViewModel(){
     var self = this;
+    // Observables
+    // order of observable declaration reflects
+    // the flow of selection in the UI
+    self.cities = ko.observable();
+    self.chosenCityId = ko.observable();
     self.requestTypes = ko.observable();
     self.chosenRequestTypeId = ko.observable();
     self.clusters = ko.observable();
     self.chosenClusterId = ko.observable();
     self.issues = ko.observable();
-    //self.chosenClusterId = ko.observable();
-    self.goToRequestTypeMenu = function() {
-      location.hash = "request_type_menu"
+
+    //Behaviors
+    // order of behaviors reflects
+    // the flow of selection in the UI
+    self.goToCityMenu = function(){
+      location.hash = "city_menu"
+    }
+    self.goToRequestTypeMenu = function(city) {
+      location.hash = "request_type_menu/"+city.id_
     };
     self.goToClusterMenu = function(request_type){
       location.hash = "cluster_menu/"+request_type.id_
@@ -49,33 +66,55 @@
     self.goToClusterView = function(cluster){
       location.hash = "cluster_view/"+cluster.id_
     }
-    Sammy(function(){
 
-      this.get('/#request_type_menu', function(){
+    //Routing using Sammy
+    //once again, order reflect flow
+    // of selection in the UI
+    Sammy(function(){
+      this.get('/#city_menu',function(){
+        $("#requestTypeMenu").hide();
+        $("#clusterMenu").hide();
+        $("#issueMenu").hide();
+        $("#cityMenu").show();
+        $.get('/clusters/city_menu/',
+          function(data){self.cities(data["cities"]);
+        });
+      });
+
+      this.get('/#request_type_menu/:city_id', function(){
+        $("#cityMenu").hide();
         $("#clusterMenu").hide();
         $("#issueMenu").hide();
         $("#requestTypeMenu").show();
-        $.get('/clusters/request_type_menu/',
-          function(data){self.requestTypes(data["request_types"]);
-        });
+        // update observables only if we are coming from previous menu
+        if(this.params.city_id!="undefined"){
+          $.get('/clusters/request_type_menu/'+this.params.city_id,
+            function(data){self.requestTypes(data["request_types"]);
+          });
+          self.chosenCityId(this.params.city_id);
+        }
         $("#map").ready(function(){
           showMap(null,city_coords={lat: 41.31, lng: -72.898197});
         });
       });
 
       this.get('/#cluster_menu/:request_type_id', function(){
-        self.chosenRequestTypeId(this.params.request_type_id);
+        $("#cityMenu").hide();
         $("#requestTypeMenu").hide();
         $("#issueMenu").hide();
         $("#clusterMenu").show();
+        //update observables only if we are coming from previous menu
         if(this.params.request_type_id!="undefined"){
           $.get('/clusters/cluster_menu/'+this.params.request_type_id,
             function(data){self.clusters(data["clusters"]);
           });
+          self.chosenRequestTypeId(this.params.request_type_id);
         }
       });
       this.get('/#cluster_view/:cluster_id',function(){
         self.chosenClusterId(this.params.cluster_id);
+        $("#cityMenu").hide();
+        $("#requestTypeMenu").hide();
         $("#clusterMenu").hide();
         $("#issueMenu").show();
         $.get('/clusters/'+this.params.cluster_id,
@@ -88,7 +127,7 @@
     }).run();
 
 
-    this.goToRequestTypeMenu()
+    this.goToCityMenu()
   }
 
   ko.applyBindings(new ClusterViewModel());
