@@ -9,7 +9,6 @@ class CreateIssues < ActiveRecord::Migration
       t.string :status
       t.float :lng
       t.float :lat
-      t.string :street_name
       t.timestamps null: false
     end
   end

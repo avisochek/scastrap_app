@@ -9,6 +9,9 @@
 cities=[{:id_=>1,:name=>'New Haven, CT',:lng=>-72,:lat=>42}]
 cities.each {|city| City.create(city)}
 
+streets=[{:id_=>1,:name=>'Chapel Street',:city_id=>1,:length=>1}]
+streets.each {|street| Street.create(street)}
+
 request_types=[{:id_=>1,:name=>'asdf',:city_id=>1}]
 request_types.each {|request_type| RequestType.create(request_type)}
 
@@ -26,7 +29,7 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.3151235,
-    :street_name => "Chapel Street",
+    :street_id => 1,
     :city_id=>1
   },
   {
@@ -36,7 +39,7 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315123,
-    :street_name => "Chapel Street",
+    :street_id => 1,
     :city_id=>1
   },
   {
@@ -46,7 +49,7 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315787,
-    :street_name => "Chapel Street",
+    :street_id => 1,
     :city_id=>1
   },
   {
@@ -56,7 +59,7 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.314632,
-    :street_name => "Chapel Street",
+    :street_id => 1,
     :city_id=>1
   },
   {
@@ -66,7 +69,7 @@ issues=[
     :status=> "acknowledged",
     :lng=>  -72.8886171,
     :lat=> 41.315275,
-    :street_name => "Chapel Street",
+    :street_id => 1,
     :city_id=>1
   }
 ]

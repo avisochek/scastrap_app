@@ -11,7 +11,7 @@ one:
       status: "acknowledged"
       lng: 52.1994138
       lat: -105.1363869
-      street_name: "Chapel Street"
+      street_id: 1
 two:
       id_: 2
       request_type_id: 1
@@ -19,7 +19,7 @@ two:
       status: "acknowledged"
       lng: 52.1994138
       lat: -105.1363869
-      street_name: "Chapel Street"
+      street_id: 1
 three:
       id_: 3
       request_type_id: 1
@@ -27,6 +27,7 @@ three:
       status: "acknowledged"
       lng: 52.1994138
       lat: -105.1363869
+      street_id: 1
 four:
       id_: 4
       request_type_id: 1
@@ -34,7 +35,7 @@ four:
       status: "acknowledged"
       lng: 52.1994138
       lat: -105.1363869
-      street_name: "Chapel Street"
+      street_id: 1
 five:
       id_: 5
       request_type_id: 1
@@ -42,4 +43,4 @@ five:
       status: "acknowledged"
       lng: 52.1994138
       lat: -105.1363869
-      street_name: "Chapel Street"
+      street_id: 1

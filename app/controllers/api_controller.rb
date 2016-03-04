@@ -2,6 +2,23 @@ class ApiController < ApplicationController
   Key="xxxx"
   before_action :correct_key?
 
+  ## street
+    def street_exists?
+      if Street.where(:id_=> params[:id_]).length == 0
+        render status: 200, json: {message: "false"}
+      else
+        render status: 200, json: {message: "true"}
+      end
+    end
+
+    def create_street
+      if Street.new(street_params).save()
+        render status: 201, json: {message: "sucess!"}
+      else
+        render status: 403, json: {message: "could not create street"}
+      end
+    end
+
 ## city
   def city_exists?
     if City.where(:id_=> params[:id_]).length == 0
@@ -101,7 +118,15 @@ class ApiController < ApplicationController
     end
   end
 
-## batch
+  ## batch
+  def batch_exists?
+    if Batch.where(:id_=> params[:id_]).length == 0
+      render status: 200, json: {message: "false"}
+    else
+      render status: 200, json: {message: "true"}
+    end
+  end
+
   def get_latest_batch_id
     if Batch.all.length>0
       latest_batch_id = Batch.all.order(:created_at).last.id_
@@ -137,9 +162,16 @@ class ApiController < ApplicationController
                       :status,
                       :lng,
                       :lat,
-                      :street_name,
+                      :street_id,
                       :city_id)
       #params[:issue]
+    end
+
+    def street_params
+      params.require(:street).permit(:id_,
+                                  :city_id,
+                                  :name,
+                                  :length)
     end
 
     def cluster_params

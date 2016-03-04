@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160302043334) do
+ActiveRecord::Schema.define(version: 20160304040055) do
 
   create_table "batches", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
@@ -53,16 +53,17 @@ ActiveRecord::Schema.define(version: 20160302043334) do
     t.integer  "id_",             null: false
     t.integer  "request_type_id"
     t.integer  "city_id"
+    t.integer  "street_id"
     t.datetime "created_at",      null: false
     t.string   "status"
     t.float    "lng"
     t.float    "lat"
-    t.string   "street_name"
     t.datetime "updated_at",      null: false
   end
 
   add_index "issues", ["city_id"], name: "index_issues_on_city_id"
   add_index "issues", ["request_type_id"], name: "index_issues_on_request_type_id"
+  add_index "issues", ["street_id"], name: "index_issues_on_street_id"
 
   create_table "request_types", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
@@ -73,5 +74,16 @@ ActiveRecord::Schema.define(version: 20160302043334) do
   end
 
   add_index "request_types", ["city_id"], name: "index_request_types_on_city_id"
+
+  create_table "streets", force: :cascade do |t|
+    t.integer  "id_",        null: false
+    t.string   "name"
+    t.integer  "city_id"
+    t.float    "length"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "streets", ["city_id"], name: "index_streets_on_city_id"
 
 end
