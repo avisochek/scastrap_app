@@ -4,6 +4,7 @@ class CreateIssues < ActiveRecord::Migration
       t.integer :id_, null: false
       t.belongs_to :request_type, index: true
       t.belongs_to :city, index: true
+      t.belongs_to :street, index: true
       t.string :created_at
       t.string :status
       t.float :lng
