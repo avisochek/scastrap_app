@@ -1,6 +1,7 @@
 class ApiController < ApplicationController
   Key="xxxx"
   before_action :correct_key?
+  skip_before_action :verify_authenticity_token
 
   ## street
     def street_exists?
@@ -194,6 +195,7 @@ class ApiController < ApplicationController
     end
 
     def city_params
+      puts "accessed city_params"
       params.require(:city).permit(:id_,:name,:lat,:lng)
     end
 

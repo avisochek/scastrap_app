@@ -13,6 +13,7 @@
         </div>
       </div>
       <div id="requestTypeMenu" style="display:none;">
+        <button data-bind="click: goToCityMenu"><</button>
         <h3>Select a Request Type</h3>
         <div data-bind="foreach:requestTypes">
           <pre data-bind="text: name, click: $root.goToClusterMenu"></pre></br>
@@ -29,7 +30,7 @@
         <button data-bind="click: $root.goToClusterMenu"><</button>
         <h3>Select an Issue to view details</h3>
         <div  data-bind="foreach: issues">
-          <pre data-bind="text: street_name"></pre></br>
+          <pre data-bind="text: 'qwer'"></pre></br>
         </div>
       </div>
     </div>
@@ -55,23 +56,23 @@
     // order of behaviors reflects
     // the flow of selection in the UI
     self.goToCityMenu = function(){
-      location.hash = "city_menu"
+      location.hash = "/city_menu/"
     }
     self.goToRequestTypeMenu = function(city) {
-      location.hash = "request_type_menu/"+city.id_
+      location.hash = "/request_type_menu/"+city.id_+"/"
     };
     self.goToClusterMenu = function(request_type){
-      location.hash = "cluster_menu/"+request_type.id_
+      location.hash = "/cluster_menu/"+request_type.id_+"/"
     };
     self.goToClusterView = function(cluster){
-      location.hash = "cluster_view/"+cluster.id_
+      location.hash = "/cluster_view/"+cluster.id_+"/"
     }
 
     //Routing using Sammy
     //once again, order reflect flow
     // of selection in the UI
     Sammy(function(){
-      this.get('/#city_menu',function(){
+      this.get('/#/city_menu/',function(){
         $("#requestTypeMenu").hide();
         $("#clusterMenu").hide();
         $("#issueMenu").hide();
@@ -81,7 +82,7 @@
         });
       });
 
-      this.get('/#request_type_menu/:city_id', function(){
+      this.get('/#/request_type_menu/:city_id/', function(){
         $("#cityMenu").hide();
         $("#clusterMenu").hide();
         $("#issueMenu").hide();
@@ -98,7 +99,7 @@
         });
       });
 
-      this.get('/#cluster_menu/:request_type_id', function(){
+      this.get('/#/cluster_menu/:request_type_id/', function(){
         $("#cityMenu").hide();
         $("#requestTypeMenu").hide();
         $("#issueMenu").hide();
@@ -111,7 +112,7 @@
           self.chosenRequestTypeId(this.params.request_type_id);
         }
       });
-      this.get('/#cluster_view/:cluster_id',function(){
+      this.get('/#/cluster_view/:cluster_id/',function(){
         self.chosenClusterId(this.params.cluster_id);
         $("#cityMenu").hide();
         $("#requestTypeMenu").hide();
