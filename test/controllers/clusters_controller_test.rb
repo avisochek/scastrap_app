@@ -5,7 +5,7 @@ class ClustersControllerTest < ActionController::TestCase
   test "should get home" do
     get :home
     assert_response :success
-    assert_select "h1","Clusters!"
+    assert_select "h1","Clusters"
   end
   test "should get request types" do
     city_id=1

@@ -1,45 +1,35 @@
-<div id='container'>
-  <div id="nav" class="row">
-    <div id="nav-title"><h1 id="nav-title-header">Scastrap</h1></div>
-    <div id="nav-menu">
-      <div class="nav-option"><h3>Home</h3></div>
-      <div class="nav-option"><h3>About</h3></div>
-      <div class="nav-option"><h3>How To Use</h3></div>
-    </div>
-  </div>
-  <div id='content'>
-    <button id="nav-toggle">nav</button>
-    <div id="sidebar">
-      <div id="cityMenu" class="menu">
-        <h3 class="menuHeader">Select your City</h3>
-        <div data-bind="foreach:cities">
-          <div class=option>
-            <p data-bind="text: name, click: $root.goToRequestTypeMenu"></p>
-          </div>
-        </div>
-      </div>
-      <div id="requestTypeMenu" class="menu">
-        <button data-bind="click: goToCityMenu"><</button>
-        <h3 class="menuHeader">Select a Request Type</h3>
-        <div data-bind="foreach:requestTypes">
-          <div class="option">
-            <p data-bind="text: name, click: $root.goToClusterMenu"></p>
-          </div>
-        </div>
-      </div>
-      <div id="clusterMenu" class="menu">
-        <button data-bind="click: goToRequestTypeMenu"><</button>
-        <h3 class="menuHeader">Select a cluster<h3>
-        <div  data-bind="foreach: clusters">
-          <p data-bind="text: score"></p>
-          <div class="option" data-bind="foreach: street_names, click: $root.goToClusterView">
-            <p data-bind="text: name"></p>
-          </div>
+<div id='content'>
+  <button id="nav-toggle">nav</button>
+  <div id="sidebar">
+    <div id="cityMenu" class="menu">
+      <h3 class="menuHeader">Select your City</h3>
+      <div data-bind="foreach:cities">
+        <div class=option>
+          <p data-bind="text: name, click: $root.goToRequestTypeMenu"></p>
         </div>
       </div>
     </div>
-    <div id="map"></div>
+    <div id="requestTypeMenu" class="menu">
+      <button data-bind="click: goToCityMenu"><</button>
+      <h3 class="menuHeader">Select a Request Type</h3>
+      <div data-bind="foreach:requestTypes">
+        <div class="option">
+          <p data-bind="text: name, click: $root.goToClusterMenu"></p>
+        </div>
+      </div>
+    </div>
+    <div id="clusterMenu" class="menu">
+      <button data-bind="click: goToRequestTypeMenu"><</button>
+      <h3 class="menuHeader">Select a cluster<h3>
+      <div  data-bind="foreach: clusters">
+        <p data-bind="text: score"></p>
+        <div class="option" data-bind="foreach: street_names, click: $root.goToClusterView">
+          <p data-bind="text: name"></p>
+        </div>
+      </div>
+    </div>
   </div>
+  <div id="map"></div>
   <!-- <div id="issueMenu" data-bind="foreach: issues">
     <div class="option bottom-option">
       <p data-bind="text: 'qwer'">
