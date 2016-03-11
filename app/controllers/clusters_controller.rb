@@ -7,13 +7,29 @@ class ClustersController < ApplicationController
   end
   def request_type_menu
     @request_types=RequestType.where(:city_id=>params[:city_id])
-    render :json => {:request_types => @request_types}
+    @city=City.find(params[:city_id])
+    render :json => {:request_types => @request_types,:city => @city}
   end
   def cluster_menu
-    request_type_id=params[:request_type_id]
-    @clusters=Cluster.where(:request_type_id=>params[:request_type_id]).order(score: :desc)
-    @request_type_name=RequestType.where(:id_=>params[:request_type_id]).first.name
-    render :json => {:clusters => @clusters, :request_type_name => @request_type_name}
+    clusters_w_street_names=[]
+    ## use eager loading to speed up iteration
+    clusters = Cluster.includes(:issues=>[:street]).where(:request_type_id=>params[:request_type_id]).order(score: :desc)
+    issues = Issue.where(:request_type_id=>params[:request_type_id],:status=>["Open","Acknowledged"])
+    clusters.each do |cluster|
+      ## include street names in cluster array
+      cluster_modified = cluster.as_json
+      street_names=[]
+
+      cluster.issues.each do |issue|
+        if issue.street_id !=0
+          street_names.append :name=>issue.street.name
+        end
+      end
+    cluster_modified[:street_names] = street_names.uniq
+    clusters_w_street_names.append(cluster_modified)
+    end
+    puts clusters_w_street_names
+    render :json => {:clusters => clusters_w_street_names,:issues=> issues}
   end
   def show_cluster
     @cluster=Cluster.find(params[:cluster_id])

@@ -1,40 +1,59 @@
-
-
-
-
-<div class='container'>
-  <h1>Clusters!</h1>
-  <div id="map"></div>
-    <div class='containing_div'>
-      <div id="cityMenu" style="display:none;">
-        <h3>Select your City</h3>
+<div id='container'>
+  <div id="nav" class="row">
+    <div id="nav-title"><h1 id="nav-title-header">Scastrap</h1></div>
+    <div id="nav-menu">
+      <div class="nav-option"><h3>Home</h3></div>
+      <div class="nav-option"><h3>About</h3></div>
+      <div class="nav-option"><h3>How To Use</h3></div>
+    </div>
+  </div>
+  <div id='content'>
+    <button id="nav-toggle">nav</button>
+    <div id="sidebar">
+      <div id="cityMenu" class="menu">
+        <h3 class="menuHeader">Select your City</h3>
         <div data-bind="foreach:cities">
-          <pre data-bind="text: name, click: $root.goToRequestTypeMenu"></pre></br>
+          <div class=option>
+            <p data-bind="text: name, click: $root.goToRequestTypeMenu"></p>
+          </div>
         </div>
       </div>
-      <div id="requestTypeMenu" style="display:none;">
+      <div id="requestTypeMenu" class="menu">
         <button data-bind="click: goToCityMenu"><</button>
-        <h3>Select a Request Type</h3>
+        <h3 class="menuHeader">Select a Request Type</h3>
         <div data-bind="foreach:requestTypes">
-          <pre data-bind="text: name, click: $root.goToClusterMenu"></pre></br>
+          <div class="option">
+            <p data-bind="text: name, click: $root.goToClusterMenu"></p>
+          </div>
         </div>
       </div>
-      <div id="clusterMenu" style="display:none;">
+      <div id="clusterMenu" class="menu">
         <button data-bind="click: goToRequestTypeMenu"><</button>
-        <h3>Select a cluster<h3>
+        <h3 class="menuHeader">Select a cluster<h3>
         <div  data-bind="foreach: clusters">
-          <pre data-bind="text: 'fdsa', click: $root.goToClusterView"></pre></br>
-        </div>
-      </div>
-      <div id="issueMenu" style="display:none;">
-        <button data-bind="click: $root.goToClusterMenu"><</button>
-        <h3>Select an Issue to view details</h3>
-        <div  data-bind="foreach: issues">
-          <pre data-bind="text: 'qwer'"></pre></br>
+          <p data-bind="text: score"></p>
+          <div class="option" data-bind="foreach: street_names, click: $root.goToClusterView">
+            <p data-bind="text: name"></p>
+          </div>
         </div>
       </div>
     </div>
+    <div id="map"></div>
+  </div>
+  <!-- <div id="issueMenu" data-bind="foreach: issues">
+    <div class="option bottom-option">
+      <p data-bind="text: 'qwer'">
+    </div>
+  </div> -->
 </div>
+
+<!-- Menu toggles and UI changeing features -->
+<script>
+  $("#nav-toggle").click(function(e){
+    $("#nav").toggleClass("open");
+  });
+</script>
+
 
 <!--Knockout.js and Sammy Based UI-->
 <!--Note: UI script must be placed below html to work-->
@@ -66,6 +85,7 @@
     };
     self.goToClusterView = function(cluster){
       location.hash = "/cluster_view/"+cluster.id_+"/"
+      console.log(cluster.score);
     }
 
     //Routing using Sammy
@@ -90,13 +110,16 @@
         // update observables only if we are coming from previous menu
         if(this.params.city_id!="undefined"){
           $.get('/clusters/request_type_menu/'+this.params.city_id,
-            function(data){self.requestTypes(data["request_types"]);
+            function(data){
+              self.requestTypes(data["request_types"]);
+              $("#map").ready(function(){
+                newMap(
+                  {"lat": data["city"]["lat"],
+                  "lng": data["city"]["lng"]});
+              });
           });
           self.chosenCityId(this.params.city_id);
         }
-        $("#map").ready(function(){
-          showMap(null,city_coords={lat: 41.31, lng: -72.898197});
-        });
       });
 
       this.get('/#/cluster_menu/:request_type_id/', function(){
@@ -107,7 +130,9 @@
         //update observables only if we are coming from previous menu
         if(this.params.request_type_id!="undefined"){
           $.get('/clusters/cluster_menu/'+this.params.request_type_id,
-            function(data){self.clusters(data["clusters"]);
+            function(data){
+              self.clusters(data["clusters"]);
+              plotMap(data["issues"],null);
           });
           self.chosenRequestTypeId(this.params.request_type_id);
         }
@@ -116,12 +141,12 @@
         self.chosenClusterId(this.params.cluster_id);
         $("#cityMenu").hide();
         $("#requestTypeMenu").hide();
-        $("#clusterMenu").hide();
+        $("#clusterMenu").show();
         $("#issueMenu").show();
         $.get('/clusters/'+this.params.cluster_id,
           function(data){
             self.issues(data["issues"]);
-            showMap(data["issues"],null)
+            updateMap(data["issues"]);
         })
       });
 
@@ -136,45 +161,82 @@
 
 <!--google maps api code-->
 <script>
-  function showMap(issues,city_coords){
+  var map;
+  var markers =[];
+
+  function newMap(city_coords){
     // Create a map object and specify the DOM element for display.
-    var map = new google.maps.Map(document.getElementById('map'), {
-      //center: {lat: 41.31, lng: -72.898197},
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: city_coords,
       scrollwheel: false,
       zoom:8
     });
+  };
 
-    if (issues){
-      //create array of longitude, latitude coordinates
-      var geo_data=[];
-      var latlngbounds = new google.maps.LatLngBounds();
+  function plotMap(issues){
+    // create new latlngbounds object
+    // which we will use to center and focus the map
+    var latlngbounds = new google.maps.LatLngBounds();
 
-      issues.forEach(function(issue){
-        geo_data.push(new google.maps.LatLng(issue.lat,issue.lng));
+    //iterate over issues populating the map and the bounds
+    issues.forEach(function(issue){
+      var loc = new google.maps.LatLng(issue.lat,issue.lng);
+      latlngbounds.extend(loc);
+      markers.push(
+        new google.maps.Marker({
+          sName:issue["id_"],
+          position: loc,
+          map: map,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillOpacity: 0.1,
+            fillColor: "blue",
+            strokeOpacity: 0.5,
+            strokeWeight: 1.0,
+            scale: 10 //pixels
+          }
+        })
+      );
+    });
+
+    //map.setCenter(latlngbounds.getCenter());
+    map.fitBounds(latlngbounds);
+  };
+
+  function updateMap(issues){
+    // create new latlngbounds object
+    // which we will use to center and focus the map
+    var latlngbounds = new google.maps.LatLngBounds();
+
+    issue_ids = issues.map(function(issue){
+      return issue.id_;
+    });
+
+    markers.forEach(function(marker){
+      console.log(issue_ids);
+      console.log(marker.sName);
+      if (issue_ids.indexOf(marker.sName)>0){
+        console.log("red");
+        color="red";
+      }else{
+        color="blue";
+      };
+      marker.setIcon({
+        path: google.maps.SymbolPath.CIRCLE,
+        fillOpacity: 0.5,
+        fillColor: color,
+        strokeOpacity: 0.5,
+        strokeWeight: 1.0,
+        scale: 10
       });
+    });
 
-      //use geo_data to create bounds and populate the map
-      geo_data.forEach(function(loc){
-              latlngbounds.extend(loc);
-              var color = "blue";
-              //if (meta_data[i]['status']==="Open"){color="red"}
-              var Circle = new google.maps.Circle({
-                strokeColor: color,
-                strokeOpacity: 0.8,
-                strokeWeight: 0.5,
-                fillColor: color,
-                fillOpacity: 0.35,
-                map: map,
-                center: loc,
-                radius: 10
-              });
-      });
-      map.setCenter(latlngbounds.getCenter());
-      map.fitBounds(latlngbounds);
-    }else{
-      map.setCenter(city_coords);
-    };
-}
+    issues.forEach(function(issue){
+      var loc = new google.maps.LatLng(issue.lat,issue.lng);
+      latlngbounds.extend(loc);
+    });
 
+    map.fitBounds(latlngbounds);
+  }
 
 </script>

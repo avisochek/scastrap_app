@@ -38,5 +38,6 @@ Rails.application.routes.draw do
   post '/api/create_request_type' => 'api#create_request_type'
   post '/api/create_batch' => 'api#create_batch'
   post '/api/create_cluster_issue' => 'api#create_cluster_issue'
+  post '/api/create_street'=>'api#create_street'
 
 end
