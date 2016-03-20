@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   get '/clusters/cluster_menu/:request_type_id' => 'clusters#cluster_menu'
   get '/clusters/:cluster_id' => 'clusters#show_cluster'
 
+  ### streets
+  get '/streets' => 'streets#home'
+  get '/streets/ranking/:request_type_id' => 'streets#ranking'
 
   ######
   ######

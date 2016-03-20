@@ -37,7 +37,13 @@ html,body{
   overflow:hidden;
 }
 
-.nav-option{width:33%;}
+.nav-option{
+  width:33%;
+}
+/*.nav-option:hover{
+  background-color: blue;
+  cursor:pointer;
+}*/
 
 #content{width:100%;
   margin:0;
@@ -157,6 +163,7 @@ html,body{
     width:60%;
     display:flex;
     flex-direction:row;
+    vertical-align: middle;
   }
   #nav-toggle{display:none;}
 }

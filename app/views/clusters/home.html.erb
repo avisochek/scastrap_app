@@ -37,13 +37,6 @@
   </div> -->
 </div>
 
-<!-- Menu toggles and UI changeing features -->
-<script>
-  $("#nav-toggle").click(function(e){
-    $("#nav").toggleClass("open");
-  });
-</script>
-
 
 <!--Knockout.js and Sammy Based UI-->
 <!--Note: UI script must be placed below html to work-->
@@ -65,85 +58,64 @@
     // order of behaviors reflects
     // the flow of selection in the UI
     self.goToCityMenu = function(){
-      location.hash = "/city_menu/"
+      $("#requestTypeMenu").hide();
+      $("#clusterMenu").hide();
+      $("#issueMenu").hide();
+      $("#cityMenu").show();
+      $.get('/clusters/city_menu/',
+        function(data){self.cities(data["cities"]);
+      });
     }
     self.goToRequestTypeMenu = function(city) {
-      location.hash = "/request_type_menu/"+city.id_+"/"
+      $("#cityMenu").hide();
+      $("#clusterMenu").hide();
+      $("#issueMenu").hide();
+      $("#requestTypeMenu").show();
+      // update observables only if we are coming from previous menu
+      if (city !="undefined"){
+      $.get('/clusters/request_type_menu/'+city.id_,
+        function(data){
+          self.requestTypes(data["request_types"]);
+          $("#map").ready(function(){
+            newMap(
+              {"lat": data["city"]["lat"],
+              "lng": data["city"]["lng"]});
+          });
+      });
+      }
     };
     self.goToClusterMenu = function(request_type){
-      location.hash = "/cluster_menu/"+request_type.id_+"/"
-    };
-    self.goToClusterView = function(cluster){
-      location.hash = "/cluster_view/"+cluster.id_+"/"
-      console.log(cluster.score);
-    }
-
-    //Routing using Sammy
-    //once again, order reflect flow
-    // of selection in the UI
-    Sammy(function(){
-      this.get('/#/city_menu/',function(){
-        $("#requestTypeMenu").hide();
-        $("#clusterMenu").hide();
-        $("#issueMenu").hide();
-        $("#cityMenu").show();
-        $.get('/clusters/city_menu/',
-          function(data){self.cities(data["cities"]);
+      $("#cityMenu").hide();
+      $("#requestTypeMenu").hide();
+      $("#issueMenu").hide();
+      $("#clusterMenu").show();
+      //update observables only if we are coming from previous menu
+      if (request_type !="undefined"){
+        $.get('/clusters/cluster_menu/'+request_type.id_,
+          function(data){
+            self.clusters(data["clusters"]);
+            plotMap(data["issues"],null);
         });
-      });
+        self.chosenRequestTypeId(request_type.id_);
+      }
+    };
 
-      this.get('/#/request_type_menu/:city_id/', function(){
-        $("#cityMenu").hide();
-        $("#clusterMenu").hide();
-        $("#issueMenu").hide();
-        $("#requestTypeMenu").show();
-        // update observables only if we are coming from previous menu
-        if(this.params.city_id!="undefined"){
-          $.get('/clusters/request_type_menu/'+this.params.city_id,
-            function(data){
-              self.requestTypes(data["request_types"]);
-              $("#map").ready(function(){
-                newMap(
-                  {"lat": data["city"]["lat"],
-                  "lng": data["city"]["lng"]});
-              });
-          });
-          self.chosenCityId(this.params.city_id);
-        }
-      });
-
-      this.get('/#/cluster_menu/:request_type_id/', function(){
-        $("#cityMenu").hide();
-        $("#requestTypeMenu").hide();
-        $("#issueMenu").hide();
-        $("#clusterMenu").show();
-        //update observables only if we are coming from previous menu
-        if(this.params.request_type_id!="undefined"){
-          $.get('/clusters/cluster_menu/'+this.params.request_type_id,
-            function(data){
-              self.clusters(data["clusters"]);
-              plotMap(data["issues"],null);
-          });
-          self.chosenRequestTypeId(this.params.request_type_id);
-        }
-      });
-      this.get('/#/cluster_view/:cluster_id/',function(){
-        self.chosenClusterId(this.params.cluster_id);
-        $("#cityMenu").hide();
-        $("#requestTypeMenu").hide();
-        $("#clusterMenu").show();
-        $("#issueMenu").show();
-        $.get('/clusters/'+this.params.cluster_id,
+    self.goToClusterView = function(cluster){
+      self.chosenClusterId(cluster.id_);
+      $("#cityMenu").hide();
+      $("#requestTypeMenu").hide();
+      $("#clusterMenu").show();
+      $("#issueMenu").show();
+      if (cluster!="undefined"){
+        $.get('/clusters/'+cluster.id_,
           function(data){
             self.issues(data["issues"]);
             updateMap(data["issues"]);
-        })
-      });
+        });
+      }
+    }
 
-    }).run();
-
-
-    this.goToCityMenu()
+    self.goToCityMenu()
   }
 
   ko.applyBindings(new ClusterViewModel());
@@ -167,7 +139,8 @@
     // create new latlngbounds object
     // which we will use to center and focus the map
     var latlngbounds = new google.maps.LatLngBounds();
-
+    markers.forEach(function(marker){marker.setMap(null);});
+    markers=[];
     //iterate over issues populating the map and the bounds
     issues.forEach(function(issue){
       var loc = new google.maps.LatLng(issue.lat,issue.lng);
@@ -205,7 +178,7 @@
     markers.forEach(function(marker){
       console.log(issue_ids);
       console.log(marker.sName);
-      if (issue_ids.indexOf(marker.sName)>0){
+      if (issue_ids.indexOf(marker.sName)>-1){
         console.log("red");
         color="red";
       }else{

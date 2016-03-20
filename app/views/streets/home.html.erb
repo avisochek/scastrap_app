@@ -1,0 +1,86 @@
+<div id='content'>
+  <button id="nav-toggle">nav</button>
+  <div id="sidebar">
+    <div id="cityMenu" class="menu">
+      <h3 class="menuHeader">Select your City</h3>
+      <div data-bind="foreach:cities">
+        <div class=option>
+          <p data-bind="text: name, click: $root.goToRequestTypeMenu"></p>
+        </div>
+      </div>
+    </div>
+    <div id="requestTypeMenu" class="menu">
+      <button data-bind="click: goToCityMenu"><</button>
+      <h3 class="menuHeader">Select a Request Type</h3>
+      <div data-bind="foreach:requestTypes">
+        <div class="option">
+          <p data-bind="text: name, click: $root.goToStreetRanking"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="map">
+    <table id="streetRanking" data-bind="foreach: streets">
+      <tr>
+        <td><p data-bind="text: name"></p></td>
+        <td><p data-bind="text: issues_per_mile"></p></td>
+        <td><p data-bind='text: count'></p></td>
+        <td><p data-bind='text: confidence'></p></td>
+      </tr>
+    </table>
+  </div>
+  <!-- <div id="issueMenu" data-bind="foreach: issues">
+    <div class="option bottom-option">
+      <p data-bind="text: 'qwer'">
+    </div>
+  </div> -->
+</div>
+
+
+<!--Knockout.js and Sammy Based UI-->
+<!--Note: UI script must be placed below html to work-->
+<script>
+  function ClusterViewModel(){
+    var self = this;
+    // Observables
+    // order of observable declaration reflects
+    // the flow of selection in the UI
+    self.cities = ko.observableArray();
+    self.chosenCityId = ko.observable();
+    self.requestTypes = ko.observableArray();
+    self.chosenRequestTypeId = ko.observable();
+    self.streets = ko.observableArray();
+
+    //Behaviors
+    // order of behaviors reflects
+    // the flow of selection in the UI
+    // uses hasher js
+    self.goToCityMenu = function(){
+      $("#requestTypeMenu").hide();
+      $("#cityMenu").show();
+      $.get('/clusters/city_menu/',
+        function(data){self.cities(data["cities"]);
+      });
+    }
+    self.goToRequestTypeMenu = function(city) {
+      $("#cityMenu").hide();
+      $("#requestTypeMenu").show();
+      $.get('/clusters/request_type_menu/'+city.id_,
+        function(data){
+          self.requestTypes(data["request_types"]);
+      });
+      self.chosenCityId(city.id_);
+    };
+    self.goToStreetRanking = function(request_type){
+      $.get('/streets/ranking/'+request_type.id_,
+        function(data){
+          self.streets(data["streets"]);
+      });
+      self.chosenRequestTypeId(request_type.id_);
+    };
+
+    self.goToCityMenu()
+  }
+
+  ko.applyBindings(new ClusterViewModel());
+</script>
