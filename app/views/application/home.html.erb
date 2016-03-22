@@ -1,4 +1,4 @@
-<button id="nav-toggle">nav</button>
+<!-- <button id="nav-toggle">nav</button>
 <div><h1><a href="/clusters">clusters</a></h1></div>
 <div><h1><a href="/streets">street rankings</a></h1></div>
 
@@ -6,4 +6,18 @@
   $("#nav-toggle").click(function(e){
     $("#nav").toggleClass("open");
   });
-</script>
+</script> -->
+<div id="topRow">
+  <div id="navToggle"><img id="hamburgerIcon" src="/assets/hamburger.png"/></div>
+  <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
+  <div id="settings"><img id="settingsIcon" src="/assets/settings_icon"/></div>
+  <!-- <div id="settings"><strong><h1>*</h1></strong></div> -->
+</div>
+<div id="midRow">
+  <div id="back"><img id="backIcon" src="/assets/back_icon.png"/></div>
+  <input id="input" type="text" placeholder="Please Type Your City"></input>
+  <div id="switch"><img id="switchIcon" src="/assets/switch_icon.png"/></div>
+</div>
+<div id="content">
+  <div id="map"></div>
+</div>
