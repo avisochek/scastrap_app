@@ -4,6 +4,7 @@ class StreetsController < ApplicationController
   def ranking
     street_counts=Issue.where(:status=>["Acknowledged","Open"],:request_type_id=>params[:request_type_id]).includes(:street=>["name","length"]).group(:street_id).count()
     @streets=[]
+    rank=1
     street_counts.each do |street_id,count|
       if street_id != 0
         puts street_id
@@ -13,8 +14,10 @@ class StreetsController < ApplicationController
             :count=>count,
             :length=>street[:length],
             :issues_per_mile=>count/street[:length],
-            :confidence=>1-1/(count**(0.5))
+            :confidence=>1-1/(count**(0.5)),
+            :rank=>rank
           })
+          rank+=1
       end
     end
     @streets.sort_by! {|street| -street[:issues_per_mile]}

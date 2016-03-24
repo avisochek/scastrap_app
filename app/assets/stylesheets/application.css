@@ -19,7 +19,7 @@ html,body{
   height:100%;
   width:100%;
   margin:0;
-  position:fixed;
+  position:absolute;
 }
 
 #container{
@@ -31,9 +31,9 @@ html,body{
   flex-shrink: 0;
 }
 #topRow,#midRow,#content{
+  margin-top: 10px;
   margin-left :20px;
   margin-right:20px;
-  margin-bottom:20px;
 }
 #topRow,#midRow{
   height:40px;
@@ -42,11 +42,11 @@ html,body{
   justify-content: space-between;
 }
 
-#navToggle,#settings,#back,#switch{
+#navToggle,#mapToggle,#home,#switch,.back,.spaceHolder{
   height:40px;
   width:40px;
 }
-#hamburgerIcon,#settingsIcon,#backIcon,#switchIcon,#searchIcon{
+#hamburgerIcon,#mapToggleIcon,#homeIcon,#switchIcon,#searchIcon,.backIcon{
   height:100%;
   width:100%;
 }
@@ -61,13 +61,17 @@ html,body{
 #input{
   border-radius:10px;
   height:24px;
+  width:180px;
   margin-top: 8px;
   margin-bottom: 8px;
   background-image: url("/assets/search_icon.png");
   background-repeat: no-repeat;
   background-size: 24px,24px;
   background-position: right;
-
+  z-index: 1
+}
+.ui-autocomplete{
+  text-align: center;
 }
 #search{
   height:24px;
@@ -76,6 +80,78 @@ html,body{
 
 #content{
   /*border-radius: 20px;*/
-  background-color: lightblue;
-  flex-grow: 1
+  margin-bottom: 20px;
+  background-size: cover;
+  flex-grow: 1;
+  display:flex;
+}
+#map{
+  flex-grow: 1;
+  border-radius: 40px;
+}
+.labels {
+  color: black;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  font-size: 20px;
+  text-align: center;
+  width: 30px;
+  height:30px;
+}
+#streets{
+  flex-grow:1;
+}
+
+#navToggle{
+ z-index: 101;
+}
+#menu{
+  z-index: 100;
+  width: 200px;
+  overflow:hidden;
+  position: absolute;
+  transform: translate(0,-300px);
+  transition: transform 0.3s ease;
+  left:0;
+  border: 1px solid black;
+  background-color:white;
+}
+#menu.open{
+  transform: translate(0,0);
+}
+
+.page{
+  background-color:white;
+  display:none;
+  position:absolute;
+  /*overflow-y: scroll;*/
+  height:100%;
+  width:100%;
+  margin:0;
+  padding:0;
+  top:0;
+  bottom:0;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+.pageTopRow,.pageContent{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.pageTopRow{
+  height: 60px;
+  width:auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.pageTitle,.back{
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.pageContent{
+  overflow-y:scroll;
+  flex-grow: 1;
+  height:100%
 }

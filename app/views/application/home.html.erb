@@ -1,23 +1,408 @@
-<!-- <button id="nav-toggle">nav</button>
-<div><h1><a href="/clusters">clusters</a></h1></div>
-<div><h1><a href="/streets">street rankings</a></h1></div>
-
-<script>
-  $("#nav-toggle").click(function(e){
-    $("#nav").toggleClass("open");
-  });
-</script> -->
+<div id="menu">
+  <div class="menuItem homeLink"><h2>Home</h2></div>
+  <div class="menuItem aboutLink"><h2>About</h2></div>
+  <div class="menuItem helpLink"><h2>Help</h2></div>
+</div>
 <div id="topRow">
   <div id="navToggle"><img id="hamburgerIcon" src="/assets/hamburger.png"/></div>
   <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
-  <div id="settings"><img id="settingsIcon" src="/assets/settings_icon"/></div>
-  <!-- <div id="settings"><strong><h1>*</h1></strong></div> -->
+  <div id="mapToggle"><img id="mapToggleIcon" src="/assets/cluster_map_icon.png"/></div>
 </div>
 <div id="midRow">
-  <div id="back"><img id="backIcon" src="/assets/back_icon.png"/></div>
-  <input id="input" type="text" placeholder="Please Type Your City"></input>
-  <div id="switch"><img id="switchIcon" src="/assets/switch_icon.png"/></div>
+  <div id="home" class="homelink"><img id="homeIcon" src="/assets/home_icon.png"/></div>
+  <input id="input" type="text">
+  <div id="switch"><img id="switchIcon" src="/assets/street_icon.png"/></div>
 </div>
 <div id="content">
   <div id="map"></div>
+  <div id="streets">
+    <table id="streetsTable" data-bind="foreach:streets">
+      <tr>
+        <td class="rank"><p data-bind="text:rank"></p></td>
+        <td class="name"><p data-bind="text:name"></p></td>
+        <td class="count"><p data-bind="text:count"></p></td>
+      </tr>
+    </table>
+  </div>
 </div>
+<div id="aboutPage" class="page">
+  <div class="pageTopRow">
+    <div class="back">
+      <img cl
+    $("#menu").removeClass("open");
+    $("#menu").removeClass("open");
+    $("#menu").removeClass("open");="backIcon" src="/assets/back_icon.png"></img>
+    </div>
+    <h1 class="pageTitle">About</h1>
+    <div class="spaceHolder"></div>
+  </div>
+  <div class="pageContent">
+    <p>
+      Scastrap is an open source data mining and visualization
+      project designed to help local governments determine where
+      resources are most needed.
+    </p>
+    <p>
+      The project uses data from the See Click Fix API and features
+      a heatMap, a set of clusters, and a street ranking for all
+      open and acknowledged issues as of the last update.
+    </p>
+    <p>Contibutors:</p>
+    <p>Allan Visochek, Lead Developer</p>
+    <p>Tanzim Hassan, Data Analyst</p>
+    <p>Ziqiang Guan, Developer</p>
+    <p>Carys Snyder, Designer</p>
+  </div>
+</div>
+<div id="helpPage" class="page">
+  <div class="pageTopRow">
+    <div class="back">
+      <img class="backIcon" src="/assets/back_icon.png"></img>
+    </div>
+    <h1 class="pageTitle">Help</h1>
+    <div class="spaceHolder"></div>
+  </div>
+  <div class="pageContent">
+  </div>
+</div>
+<div id="streetPage" class="page">
+  <div class="pageTopRow">
+    <div class="back">
+      <img class="backIcon" src="/assets/back_icon.png"></img>
+    </div>
+    <h1 class="pageTitle"></h1>
+    <div class="spaceHolder"></div>
+  </div>
+  <div class="pageContent">
+  </div>
+</div>
+
+<!-- UI functions-->
+<script>
+  $("#navToggle").click(function(e){
+    $("#menu").toggleClass("open");
+  });
+  $(".menuItem").click(function(e){
+    $("#menu").removeClass("open");
+  });
+  $(".aboutLink").click(function(e){
+    $("#aboutPage").show();
+  });
+  $(".helpLink").click(function(e){
+    $("#helpPage").show();
+  });
+  $(".back").click(function(e){
+    $(".page").hide();
+  });
+</script>
+
+<!-- UI helper functions -->
+<script>
+  // set the data and callback
+  //function for the autocomplete input
+  function setInput(data,callBack){
+    var input_data=data.map(
+      function(item){
+        return {
+          label: item["name"],
+          value: item["id"],
+          data: item
+          }
+    });
+
+    $("#input").autocomplete({
+      source:input_data,
+      autoFocus:true,
+      select: function(event,ui){
+        callBack(ui.item.data);
+        return false;
+      },
+      position:{my:"center top",at:"center bottom",of:"input"}
+    });
+  };
+</script>
+
+<!-- knockout.js based ui -->
+<script>
+$(document).ready(function(){
+  function ClusterViewModel(){
+    var self = this;
+    // Observables
+    // order of observable declaration reflects
+    // the flow of selection in the UI
+    self.cities = ko.observable();
+    self.suggestedItems = ko.observable();
+    self.chosenCity = ko.observable();
+    self.requestTypes = ko.observable();
+    self.chosenRequestType = ko.observable();
+    self.clusters = ko.observable();
+    self.streets = ko.observable();
+    self.mapView = ko.observable("heatMap");
+    self.mode = ko.observable("map");
+    self.location=ko.observable("home");
+
+    self.mapSet = ko.observable(false);
+    self.streetsSet = ko.observable(false);
+    //Behaviors
+    // order of behaviors reflects
+    // the flow of selection in the UI
+    self.home = function(){
+      self.location("home");
+      $("#map").hide();
+      $("#streets").hide();
+      $("#content").css("background-image","url('/assets/world.png')")
+      $.get('/clusters/city_menu/',
+        function(data){
+          self.cities(data["cities"]);
+          setInput(self.cities(),self.goToRequestTypeMenu);
+          $("#input").attr("placeholder","search city");
+          $("#input").val("");
+      });
+    }
+
+    self.goToRequestTypeMenu =function(city){
+      self.location("requestTypeMenu");
+      $("#content").css("background-image","");
+      $.get('/clusters/request_type_menu/'+city.id_,
+        function(data){
+          self.requestTypes(data["request_types"]);
+          $("#map").ready(function(){
+            newMap(
+              {"lat": city["lat"],
+              "lng": city["lng"]});
+          });
+          if(self.mode()=="map"){
+            setInput(self.requestTypes(),self.getMap);
+          } else {
+            setInput(self.requestTypes(),self.getStreets);
+          }
+          $("#input").attr("placeholder","search request type");
+          $("#input").val("");
+      });
+    }
+
+    self.getMap = function(requestType){
+      self.chosenRequestType(requestType);
+      $("#map").show();
+      $("#streets").hide();
+      self.location("app");
+      $.get('/clusters/cluster_menu/'+requestType.id_,
+        function(data){
+          self.clusters(data["clusters"]);
+          plotMap(data["clusters"]);
+          if (self.mapView()=="clusterMap"){
+            goToClusterView(self.clusters());
+          };
+          self.mapSet(true);
+      });
+    }
+
+    self.getStreets = function(requestType){
+      self.chosenRequestType(requestType);
+      $("#streets").show();
+      $("#map").hide();
+      self.location("app");
+      $.get("/streets/ranking/"+requestType.id_,
+        function(data){
+          self.streets(data["streets"]);
+          self.streetsSet(true);
+      });
+    }
+
+    $("#mapToggle").click(function(e){
+      if (self.mapView()=="heatMap"){
+        $("#mapToggleIcon").attr("src","/assets/heat_map_icon.png")
+        self.mapView("clusterMap");
+        if(self.mapSet()){
+          goToClusterView(self.clusters());
+        }
+      }else{
+        $("#mapToggleIcon").attr("src","/assets/cluster_map_icon.png")
+        self.mapView("heatMap");
+        if(self.mapSet()){
+          goToHeatMapView();
+        }
+      }
+    });
+
+    $("#switch").click(function(e){
+      if (self.mode()=="streets"){
+        self.mode("map");
+        $("#mapToggle").show();
+        $("#switchIcon").attr("src","/assets/street_icon.png");
+        $("#map").show();
+        $("#streets").hide();
+        if(self.location()=="home"){
+          $("#content").css("background-image","url('/assets/world.png')")
+        }else{
+          setInput(self.requestTypes(),self.getMap);
+        }
+        if(self.location()=='app'&!self.mapSet()){
+          self.getMap(self.chosenRequestType());
+        }
+      } else {
+        self.mode("streets");
+        $("#mapToggle").hide();
+        $("#switchIcon").attr("src","/assets/world.png");
+        $("#map").hide();
+        $("#streets").show();
+
+        if(self.location()=="home"){
+          $("#content").css("background-image","url('/assets/street_icon.png')")
+        }else{
+          setInput(self.requestTypes(),self.getStreets);
+        }
+        if(self.location()=='app'&!self.streetsSet()){
+          self.getStreets(self.chosenRequestType());
+        }
+      }
+    });
+    $(".homeLink").click(function(e){
+      self.location("home");
+      self.home();
+    });
+    self.home();
+
+  }
+
+  ko.applyBindings(new ClusterViewModel());
+});
+</script>
+
+
+<!--google maps api code-->
+<script>
+  var map;
+  var issue_markers =[];
+  var cluster_markers =[];
+  var latlngbounds;
+
+  function newMap(city_coords){
+    // Create a map object and specify the DOM element for display.
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: city_coords,
+      scrollwheel: false,
+      zoom:8
+    });
+  };
+
+  function plotMap(clusters){
+    //create map, set the maptype controll to false because its ugly...
+    map = new google.maps.Map(document.getElementById('map'),{
+      mapTypeControl:false
+    });
+    // create new latlngbounds object
+    // which we will use to center and focus the map
+    latlngbounds = new google.maps.LatLngBounds();
+    issue_markers.forEach(function(marker){marker.setMap(null);});
+    cluster_markers.forEach(function(marker){marker.setMap(null);});
+    issue_markers=[];
+    cluster_markers=[];
+    //iterate over issues populating the map and the bounds
+    clusters.forEach(function(cluster){
+      var clusterBounds= new google.maps.LatLngBounds();
+      issues=cluster["issues"]
+      issues.forEach(function(issue){
+        var loc = new google.maps.LatLng(issue.lat,issue.lng);
+        latlngbounds.extend(loc);
+        clusterBounds.extend(loc);
+        issue_markers.push(
+          new google.maps.Marker({
+            sName:issue["id_"],
+            position: loc,
+            map: map,
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              fillOpacity: 0.1,
+              fillColor: "blue",
+              strokeWeight: 0,
+              scale: 10 //pixels
+            }
+          })
+        );
+      });
+      clusterLoc=new google.maps.LatLng(
+        clusterBounds.getCenter().lat(),
+        clusterBounds.getCenter().lng()
+      );
+      /// create cluster marker using the google
+      /// markerwithlabel.js file, since API does not
+      /// currently support labels with multiple characters
+      var clusterMarker=new MarkerWithLabel({
+        sName:clusters["id_"],
+        zIndex:10000,
+        visible:false,
+        position: clusterLoc,
+        map: map,
+        labelContent: String(cluster.issues.length),
+        labelAnchor: new google.maps.Point(15,15),
+        labelClass: "labels", // the CSS class for the label
+        labelStyle: {opacity: 1},
+        labelInBackground:false,
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillOpacity: 0.5,
+          fillColor: "black",
+          strokeWeight: 2,
+          scale: 20 //pixels
+        },
+      })
+      clusterMarker.addListener('click', function(){focusCluster(cluster);})
+      cluster_markers.push(clusterMarker);
+    });
+    //map.setCenter(latlngbounds.getCenter());
+    map.fitBounds(latlngbounds);
+  };
+
+  function goToHeatMapView(){
+    issue_markers.forEach(function(marker){
+      marker.setIcon({
+        path: google.maps.SymbolPath.CIRCLE,
+        fillOpacity: 0.1,
+        fillColor: "blue",
+        scale: 10,
+        strokeWeight:0
+      });
+    });
+
+    cluster_markers.forEach(function(marker){
+      marker.setVisible(false);
+    });
+
+    map.fitBounds(latlngbounds);
+  }
+
+  function goToClusterView(clusters){
+
+    issue_ids = issue_markers.map(function(marker){
+      return marker.sName;
+    });
+
+    clusters.forEach(function(cluster){
+      clusterColor = "#" + Math.random().toString(16).slice(2, 8);
+      cluster["issues"].forEach(function(issue){
+        var marker_ind = issue_ids.indexOf(issue["id_"]);
+        issue_markers[marker_ind].setIcon({
+          path: google.maps.SymbolPath.CIRCLE,
+          fillOpacity: 1.0,
+          fillColor:clusterColor,
+          strokeWeight:0,
+          scale:10
+        });
+      });
+    });
+    cluster_markers.forEach(function(marker){
+      marker.setVisible(true);
+    })
+    map.fitBounds(latlngbounds);
+  };
+
+  function focusCluster(cluster){
+    var clusterBounds= new google.maps.LatLngBounds();
+    cluster.issues.forEach(function(issue){
+      var loc = new google.maps.LatLng(issue.lat,issue.lng);
+      clusterBounds.extend(loc);
+    });
+    map.fitBounds(clusterBounds);
+  };
+</script>
