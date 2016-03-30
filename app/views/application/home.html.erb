@@ -4,25 +4,30 @@
   <div class="menuItem helpLink"><h2>Help</h2></div>
 </div>
 <div id="topRow">
-  <div id="navToggle"><img id="hamburgerIcon" src="/assets/hamburger.png"/></div>
+  <div id="navToggle" class="icon"><img id="hamburgerIcon" src="/assets/hamburger.png"/></div>
   <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
-  <div id="mapToggle"><img id="mapToggleIcon" src="/assets/cluster_map_icon.png"/></div>
+  <div id="mapToggle" class="icon"><img id="mapToggleIcon" src="/assets/cluster_map_icon.png"/></div>
 </div>
 <div id="midRow">
-  <div id="home" class="homelink"><img id="homeIcon" src="/assets/home_icon.png"/></div>
+  <div id="home" class="homeLink icon"><img id="homeIcon" src="/assets/home_icon.png"/></div>
   <input id="input" type="text">
-  <div id="switch"><img id="switchIcon" src="/assets/street_icon.png"/></div>
+  <div id="switch" class="icon"><img id="switchIcon" src="/assets/street_icon.png"/></div>
 </div>
 <div id="content">
   <div id="map"></div>
   <div id="streets">
-    <table id="streetsTable" data-bind="foreach:streets">
-      <tr>
-        <td class="rank"><p data-bind="text:rank"></p></td>
-        <td class="name"><p data-bind="text:name"></p></td>
-        <td class="count"><p data-bind="text:count"></p></td>
-      </tr>
-    </table>
+    <div id="streetsTableHeader">
+      <div><h2>Rank</h2></div>
+      <div><h2>Street Name</h2></div>
+      <div><h2>Number of Issues<h2></div>
+    </div>
+    <div id="streetsTable" data-bind="foreach:streets">
+      <div class="streetRow">
+        <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
+        <div class="name"><h1 data-bind="text:name"></h1></div>
+        <div class="count"><h1 data-bind="text:count"></h1></div>
+      </div>
+    </div>
   </div>
 </div>
 <div id="aboutPage" class="page">
@@ -34,7 +39,7 @@
     $("#menu").removeClass("open");="backIcon" src="/assets/back_icon.png"></img>
     </div>
     <h1 class="pageTitle">About</h1>
-    <div class="spaceHolder"></div>
+    <div class="spaceHolder icon"></div>
   </div>
   <div class="pageContent">
     <p>
@@ -166,11 +171,11 @@ $(document).ready(function(){
       $.get('/clusters/request_type_menu/'+city.id_,
         function(data){
           self.requestTypes(data["request_types"]);
-          $("#map").ready(function(){
-            newMap(
-              {"lat": city["lat"],
-              "lng": city["lng"]});
-          });
+          // $("#map").ready(function(){
+          //   newMap(
+          //     {"lat": city["lat"],
+          //     "lng": city["lng"]});
+          // });
           if(self.mode()=="map"){
             setInput(self.requestTypes(),self.getMap);
           } else {
@@ -272,137 +277,265 @@ $(document).ready(function(){
 
 <!--google maps api code-->
 <script>
-  var map;
-  var issue_markers =[];
-  var cluster_markers =[];
-  var latlngbounds;
+  // var map;
+  // var issue_markers =[];
+  // var cluster_markers =[];
+  // var latlngbounds;
+  //
+  // function newMap(city_coords){
+  //   // Create a map object and specify the DOM element for display.
+  //   map = new google.maps.Map(document.getElementById('map'), {
+  //     center: city_coords,
+  //     scrollwheel: false,
+  //     zoom:8
+  //   });
+  // };
+  //
+  // function plotMap(clusters){
+  //   //create map, set the maptype controll to false because its ugly...
+  //   map = new google.maps.Map(document.getElementById('map'),{
+  //     mapTypeControl:false
+  //   });
+  //   // create new latlngbounds object
+  //   // which we will use to center and focus the map
+  //   latlngbounds = new google.maps.LatLngBounds();
+  //   issue_markers.forEach(function(marker){marker.setMap(null);});
+  //   cluster_markers.forEach(function(marker){marker.setMap(null);});
+  //   issue_markers=[];
+  //   cluster_markers=[];
+  //   //iterate over issues populating the map and the bounds
+  //   clusters.forEach(function(cluster){
+  //     var clusterBounds= new google.maps.LatLngBounds();
+  //     issues=cluster["issues"]
+  //     issues.forEach(function(issue){
+  //       var loc = new google.maps.LatLng(issue.lat,issue.lng);
+  //       latlngbounds.extend(loc);
+  //       clusterBounds.extend(loc);
+  //       issue_markers.push(
+  //         new google.maps.Marker({
+  //           sName:issue["id_"],
+  //           position: loc,
+  //           map: map,
+  //           icon: {
+  //             path: google.maps.SymbolPath.CIRCLE,
+  //             fillOpacity: 0.1,
+  //             fillColor: "blue",
+  //             strokeWeight: 0,
+  //             scale: 10 //pixels
+  //           }
+  //         })
+  //       );
+  //     });
+  //     clusterLoc=new google.maps.LatLng(
+  //       clusterBounds.getCenter().lat(),
+  //       clusterBounds.getCenter().lng()
+  //     );
+  //     /// create cluster marker using the google
+  //     /// markerwithlabel.js file, since API does not
+  //     /// currently support labels with multiple characters
+  //     var clusterMarker=new MarkerWithLabel({
+  //       sName:clusters["id_"],
+  //       zIndex:10000,
+  //       visible:false,
+  //       position: clusterLoc,
+  //       map: map,
+  //       labelContent: String(cluster.issues.length),
+  //       labelAnchor: new google.maps.Point(15,15),
+  //       labelClass: "labels", // the CSS class for the label
+  //       labelStyle: {opacity: 1},
+  //       labelInBackground:false,
+  //       icon: {
+  //         path: google.maps.SymbolPath.CIRCLE,
+  //         fillOpacity: 0.5,
+  //         fillColor: "black",
+  //         strokeWeight: 2,
+  //         scale: 20 //pixels
+  //       },
+  //     })
+  //     clusterMarker.addListener('click', function(){focusCluster(cluster);})
+  //     cluster_markers.push(clusterMarker);
+  //   });
+  //   //map.setCenter(latlngbounds.getCenter());
+  //   map.fitBounds(latlngbounds);
+  // };
+  //
+  // function goToHeatMapView(){
+  //   issue_markers.forEach(function(marker){
+  //     marker.setIcon({
+  //       path: google.maps.SymbolPath.CIRCLE,
+  //       fillOpacity: 0.1,
+  //       fillColor: "blue",
+  //       scale: 10,
+  //       strokeWeight:0
+  //     });
+  //   });
+  //
+  //   cluster_markers.forEach(function(marker){
+  //     marker.setVisible(false);
+  //   });
+  //
+  //   map.fitBounds(latlngbounds);
+  // }
+  //
+  // function goToClusterView(clusters){
+  //
+  //   issue_ids = issue_markers.map(function(marker){
+  //     return marker.sName;
+  //   });
+  //
+  //   clusters.forEach(function(cluster){
+  //     clusterColor = "#" + Math.random().toString(16).slice(2, 8);
+  //     cluster["issues"].forEach(function(issue){
+  //       var marker_ind = issue_ids.indexOf(issue["id_"]);
+  //       issue_markers[marker_ind].setIcon({
+  //         path: google.maps.SymbolPath.CIRCLE,
+  //         fillOpacity: 1.0,
+  //         fillColor:clusterColor,
+  //         strokeWeight:0,
+  //         scale:10
+  //       });
+  //     });
+  //   });
+  //   cluster_markers.forEach(function(marker){
+  //     marker.setVisible(true);
+  //   })
+  //   map.fitBounds(latlngbounds);
+  // };
+  //
+  // function focusCluster(cluster){
+  //   var clusterBounds= new google.maps.LatLngBounds();
+  //   cluster.issues.forEach(function(issue){
+  //     var loc = new google.maps.LatLng(issue.lat,issue.lng);
+  //     clusterBounds.extend(loc);
+  //   });
+  //   map.fitBounds(clusterBounds);
+  // };
+</script>
 
-  function newMap(city_coords){
-    // Create a map object and specify the DOM element for display.
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: city_coords,
-      scrollwheel: false,
-      zoom:8
+<!-- multiple points using overlay example -->
+<!-- http://stackoverflow.com/questions/6768477/adding-many-circles-to-a-google-map -->
+<script>
+var overlay;
+issuesOverlay.prototype = new google.maps.OverlayView();
+
+function issuesOverlay(map) {
+    this._map = map;
+    this._issues = [];
+    this._radius = 6;
+    this._container = document.createElement("div");
+    this._container.id = "issueslayer";
+    this.setMap(map);
+    this.addIssue = function (issue,clusterColor) {
+        this._issues.push({
+          position: new google.maps.LatLng(issue["lat"],issue["lng"]),
+          color:clusterColor
+        });
+    };
+}
+
+
+issuesOverlay.prototype.createIssueIcon = function (id,pos) {
+
+    var issueIcon = document.createElement('canvas');
+    issueIcon.id = 'issueicon_' + id;
+    //calculate radius based on poulation
+    this._radius = 10;
+    issueIcon.width = issueIcon.height =  this._radius * 2;
+    issueIcon.style.width = issueIcon.width + 'px';
+    issueIcon.style.height = issueIcon.height + 'px';
+    issueIcon.style.left = (pos.x - this._radius) + 'px';
+    issueIcon.style.top = (pos.y - this._radius) + 'px';
+    issueIcon.style.position = "absolute";
+
+    var centerX = issueIcon.width / 2;
+    var centerY = issueIcon.height / 2;
+    var ctx = issueIcon.getContext('2d');
+    ctx.fillStyle = 'rgba(160,16,0,0.6)';
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, this._radius, 0, Math.PI * 2, true);
+    ctx.fill();
+
+    return issueIcon;
+};
+
+
+issuesOverlay.prototype.ensureIssueIcon = function (id,pos) {
+    var issueIcon = document.getElementById("issueicon_" + id);
+    if(issueIcon){
+        issueIcon.style.left = (pos.x - this._radius) + 'px';
+        issueIcon.style.top = (pos.y - this._radius) + 'px';
+        return issueIcon;
+    }
+    return this.createIssueIcon(id,pos);
+};
+
+
+
+issuesOverlay.prototype.onAdd = function () {
+    var panes = this.getPanes();
+    panes.overlayLayer.appendChild(this._container);
+};
+
+
+
+issuesOverlay.prototype.draw = function () {
+    var zoom = this._map.getZoom();
+    var overlayProjection = this.getProjection();
+
+    var container = this._container;
+
+    this._issues.forEach(function(issue,idx){
+        var xy = overlayProjection.fromLatLngToDivPixel(issue.position);
+        var issueIcon = overlay.ensureIssueIcon(idx,xy);
+        container.appendChild(issueIcon);
     });
-  };
 
-  function plotMap(clusters){
-    //create map, set the maptype controll to false because its ugly...
-    map = new google.maps.Map(document.getElementById('map'),{
-      mapTypeControl:false
-    });
-    // create new latlngbounds object
-    // which we will use to center and focus the map
-    latlngbounds = new google.maps.LatLngBounds();
-    issue_markers.forEach(function(marker){marker.setMap(null);});
-    cluster_markers.forEach(function(marker){marker.setMap(null);});
-    issue_markers=[];
-    cluster_markers=[];
-    //iterate over issues populating the map and the bounds
-    clusters.forEach(function(cluster){
-      var clusterBounds= new google.maps.LatLngBounds();
-      issues=cluster["issues"]
-      issues.forEach(function(issue){
-        var loc = new google.maps.LatLng(issue.lat,issue.lng);
-        latlngbounds.extend(loc);
-        clusterBounds.extend(loc);
-        issue_markers.push(
-          new google.maps.Marker({
-            sName:issue["id_"],
-            position: loc,
-            map: map,
-            icon: {
-              path: google.maps.SymbolPath.CIRCLE,
-              fillOpacity: 0.1,
-              fillColor: "blue",
-              strokeWeight: 0,
-              scale: 10 //pixels
-            }
-          })
-        );
-      });
-      clusterLoc=new google.maps.LatLng(
-        clusterBounds.getCenter().lat(),
-        clusterBounds.getCenter().lng()
-      );
-      /// create cluster marker using the google
-      /// markerwithlabel.js file, since API does not
-      /// currently support labels with multiple characters
-      var clusterMarker=new MarkerWithLabel({
-        sName:clusters["id_"],
-        zIndex:10000,
-        visible:false,
-        position: clusterLoc,
-        map: map,
-        labelContent: String(cluster.issues.length),
-        labelAnchor: new google.maps.Point(15,15),
-        labelClass: "labels", // the CSS class for the label
-        labelStyle: {opacity: 1},
-        labelInBackground:false,
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillOpacity: 0.5,
-          fillColor: "black",
-          strokeWeight: 2,
-          scale: 20 //pixels
-        },
-      })
-      clusterMarker.addListener('click', function(){focusCluster(cluster);})
-      cluster_markers.push(clusterMarker);
-    });
-    //map.setCenter(latlngbounds.getCenter());
-    map.fitBounds(latlngbounds);
-  };
+};
 
-  function goToHeatMapView(){
-    issue_markers.forEach(function(marker){
-      marker.setIcon({
-        path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 0.1,
-        fillColor: "blue",
-        scale: 10,
-        strokeWeight:0
-      });
-    });
+issuesOverlay.prototype.onRemove = function () {
+    this._container.parentNode.removeChild(this._container);
+    this._container = null;
+};
 
-    cluster_markers.forEach(function(marker){
-      marker.setVisible(false);
-    });
 
-    map.fitBounds(latlngbounds);
-  }
 
-  function goToClusterView(clusters){
 
-    issue_ids = issue_markers.map(function(marker){
-      return marker.sName;
-    });
+
+
+
+
+
+
+
+function getRandomInterval(min, max) {
+    return Math.random() * (max - min) + min;
+}
+</script>
+
+
+<!-- function for manipulating map -->
+<script>
+function plotMap(clusters) {
+    var mapOptions = {};
+
+    var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+    overlay = new issuesOverlay(map);
+
+    var latlngbounds = new google.maps.LatLngBounds();
 
     clusters.forEach(function(cluster){
       clusterColor = "#" + Math.random().toString(16).slice(2, 8);
       cluster["issues"].forEach(function(issue){
-        var marker_ind = issue_ids.indexOf(issue["id_"]);
-        issue_markers[marker_ind].setIcon({
-          path: google.maps.SymbolPath.CIRCLE,
-          fillOpacity: 1.0,
-          fillColor:clusterColor,
-          strokeWeight:0,
-          scale:10
-        });
-      });
-    });
-    cluster_markers.forEach(function(marker){
-      marker.setVisible(true);
+        loc = new google.maps.LatLng(issue["lat"],issue["lng"])
+        latlngbounds.extend(loc);
+        overlay.addIssue(issue,clusterColor);
+      })
     })
     map.fitBounds(latlngbounds);
-  };
+}
 
-  function focusCluster(cluster){
-    var clusterBounds= new google.maps.LatLngBounds();
-    cluster.issues.forEach(function(issue){
-      var loc = new google.maps.LatLng(issue.lat,issue.lng);
-      clusterBounds.extend(loc);
-    });
-    map.fitBounds(clusterBounds);
-  };
+
+//google.maps.event.addDomListener(window, 'load', initialize);
+
 </script>

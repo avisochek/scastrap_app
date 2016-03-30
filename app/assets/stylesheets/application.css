@@ -41,10 +41,13 @@ html,body{
   flex-direction: row;
   justify-content: space-between;
 }
-
-#navToggle,#mapToggle,#home,#switch,.back,.spaceHolder{
+.icon{
   height:40px;
   width:40px;
+}
+.icon:hover{
+  background-color: #DDDDDD;
+  cursor:pointer;
 }
 #hamburgerIcon,#mapToggleIcon,#homeIcon,#switchIcon,#searchIcon,.backIcon{
   height:100%;
@@ -99,8 +102,55 @@ html,body{
 }
 #streets{
   flex-grow:1;
+  text-align: center;
 }
-
+#streetsTable{
+  text-align:center;
+  margin: 20px;
+  max-width: 500px;
+  min-width:250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#streetsTableHeader{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  min-width:250px;
+  max-width:500px;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.streetRow{
+  margin:20px;
+  min-height: 60px;
+  background-color:#DDDDDD;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.streetRow:hover{
+  background-color: #AAAAAA;
+  cursor: pointer;
+}
+.rank{
+  height:40px;
+  width:40px;
+  border-radius: 25px;
+  background-color: green;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+}
+.count{
+  margin-right: 20px;
+}
+.streetText{
+  margin-top: auto;
+  margin-bottom: auto;
+}
 #navToggle{
  z-index: 101;
 }

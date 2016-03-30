@@ -14,14 +14,15 @@ class StreetsController < ApplicationController
             :count=>count,
             :length=>street[:length],
             :issues_per_mile=>count/street[:length],
-            :confidence=>1-1/(count**(0.5)),
-            :rank=>rank
+            :confidence=>1-1/(count**(0.5))
           })
-          rank+=1
       end
     end
     @streets.sort_by! {|street| -street[:issues_per_mile]}
-    puts @streets
+    rank=1
+    0.upto(@streets.length-1).each do |index|
+      @streets[index][:rank]=index
+    end
     render :json => {:streets=>@streets}
   end
 end
