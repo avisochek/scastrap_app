@@ -179,7 +179,8 @@ class ApiController < ApplicationController
       params.require(:cluster).permit(:id_,
                                   :request_type_id,
                                   :score,
-                                  :city_id)
+                                  :city_id,
+                                  :batch_id)
     end
 
     def request_type_params
@@ -187,7 +188,7 @@ class ApiController < ApplicationController
     end
 
     def batch_params
-      params.require(:batch).permit(:id_,:created_at)
+      params.require(:batch).permit(:id_,:created_at,:city_id)
     end
 
     def cluster_issue_params

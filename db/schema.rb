@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20160304040055) do
   create_table "batches", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
     t.datetime "created_at", null: false
+    t.integer  "city_id"
     t.datetime "updated_at", null: false
   end
 

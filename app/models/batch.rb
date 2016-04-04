@@ -1,4 +1,5 @@
 class Batch < ActiveRecord::Base
   has_many :clusters
-  self.primary_key = 'id_'  
+  belongs_to :city
+  self.primary_key = 'id_'
 end

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   ### streets
   get '/streets' => 'streets#home'
   get '/streets/ranking/:request_type_id' => 'streets#ranking'
-
+  get '/streets/stats/:street_id' => 'streets#stats'
   ######
   ######
   ######

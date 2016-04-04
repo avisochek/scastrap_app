@@ -15,12 +15,23 @@
   <!-- load knockout, used for managing streets data -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
 
-  <!-- load google maps api -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEs6NPvRS1jrPZTWGZUkdkFmIbdCPrBEo"></script>
+  <!-- load google maps api with library visualization-->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEs6NPvRS1jrPZTWGZUkdkFmIbdCPrBEo&libraries=visualization"></script>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
+  <!-- custom map interface for generating
+  heatmap and cluster map from data-->
+  <script src="/assets/map.js"></script>
+
   <!-- use markerwithlabel.js to create marker labels with multiple characters -->
-  <script src='/assets/markerwithlabel.js'></script>
+  <!-- <script src='/assets/markerwithlabel.js'></script> -->
+
+  <!-- include code for knockout and jquery based ui -->
+  <script src="/assets/ui.js"></script>
+
+  <!-- include export functions -->
+  <script src="/assets/export.js"></script>
+
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
