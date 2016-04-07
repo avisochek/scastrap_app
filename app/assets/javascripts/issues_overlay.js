@@ -1,14 +1,12 @@
 issuesOverlay.prototype = new google.maps.OverlayView();
 
 function issuesOverlay(map) {
-  console.log("creating overlay")
   this._map = map;
   this._issues = [];
   this._radius = 6;
   this._container = document.createElement("div");
   this._container.id = "issueslayer";
   this.addIssue = function (issue) {
-    console.log("pushing to issues");
     this._issues.push(issue);
   };
 }
@@ -22,8 +20,8 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
   issueIcon.width = issueIcon.height =  this._radius * 2;
   issueIcon.style.width = issueIcon.width + 'px';
   issueIcon.style.height = issueIcon.height + 'px';
-  issueIcon.style.left = (pos.x - this._radius) + 'px';
-  issueIcon.style.top = (pos.y - this._radius) + 'px';
+  issueIcon.style.left = (issue["xy"].x - this._radius) + 'px';
+  issueIcon.style.top = (issue["xy"].y - this._radius) + 'px';
   issueIcon.style.position = "absolute";
   issueIcon.style.borderRadius = 5;
 
@@ -64,7 +62,6 @@ issuesOverlay.prototype.ensureIssueIcon = function (issue){
 
 
 issuesOverlay.prototype.onAdd = function () {
-  console.log("adding");
   var panes = this.getPanes();
   panes.overlayMouseTarget.appendChild(this._container);
 };
@@ -72,7 +69,6 @@ issuesOverlay.prototype.onAdd = function () {
 
 
 issuesOverlay.prototype.draw = function () {
-  console.log("drawing");
   var zoom = this._map.getZoom();
   var overlayProjection = this.getProjection();
   var container = this._container;

@@ -57,7 +57,6 @@ clustersOverlay.prototype.createClusterIcon = function (cluster) {
     if(!drag){
       cm.issues(cluster["issues"]);
       cm.chosenCluster(cluster);
-      console.log(cluster["issues"]);
       plotIssues(cluster["issues"],cluster["bounds"]);
     }
     drag=false;

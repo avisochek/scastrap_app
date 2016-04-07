@@ -1,7 +1,7 @@
 //initialize variables, clusterMap and heatMap and issuesMap are the overlays,
 //map is the main google maps object, and drag is a parameter
 //we use to prevent dragging map from triggering click event
-var clusterMap,heatMap,issuesMap,map,drag;
+var clusterMap,heatMap,issueMap,map,drag;
 
 function plotMap(clusters,mapMode) {
   //if our overlays are set, set map to null
@@ -85,7 +85,7 @@ function sort(array){
 
 function plotIssues(issues,bounds){
   map.fitBounds(bounds)
-  if (issuesMap){issuesMap.setMap(null);};
+  if (issueMap){issueMap.setMap(null);};
   issueMap = new issuesOverlay(map);
   issues.forEach(function(issue){
     issue["position"]=new google.maps.LatLng(
@@ -94,4 +94,5 @@ function plotIssues(issues,bounds){
     issue["color"]="#000000";
     issueMap.addIssue(issue);
   });
+  issueMap.setMap(map);
 }
