@@ -42,6 +42,7 @@ $(document).ready(function(){
     });
   };
 var cm;
+
 $(document).ready(function(){
   function ClusterViewModel(){
     var self = this;
@@ -49,17 +50,13 @@ $(document).ready(function(){
     // Observables
     // order of observable declaration reflects
     // the flow of selection in the UI
-    self.cities = ko.observable();
-    self.suggestedItems = ko.observable();
-    self.chosenCity = ko.observable();
     self.requestTypes = ko.observable();
-    self.chosenRequestType = ko.observable();
+    self.chosenRequestTypeId = ko.observable();
     self.clusters = ko.observable();
     self.streets = ko.observable();
     self.chosenStreetName = ko.observable();
     self.chosenStreetStats = ko.observable();
     self.mapMode = ko.observable("clusterMap");
-    self.location=ko.observable("home");
     self.issues=ko.observable();
     self.chosenCluster=ko.observable();
     self.batch=ko.observable();
@@ -68,36 +65,23 @@ $(document).ready(function(){
     //Behaviors
     // order of behaviors reflects
     // the flow of selection in the UI
-    self.home = function(){
-      $("#input").attr("placeholder","Search City");
-      self.location("home");
-      $.get('/clusters/city_menu/',
+    self.getRequestTypeMenu =function(){
+      $.get('/request_type_menu',
         function(data){
-          self.cities(data["cities"]);
-          setInput(self.cities(),self.goToRequestTypeMenu);
+          self.requestTypes(data["requestTypes"]);
       });
     };
 
-    self.goToRequestTypeMenu =function(city){
-      $("#input").attr("placeholder","Search Request Type");
-      self.location("requestTypeMenu");
-      $.get('/clusters/request_type_menu/'+city.id_,
-        function(data){
-          self.requestTypes(data["request_types"]);
-          setInput(self.requestTypes(),self.goToApp);
-      });
-    };
-
-    self.goToApp = function(requestType){
-      self.chosenRequestType(requestType);
-      self.location("app");
-      $.get('/clusters/cluster_menu/'+requestType.id_,
+    self.getData = function(requestTypeId){
+      // self.chosenRequestType(requestTypeId);
+      // self.location("app");
+      $.get('/clusters/cluster_menu/'+requestTypeId,
         function(data){
           self.clusters(data["clusters"]);
           self.batch(data["batch"]);
           plotMap(data["clusters"],self.mapMode());
       });
-      $.get("/streets/ranking/"+requestType.id_,
+      $.get("/streets/ranking/"+requestTypeId,
         function(data){
           self.streets(data["streets"]);
       });
@@ -123,23 +107,27 @@ $(document).ready(function(){
       };
     });
 
-    $(".homeLink").click(function(e){self.home();});
-    self.home();
-
     $("#issuesExport").click(function(e){
       title="Scastrap_issues_"
       title+self.chosenRequestType()["name"];
       title+="_"+self.batch()["created_at"];
       title+="_cluster_id#"+self.chosenCluster()["id"]+".csv";
       exportIssues(self.issues(),title);
-    })
+    });
 
     $("#streetsExport").click(function(e){
       title="Scastrap_street_ranking_";
       title+=self.chosenRequestType()["name"];
       title+="_"+self.batch()["created_at"]+".csv";
       exportStreets(self.streets(),title);
-    })
+    });
+
+    $("#combobox").change(function(e){
+      // console.log("asdf");
+      self.getData($("#combobox").val())
+    });
+
+    self.getRequestTypeMenu();
   }
   cm = new ClusterViewModel();
   ko.applyBindings(cm);

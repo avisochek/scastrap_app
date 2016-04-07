@@ -1,4 +1,14 @@
 class StreetsController < ApplicationController
+  def factorial(n,k)
+    if n<=k
+      return k
+    else
+      return n*factorial(n-1,k)
+    end
+  end
+  def n_choose_k(n,k)
+    return factorial(n,k)/factorial(k,1)
+  end
   def home
   end
   def ranking
@@ -20,10 +30,11 @@ class StreetsController < ApplicationController
       if street_id != 0
         street=Street.find(street_id)
         probability=((1-(street[:length]/t))**(n_issues-count))
+        puts probability
         probability=probability*(street[:length]/t)**count
-        probability=probability*(1..n_issues).reduce(1, :*)
-        probability=probability/(1..count).reduce(1,:*)
-        probability=probability/(1..(n_issues-count)).reduce(1,:*)
+        puts probability
+        puts n_issues
+        n_choose_k(n_issues,count)
         @streets.push({
             :name=>street[:name],
             :count=>count,

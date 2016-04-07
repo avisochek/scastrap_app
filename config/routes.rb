@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   get '/' => 'application#home'
+  get '/request_type_menu' => 'application#request_type_menu'
 
   get '/clusters' => 'clusters#home'
   get '/clusters/city_menu' => 'clusters#city_menu'

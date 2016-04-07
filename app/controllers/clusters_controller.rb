@@ -16,11 +16,11 @@ class ClustersController < ApplicationController
     puts "asdf"
     ## fetch the latest batch id
     @latest_batch=Batch.where(:city_id=>request_type[:city_id]).order(:id_=>:desc).first
-    puts @latest_batch
+
     clusters_w_issues=[]
-    puts "asdf"
+
     ## use eager loading to speed up iteration
-    clusters = Cluster.includes(:issues=>[:street]).where(:request_type_id=>params[:request_type_id],:batch_id=>@latest_batch[:id_]).includes(:issues).order(score: :desc)
+    clusters = Cluster.includes(:issues=>[:street]).where(:request_type_id=>params[:request_type_id]).includes(:issues).order(:score=> :desc)
 puts "asdf"
     #issues = Issue.where(:request_type_id=>params[:request_type_id],:status=>["Open","Acknowledged"])
     clusters.each do |cluster|
@@ -31,7 +31,7 @@ puts "asdf"
       clusters_w_issues.append(cluster_modified)
     end
 
-    render :json => {:clusters => clusters_w_issues,:batch=>@latest_batch}
+    render :json => {:clusters => clusters_w_issues,:batch=>nil}
   end
   def show_cluster
     @cluster=Cluster.find(params[:cluster_id])
