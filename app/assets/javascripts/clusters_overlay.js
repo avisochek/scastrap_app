@@ -9,7 +9,7 @@ clustersOverlay.prototype = new google.maps.OverlayView();
 function clustersOverlay(map) {
     this._map = map;
     this._clusters = [];
-    this._radius = 6;
+    //this._radius = 6;
     this._container = document.createElement("div");
     this._container.id = "clusterslayer";
     this.addCluster = function (cluster) {

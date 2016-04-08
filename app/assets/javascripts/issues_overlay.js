@@ -3,7 +3,7 @@ issuesOverlay.prototype = new google.maps.OverlayView();
 function issuesOverlay(map) {
   this._map = map;
   this._issues = [];
-  this._radius = 6;
+  //this._radius = 6;
   this._container = document.createElement("div");
   this._container.id = "issueslayer";
   this.addIssue = function (issue) {
@@ -40,7 +40,8 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
 
   google.maps.event.addDomListener(issueIcon, 'click', function() {
     if(!drag){
-      console.log("issueClicked!");
+      $("#issues").addClass("open");
+      $("#"+issue["id_"]).addClass("selected");
     }
     drag=false;
   });
@@ -52,8 +53,8 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
 issuesOverlay.prototype.ensureIssueIcon = function (issue){
   var issueIcon = document.getElementById("issueicon_" + issue["id_"]);
   if(issueIcon){
-    issueIcon.style.left = (issue["xy"].x - 4) + 'px';
-    issueIcon.style.top = (issue["xy"].y - 4) + 'px';
+    issueIcon.style.left = (issue["xy"].x - 8) + 'px';
+    issueIcon.style.top = (issue["xy"].y - 8) + 'px';
     return issueIcon;
   }
   return this.createIssueIcon(issue);

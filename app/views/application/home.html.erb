@@ -57,9 +57,13 @@
     </p>
   </div> -->
   <div id="issuesList" data-bind="foreach:issues,visible:typeof issues() != 'undefined'">
-    <a target="blank" data-bind="attr:{href:'https://seeclickfix.com/issues/'+String(id_)}">
-      <p id="issueP" data-bind="text:id_"></p>
-    </a>
+    <div class="issue" data-bind="attr:{id:id_}">
+      <a target="blank" class="issueLink",
+        data-bind="attr:{
+          href:'https://seeclickfix.com/issues/'+String(id_)}">
+        <p id="issueP" data-bind="text:id_"></p>
+      </a>
+    </div>
   </div>
 </div>
 <div id="aboutPage" class="page">

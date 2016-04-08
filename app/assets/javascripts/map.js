@@ -75,6 +75,9 @@ function plotMap(clusters,mapMode) {
   map.addListener('click',function(){
     drag = false;
   });
+  map.addListener('mousedown',function(){
+    $(".issue").removeClass("selected");
+  });
 };
 
 function sort(array){

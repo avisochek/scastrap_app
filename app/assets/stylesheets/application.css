@@ -228,10 +228,18 @@ html,body{
   transform:translate(0,0);
 }
 #issuesList{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
   margin-left: auto;
   margin-right: auto;
   height:0;
   margin-top: 60px;
+}
+.issue{order:2;}
+.issue.selected{
+  order: 1;
+  background-color: red !important;
 }
 #navToggle{
  z-index: 101;
