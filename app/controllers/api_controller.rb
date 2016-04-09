@@ -68,7 +68,7 @@ class ApiController < ApplicationController
       # puts '*'
       # puts issue[:id_]
       if Issue.where(id_: issue["id_"]).count>0
-        Issue.update(issue[:id_],issue.delete("id_")).save()
+        Issue.update(issue[:id_],issue).save()
         puts "updated issue!"
       else
         if Issue.create(issue).save()
@@ -171,14 +171,14 @@ class ApiController < ApplicationController
     end
   end
 
-  def bulk_upload_cluster_issue
+  def bulk_upsert_cluster_issue
     ClustersIssues.transaction do
-      bulk_cluster_issue_params.each do |cluster_issue|
-        if ClustersIssues.where(:id_=>cluster_issue[:id]).count>0
-          ClustersIssues.find(cluster_issue[:id]).update(cluster_issue).save()
-        else
-          ClustersIssues.create(cluster_issue).save()
-        end
+      bulk_cluster_issue_params["clusters_issues"].each do |cluster_issue|
+        # if ClustersIssues.where(:id_=>cluster_issue[:id_]).count>0
+          # ClustersIssues.find(cluster_issue[:id]).update(cluster_issue).save()
+        # else
+        ClustersIssues.create(cluster_issue).save()
+        # end
       end
       render status: 200, json: {message: "asdf"}
     end

@@ -27,7 +27,7 @@ class StreetsController < ApplicationController
       :request_type_id=>params[:request_type_id]
       ).count
     street_counts.each do |street_id,count|
-      if street_id != 0
+      if street_id != 0 && street_id != nil && street_id != ""
         street=Street.find(street_id)
         probability=((1-(street[:length]/t))**(n_issues-count))
         puts probability
