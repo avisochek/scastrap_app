@@ -7,6 +7,12 @@ $(document).ready(function(){
     $("#issues").toggleClass("open");
     $("#streets").removeClass("open");
   });
+  // $("#main").click(function(e){
+  //   if (e.target.id!="streetsToggle"){
+  //   $("issues").removeClass("open");
+  //   $("streets").removeClass("open");
+  // }
+  // }
   $(".aboutLink").click(function(e){
     $("#aboutPage").show();
   });

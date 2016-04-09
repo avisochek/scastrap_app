@@ -1,34 +1,5 @@
-<div id="menu">
-  <div class="menuItem homeLink"><h2>Home</h2></div>
-  <div class="menuItem aboutLink"><h2>About</h2></div>
-  <div class="menuItem helpLink"><h2>Help</h2></div>
-</div>
-<div id="topRow">
-  <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
-  <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
-  <div id="issuesToggle" class="icon"><img id="mapToggleIcon" src="/assets/issues_icon.png"/></div>
-</div>
-<div id="midRow">
-  <div id="home" class="homeLink icon">
-    <img id="homeIcon" src="/assets/home_icon.png"/>
-  </div>
-  <div class="ui-widget">
-    <select id="combobox" type="text" data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'">
-      <!-- <option data-bind="text:full_name"></option> -->
-    </select>
-  </div>
-  <div id="mapToggle"class="icon"></div>
-</div>
-<div id="content" data-bind="css:location">
-  <div id="map">
-  </div>
-</div>
-<div id="bottomRow">
-  <p class="pageLink aboutLink">about</p>
-  <p class="pageLink helpLink">help</p>
-</div>
 <div id="streets">
-  <div id="streetsExport"><h2>Export</h2></div>
+  <div id="streetsTitle"><h1>Street Ranking</h1></div>
   <!-- <div id="streetsPlaceHolder">
     <h1>Streets</h1>
     <p>A street ranking will show here
@@ -41,21 +12,19 @@
       <div class="name"><h2 data-bind="text:name"></h2></div>
     </div>
   </div>
+  <div id="streetsExport"><h1>Export</h1></div>
 </div>
 <div id="issues">
-  <div id="issuesExport" data-bind="visible:typeof issues() != 'undefined'">
-    <h2>Export<h2>
-  </div>
-  <!-- <div id="issuesPlaceHolder"
+  <div id="issuesTitle"><H1>Issue Details</H1></div>
+
+  <div id="issuesPlaceHolder"
   data-bind="visible:
     typeof issues() == 'undefined'">
-    <h1>Issues</h1>
-    <p>Links to individual issues will show
-      here when you select a city and a request
-      type from the input, and then click on an
-      individual cluster from the map.
+    <p>Deatails and links to individual issues will show
+      here when a cluster center is selected
+      from the map.
     </p>
-  </div> -->
+  </div>
   <div id="issuesList" data-bind="foreach:issues,visible:typeof issues() != 'undefined'">
     <div class="issue" data-bind="attr:{id:id_}">
       <a target="blank" class="issueLink",
@@ -64,6 +33,35 @@
         <p id="issueP" data-bind="text:id_"></p>
       </a>
     </div>
+  </div>
+  <div id="issuesExport">
+    <h1>Export<h1>
+  </div>
+</div>
+<div id="main">
+  <div id="topRow">
+    <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
+    <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
+    <div id="home" class="homeLink icon">
+      <img id="homeIcon" src="/assets/home_icon.png"/>
+    </div>
+  </div>
+  <div id="midRow">
+    <div id="issuesToggle" class="icon"><img id="mapToggleIcon" src="/assets/issues_icon.png"/></div>
+    <div class="ui-widget">
+      <select id="combobox" type="text" data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'">
+        <!-- <option data-bind="text:full_name"></option> -->
+      </select>
+    </div>
+    <div id="mapToggle"class="icon"></div>
+  </div>
+  <div id="content" data-bind="css:location">
+    <div id="map">
+    </div>
+  </div>
+  <div id="bottomRow">
+    <p class="pageLink aboutLink">about</p>
+    <p class="pageLink helpLink">help</p>
   </div>
 </div>
 <div id="aboutPage" class="page">

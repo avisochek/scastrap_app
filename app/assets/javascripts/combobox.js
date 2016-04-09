@@ -18,6 +18,7 @@ $.widget( "custom.combobox", {
       .appendTo( this.wrapper )
       .val( value )
       .attr( "title", "" )
+      .attr( "placeholder","Search by city or request type")
       .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
       .autocomplete({
         delay: 0,

@@ -20,19 +20,29 @@ html,body{
   width:100%;
   margin:0;
   position:absolute;
-  overflow-x: hidden;
+  /*overflow-x: hidden;*/
+  background-color:#4F608f;
 }
 
 #container{
+  background-color: #FFE3AA;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
   width:100%;
   height:100%;
-  text-align: center;
   display: flex;
+  flex-direction: row;
+  text-align: center;
+  flex-shrink: 0;
+  color:#061539;
+}
+#main{
+  height:100%;
+  display:flex;
   flex-direction: column;
   flex-shrink: 0;
+  flex-grow:1;
 }
 #topRow,#midRow,#content{
   margin-top: 10px;
@@ -80,30 +90,57 @@ html,body{
   background-size: 24px,24px;
   background-position: right;*/
   z-index: 1;
+  min-width: 10px !important;
 }
-.ui-autocomplete{}
+.ui-autocomplete{
+  max-height: 300px;
+  overflow-y: scroll;
+  border-radius: 10px;
+  /*overflow-x: hidden;*/
+  min-width: 10px !important;
+}
 .custom-combobox {
     height: 30px;
     margin-top: 5px;
     margin-bottom: 5px;
-    border-radius: 10px;
-    overflow:hidden;
+    border-color:orange !important;
+    border-width:4px !important;
     /*position: relative;*/
     display: inline-block;
     /*position: {my: "middle top", at: "middle bottom",collision:"none"}*/
+    min-width: 10px !important;
   }
   .custom-combobox-toggle {
+    background: none !important;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-right-radius: 15px !important;
+    margin-left: -1px;
     position: absolute;
     top: 0;
     bottom: 0;
-    margin-left: -1px;
     padding: 0;
     height: 100%;
+    width: 30px !important;
+    min-width: 10px !important;
   }
   .custom-combobox-input {
-    height:1000%
+    width:130px !important;
+    background: none !important;
+    border-style: solid !important;
+    border-width: 2px !important;
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    height:100%
     margin: 0;
     padding: 5px 10px;
+    min-width: 10px !important;
+  }
+  .custom-combobox-input:focus{
+    border-top-left-radius: 15px !important;
+    border-bottom-left-radius: 15px !important;
+    min-width: 10px !important;
   }
 #search{
   height:24px;
@@ -121,7 +158,7 @@ html,body{
 #content.home{background-image: url('/assets/world.png')}
 #map{
   flex-grow: 1;
-  border-radius: 20px;
+  /*border-radius: 20px;*/
 }
 .labels {
   color: black;
@@ -131,71 +168,79 @@ html,body{
   width: 30px;
   height:30px;
 }
-#streetsToggle,#issuesToggle{
- z-index: 101;
+
+#issuesExport>h1,#streetsExport>h1,#issuesTitle>h1,#streetsTitle>h1{
+  margin-top: 10px;
 }
-#streets{
-  position:absolute;
+
+/*background-color:#FFE3AA;*/
+#streets,#issues{
+  background-color: #7887AB;
+  position:relative;
+  display:none;
   height:100%;
   width:250px;
+  min-width: 250px;
   top:0;
   left:0;
-  background-color:white;
   overflow-y:scroll;
-  transform: translate(-250px,0);
-  transition: transform 0.3s ease;
+  overflow-x:hidden;
   text-align: center;
   z-index:2;
+  flex-direction: column;
 }
-#streets.open{
-  transform: translate(0,0);
+#streets.open,#issues.open{
+  display:block;
 }
-#streetsExport{  right:20px;}
-#issuesExport{left:20px;}
+#issuesTitle,#streetsTitle{
+  position: fixed;
+  height:60px;
+  width:inherit;
+  top:0;
+  background-color:#84C68C ;
+}
 #streetsExport,#issuesExport{
-  top:10px;
-  height:30px;
   position:fixed;
-  border-radius: 15px;
+  bottom:0;
+  height:60px;
+  width:inherit;
+  background-color: #FFAEAA;
 }
 #streetsExport:hover,#issuesExport:hover{
   background-color: #DDDDDD;
   cursor:pointer;
 }
-#streetsExport>h2,#issuesExport>h2{
+/*#streetsExport>h2,#issuesExport>h2{
   position:relative;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 5px;
   margin-right:5px;
-}
+}*/
 #streetsTable{
-  text-align:center;
-  height:0px;
-  margin-top:60px;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-top: 70px;
+  margin-bottom: 70px;
 }
+
 .streetRow{
   margin-top:20px;
   margin-bottom:20px;
-  width:100%;
+  margin-left: 10px;
+  margin-right: 10px;
   min-height: 60px;
-  background-color:#DDDDDD;
-  border-radius: 15px;
+  background-color:#FFE3AA;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 .streetRow:hover{
-  background-color: #AAAAAA;
+  background-color: #D4B16A;
   cursor: pointer;
 }
 .rank{
   height:40px;
   border-radius: 25px;
-  background-color: green;
+  background-color: #2C8437;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 10px;
@@ -210,23 +255,14 @@ html,body{
   margin-left:5px;
   margin-right:5px;
 }
-#issues{
-  position:absolute;
-  height:100%;
-  width:250px;
-  top:0;
-  right:0;
-  background-color:white;
-  overflow-y:scroll;
-  transform: translate(300px,0);
-  transition: transform 0.3s ease;
-  text-align: center;
-  z-index:2;
-  border-left:4px solid;
+
+#issuesPlaceHolder{
+  margin-top: 70px;
+  width: 150px;
+  margin-left: auto;
+  margin-right: auto;
 }
-#issues.open{
-  transform:translate(0,0);
-}
+
 #issuesList{
   display:flex;
   flex-direction: column;
@@ -240,23 +276,6 @@ html,body{
 .issue.selected{
   order: 1;
   background-color: red !important;
-}
-#navToggle{
- z-index: 101;
-}
-#menu{
-  z-index: 100;
-  width: 200px;
-  overflow:hidden;
-  position: absolute;
-  transform: translate(0,-300px);
-  transition: transform 0.3s ease;
-  left:0;
-  border: 1px solid black;
-  background-color:white;
-}
-#menu.open{
-  transform: translate(0,0);
 }
 
 .page{
@@ -315,6 +334,9 @@ html,body{
 /* Let's get this party started */
 ::-webkit-scrollbar {
     width: 12px;
+    background-color: white;
+    /*z-index:-1;*/
+    display:none;
 }
 
 /* Track */
@@ -333,4 +355,30 @@ html,body{
 }
 ::-webkit-scrollbar-thumb:window-inactive {
 	background: rgba(200,200,200,200.4);
+}
+
+@media screen and (min-width: 500px){
+  #issues,#streets{width:300px;}
+}
+
+@media screen and (min-width: 800px){
+  /*#streets{
+    position:relative;
+  }*/
+  #issues{
+    position:relative;
+    display:none;
+    left:0;
+  }
+  #streets{
+    position:relative;
+    display:none;
+    right:0;
+  }
+}
+
+@media screen and (max-height: 400px){
+  .ui-autocomplete{
+    max-height: 180px;
+  }
 }
