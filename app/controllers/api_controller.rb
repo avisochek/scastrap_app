@@ -2,7 +2,6 @@ class ApiController < ApplicationController
   Key="xxxx"
   before_action :correct_key?
   skip_before_action :verify_authenticity_token
-
   ## street
     def street_exists?
       if Street.where(:id_=> params[:id_]).length == 0
@@ -61,6 +60,24 @@ class ApiController < ApplicationController
       render status: 403, json: {message: "could not create issue"}
     end
   end
+
+  def bulk_upsert_issue
+    config.echo=false
+    bulk_issue_params["issues"].each do |issue|
+      # puts issue
+      # puts '*'
+      # puts issue[:id_]
+      if Issue.where(id_: issue["id_"]).count>0
+        Issue.update(issue[:id_],issue.delete("id_")).save()
+        puts "updated issue!"
+      else
+        if Issue.create(issue).save()
+          puts "new issue!"
+        end
+      end
+    end; nil
+    render status: 200, json: {message: "asdf"}
+  end;nil
 
 ## cluster
   def cluster_exists?
@@ -154,6 +171,19 @@ class ApiController < ApplicationController
     end
   end
 
+  def bulk_upload_cluster_issue
+    ClustersIssues.transaction do
+      bulk_cluster_issue_params.each do |cluster_issue|
+        if ClustersIssues.where(:id_=>cluster_issue[:id]).count>0
+          ClustersIssues.find(cluster_issue[:id]).update(cluster_issue).save()
+        else
+          ClustersIssues.create(cluster_issue).save()
+        end
+      end
+      render status: 200, json: {message: "asdf"}
+    end
+  end
+
 
   private
     def issue_params
@@ -200,6 +230,24 @@ class ApiController < ApplicationController
       params.require(:city).permit(:id_,:name,:lat,:lng)
     end
 
+    def bulk_issue_params
+      params.permit(:issues=>[:id_,
+                      :request_type_id,
+                      :created_at,
+                      :status,
+                      :lng,
+                      :lat,
+                      :street_id,
+                      :city_id,
+                      :address,
+                      :summary,
+                      :description])
+    end;nil
+
+    def bulk_cluster_issue_params
+      params.permit(:clusters_issues=>[:cluster_id,:issue_id])
+    end
+
     ## before fileters
     ## check if API key is correct
     def correct_key?
@@ -209,5 +257,4 @@ class ApiController < ApplicationController
         render status: 403, json: {message: "authentication failed"}
       end
     end
-
 end

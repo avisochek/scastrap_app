@@ -44,4 +44,6 @@ Rails.application.routes.draw do
   post '/api/create_cluster_issue' => 'api#create_cluster_issue'
   post '/api/create_street'=>'api#create_street'
 
+  post '/api/bulk_upsert_issue' => 'api#bulk_upsert_issue'
+  post '/api/bulk_upsert_cluster_issue' => 'api#bulk_upsert_cluster_issue'
 end

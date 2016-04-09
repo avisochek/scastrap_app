@@ -7,6 +7,9 @@ class CreateIssues < ActiveRecord::Migration
       t.belongs_to :street, index: true
       t.string :created_at
       t.string :status
+      t.string :address
+      t.string :description
+      t.string :summary
       t.float :lng
       t.float :lat
       t.timestamps null: false

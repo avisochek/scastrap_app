@@ -57,6 +57,9 @@ ActiveRecord::Schema.define(version: 20160304040055) do
     t.integer  "street_id"
     t.datetime "created_at",      null: false
     t.string   "status"
+    t.string   "address"
+    t.string   "description"
+    t.string   "summary"
     t.float    "lng"
     t.float    "lat"
     t.datetime "updated_at",      null: false

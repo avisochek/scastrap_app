@@ -6,10 +6,9 @@ var clusterMap,heatMap,issueMap,map,drag;
 function plotMap(clusters,mapMode) {
   //if our overlays are set, set map to null
   //for each so as to create new overlays
-  if (heatMap){
-    heatMap.setMap(null);
-    clusterMap.setMap(null);
-  }
+  if (heatMap){heatMap.setMap(null);};
+  if (clusterMap){clusterMap.setMap(null);};
+  if (issueMap){issueMap.setMap(null);};
   var mapOptions = {zoom:13};
   map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
@@ -40,7 +39,7 @@ function plotMap(clusters,mapMode) {
       cluster["position"] = clusterCenter;
       cluster["color"] = "black";
       cluster["count"] = count;
-      cluster["bounds"] = cluster_bounds
+      cluster["bounds"] = cluster_bounds;
       clusterMap.addCluster(cluster);
     };
   });
