@@ -46,8 +46,8 @@ html,body{
 }
 #topRow,#midRow,#content{
   margin-top: 10px;
-  margin-left :20px;
-  margin-right:20px;
+  margin-left :10px;
+  margin-right:10px;
 }
 #topRow,#midRow{
   height:40px;
