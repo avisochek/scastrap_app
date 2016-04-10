@@ -62,20 +62,7 @@ class ApiController < ApplicationController
   end
 
   def bulk_upsert_issue
-    config.echo=false
-    bulk_issue_params["issues"].each do |issue|
-      # puts issue
-      # puts '*'
-      # puts issue[:id_]
-      if Issue.where(id_: issue["id_"]).count>0
-        Issue.update(issue[:id_],issue).save()
-        puts "updated issue!"
-      else
-        if Issue.create(issue).save()
-          puts "new issue!"
-        end
-      end
-    end; nil
+    Issue.bulk_upsert bulk_issue_params[:issues]
     render status: 200, json: {message: "asdf"}
   end;nil
 
@@ -210,7 +197,9 @@ class ApiController < ApplicationController
                                   :request_type_id,
                                   :score,
                                   :city_id,
-                                  :batch_id)
+                                  :batch_id,
+                                  :lng,
+                                  :lat)
     end
 
     def request_type_params

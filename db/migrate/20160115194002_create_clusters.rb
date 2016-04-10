@@ -6,6 +6,8 @@ class CreateClusters < ActiveRecord::Migration
       t.belongs_to :city, index: true
       t.integer :score
       t.belongs_to :batch, index: true
+      t.float :lng
+      t.float :lat
       t.timestamps null: false
     end
     #add_index :clusters, :id_, unique: true

@@ -45,9 +45,8 @@ class StreetsController < ApplicationController
       end
     end
     @streets.sort_by! {|street| street[:probability]}
-    rank=1
-    0.upto(@streets.length-1).each do |index|
-      @streets[index][:rank]=index
+    1.upto(@streets.length).each do |index|
+      @streets[index-1][:rank]=index
     end
     render :json => {:streets=>@streets}
   end
