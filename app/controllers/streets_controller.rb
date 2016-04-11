@@ -30,18 +30,17 @@ class StreetsController < ApplicationController
       if street_id != 0 && street_id != nil && street_id != ""
         street=Street.find(street_id)
         probability=((1-(street[:length]/t))**(n_issues-count))
-        puts probability
         probability=probability*(street[:length]/t)**count
-        puts probability
-        puts n_issues
         n_choose_k(n_issues,count)
         @streets.push({
-            :name=>street[:name],
-            :count=>count,
-            :length=>street[:length],
-            :issues_per_mile=>count/street[:length],
-            :probability=>probability
-          })
+          :length=>street[:length],
+          :id_=>street[:id_],
+          :name=>street[:name],
+          :count=>count,
+          :length=>street[:length],
+          :issues_per_mile=>count/street[:length],
+          :probability=>probability
+        })
       end
     end
     @streets.sort_by! {|street| street[:probability]}
@@ -55,6 +54,7 @@ class StreetsController < ApplicationController
       :status=>["Acknowledged","Open"],
       :street_id=>params[:street_id]
       ).includes(:reques_type).group(:request_type_id).count()
+    puts params["street_id"]
     @stats=[]
     counts.each do |request_type_id,count|
       request_type=RequestType.find(request_type_id)

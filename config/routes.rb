@@ -2,11 +2,10 @@ Rails.application.routes.draw do
   get '/' => 'application#home'
   get '/request_type_menu' => 'application#request_type_menu'
 
-  get '/clusters' => 'clusters#home'
-  get '/clusters/city_menu' => 'clusters#city_menu'
-  get '/clusters/request_type_menu/:city_id' => 'clusters#request_type_menu'
-  get '/clusters/cluster_menu/:request_type_id' => 'clusters#cluster_menu'
-  get '/clusters/:cluster_id' => 'clusters#show_cluster'
+  get '/clusters/get_clusters/:request_type_id' => 'clusters#get_clusters'
+
+  get '/issues/get_issues/:request_type_id' => 'issues#get_issues'
+  get 'issues/get_cluster/:cluster_id' => 'issues#get_cluster'
 
   ### streets
   get '/streets' => 'streets#home'

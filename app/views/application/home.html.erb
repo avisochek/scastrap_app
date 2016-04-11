@@ -1,67 +1,91 @@
-<div id="streets">
-  <div id="streetsTitle"><h1>Street Ranking</h1></div>
-  <!-- <div id="streetsPlaceHolder">
-    <h1>Streets</h1>
-    <p>A street ranking will show here
-      when you select a city and a request
-      type from the input</p>
-  </div> -->
-  <div id="streetsTable" data-bind="foreach:streets">
-    <div class="streetRow" data-bind="click:$root.goToStreetPage">
-      <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
-      <div class="name"><h2 data-bind="text:name"></h2></div>
+<div id="home">
+  <div id="sidebar">
+    <div class="collapse"></div>
+    <div id="streets">
+      <div id="streetsTitle"><h1>Street Ranking</h1></div>
+      <!-- <div id="streetsPlaceHolder">
+        <h1>Streets</h1>
+        <p>A street ranking will show here
+          when you select a city and a request
+          type from the input</p>
+      </div> -->
+      <div id="streetsContent" class="sidebarContent" data-bind="foreach:streets">
+        <div class="streetRow" data-bind="click:$root.goToStreetPage">
+          <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
+          <div class="name"><h2 data-bind="text:name"></h2></div>
+        </div>
+      </div>
+      <div id="streetsFooter">
+        <div id="streetsExport"><h1>Export</h1></div>
+      </div>
     </div>
-  </div>
-  <div id="streetsExport"><h1>Export</h1></div>
-</div>
-<div id="issues">
-  <div id="issuesTitle"><H1>Issue Details</H1></div>
+    <div id="issues">
+      <div id="issuesTitle"><H1>Issue Details</H1></div>
 
-  <div id="issuesPlaceHolder"
-  data-bind="visible:
-    typeof issues() == 'undefined'">
-    <p>Deatails and links to individual issues will show
-      here when a cluster center is selected
-      from the map.
-    </p>
-  </div>
-  <div id="issuesList" data-bind="foreach:issues,visible:typeof issues() != 'undefined'">
-    <div class="issue" data-bind="attr:{id:id_}">
-      <a target="blank" class="issueLink",
-        data-bind="attr:{
-          href:'https://seeclickfix.com/issues/'+String(id_)}">
-        <p id="issueP" data-bind="text:id_"></p>
-      </a>
+      <div id="issuesPlaceHolder"
+        data-bind="visible:!issues()">
+        <p>Details and links to individual issues will show
+          here when a cluster center is selected
+          from the cluster map.
+        </p>
+      </div>
+      <div id="issuesContent" class="sidebarContent"
+          data-bind="foreach:issues,
+            visible:typeof issues() != 'undefined'">
+        <div class="issueRow" \
+          data-bind="attr:{id:id_},
+          event:{mouseenter:$root.highliteIssue,
+            mouseleave:$root.unhighliteIssue}">
+          <a target="blank" class="issueLink",
+            data-bind="attr:{
+              href:'https://seeclickfix.com/issues/'+String(id_)}">
+            <div class="issueContent">
+              <div class="issueDate">
+                <!-- <h2 class="issueMonth" data-bind="text:month"></h2> -->
+                <!-- <h2 class="issueYear" data-bind="text:year"></h2> -->
+              </div>
+              <h3 class="issueSummary" data-bind="text:summary"></h3>
+              <p class="issueDescription" data-bind="text:description"></p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div id="issuesFooter">
+        <div id="issuesExport">
+          <h1>Export<h1>
+        </div>
+      </div>
     </div>
   </div>
-  <div id="issuesExport">
-    <h1>Export<h1>
-  </div>
-</div>
-<div id="main">
-  <div id="topRow">
-    <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
-    <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
-    <div id="home" class="homeLink icon">
-      <img id="homeIcon" src="/assets/home_icon.png"/>
+  <div id="main">
+    <div id="topRow">
+      <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
+      <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
+      <div id="help" class="helpLink icon">
+        <img id="helpIcon" src="/assets/help_icon.png"/>
+      </div>
     </div>
-  </div>
-  <div id="midRow">
-    <div id="issuesToggle" class="icon"><img id="mapToggleIcon" src="/assets/issues_icon.png"/></div>
-    <div class="ui-widget">
-      <select id="combobox" type="text" data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'">
-        <!-- <option data-bind="text:full_name"></option> -->
-      </select>
+    <div id="midRow">
+      <div id="issuesToggle" class="icon"><img id="issuesToggleIcon" src="/assets/issues_icon.png"/></div>
+      <div class="ui-widget">
+        <select id="combobox" type="text" data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'">
+          <!-- <option data-bind="text:full_name"></option> -->
+        </select>
+      </div>
+      <div id="mapToggle" >
+        <h3 class="mapToggleText" data-bind="if:mapMode()=='clusterMap'">Heat Map</h3>
+        <h3 class="mapToggleText" data-bind="if:mapMode()=='heatMap'">Cluster Map</h3>
+      </div>
     </div>
-    <div id="mapToggle"class="icon"></div>
-  </div>
-  <div id="content" data-bind="css:location">
-    <div id="map">
+    <div id="content" data-bind="css:location">
+      <div id="map">
+      </div>
     </div>
-  </div>
-  <div id="bottomRow">
-    <p class="pageLink aboutLink">about</p>
-    <p class="pageLink helpLink">help</p>
+    <div id="bottomRow">
+      <p class="pageLink aboutLink">about</p>
+      <p class="pageLink helpLink">help</p>
+      <p class="pageLink contactLink">feedback</p>
+    </div>
   </div>
 </div>
 <div id="aboutPage" class="page">
@@ -97,6 +121,37 @@
     </div>
     <h1 class="pageTitle">Help</h1>
     <div class="spaceHolder"></div>
+    <div class="pageContent">
+      <p>
+        Scastrap currently supports three primary features:
+          <li>A map of clustered issues</li>
+          <li>A heatmap</li>
+          <li>A ranking of</li>
+      </p>
+
+      <h3>Cluster Map</h3>
+      <p>
+        Clustering allows
+      </p>
+      <p>
+        The cluster map is shown by default after a request
+        type is selected from the combobox. Each circle
+        represents cluster, which is a collection of issues
+        that are in the same area. The number on each circle
+        and the size represent the number of issues in each cluster.
+      </p>
+      <p>
+        Clicking a cluster will display a map of all of the
+        issues in that cluster, When a cluster is clicked,
+
+        The clusters panel can be opened
+      </p>
+      <p>
+        The clusters for this application are obtained using
+        markov clustering as part of a data preprocessing pipeline.
+      </p>
+      <h3></h3>
+    </div>
   </div>
   <div class="pageContent">
   </div>

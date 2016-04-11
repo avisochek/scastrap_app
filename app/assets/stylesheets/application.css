@@ -22,6 +22,7 @@ html,body{
   position:absolute;
   /*overflow-x: hidden;*/
   background-color:#FFFFFF;
+  overflow:hidden;
 }
 
 #container{
@@ -36,6 +37,16 @@ html,body{
   text-align: center;
   flex-shrink: 0;
   color:#061539;
+  overflow: hidden;
+}
+#home{
+  height:100%;
+  width:100%;
+  /*margin:0;*/
+  margin-bottom: 0;
+  background-size: cover;
+  flex-grow: 1;
+  display:flex;
 }
 #main{
   height:100%;
@@ -66,7 +77,7 @@ html,body{
 }
 #switch.streets{background-image: url('/assets/world.png')}
 #switch.map{background-image: url('/assets/street_icon.png')}
-#hamburgerIcon,#mapToggleIcon,#homeIcon,#switchIcon,#searchIcon,.backIcon{
+#hamburgerIcon,#issuesToggleIcon,#helpIcon,#switchIcon,#searchIcon,.backIcon{
   height:100%;
   width:100%;
 }
@@ -112,6 +123,7 @@ html,body{
   }
   .custom-combobox-toggle {
     background: none !important;
+    background-color: white !important;
     border-style: solid !important;
     border-width: 2px !important;
     border-top-right-radius: 15px !important;
@@ -128,6 +140,7 @@ html,body{
   .custom-combobox-input {
     width:130px !important;
     background: none !important;
+    background-color: white !important;
     border-style: solid !important;
     border-width: 2px !important;
     border-top-left-radius: 15px !important;
@@ -146,8 +159,19 @@ html,body{
   height:24px;
   width:24px;
 }
-#mapToggle{background-image: url('/assets/heat_map_icon.png');}
-#mapToggle.heatmap{background-image:url('/assets/cluster_map_icon.png') }
+#mapToggle{
+  position:relative;
+  height:20px;
+  margin-top:auto;
+  margin-bottom:0px;
+}
+#mapToggle:hover{
+  background-color: #DDDDDD;
+  cursor:pointer;
+}
+.mapToggleText{
+  margin:0;
+}
 #content{
   /*border-radius: 20px;*/
   margin-bottom: 0;
@@ -169,48 +193,88 @@ html,body{
   height:30px;
 }
 
-#issuesExport>h1,#streetsExport>h1,#issuesTitle>h1,#streetsTitle>h1{
-  margin-top: 10px;
+#sidebar{
+  height:100%;
+  display:none;
 }
-
-/*background-color:#FFE3AA;*/
+#sidebar.open{
+  display: flex;
+  flex-direction: row;
+}
+.collapse{
+  height:100%;
+  width:20px;
+  flex:1;
+  background-color: grey;
+}
+.collapse:hover{
+  width:25px;
+  cursor: pointer;
+  background-color: black;
+}
 #streets,#issues{
   background-color: #7887AB;
   position:relative;
   display:none;
-  height:100%;
-  width:250px;
-  min-width: 250px;
+  margin:0;
+  height:100% !important;
+  width:250px !important;
   top:0;
   left:0;
-  overflow-y:scroll;
+  overflow-y:hidden;
   overflow-x:hidden;
   text-align: center;
   z-index:2;
   flex-direction: column;
 }
 #streets.open,#issues.open{
-  display:block;
+  display:flex;
+  flex-direction: column;
+  flex-shrink: 0;
 }
 #issuesTitle,#streetsTitle{
-  position: fixed;
+  position: relative;
   height:60px;
-  width:inherit;
-  top:0;
+  width:100%;
+  margin-top: 0;
+  background-color:#84C68C ;
+}
+#streetsFooter,#issuesFooter{
+  position: relative;
+  height:60px;
+  width:100%;
+  margin-top: 0;
   background-color:#84C68C ;
 }
 #streetsExport,#issuesExport{
-  border-radius: 10px;
   color:#FFFFFF;
-  position:fixed;
-  bottom:0;
-  height:60px;
-  width:inherit;
+  position:relative;
+  height:40px;
+  width:150px;
+  margin-left: auto;
+  margin-right: auto;
   background-color: #3C948B;
+  margin-bottom: 10px;
+  margin-top:10px;
 }
 #streetsExport:hover,#issuesExport:hover{
   font-size: 1.1em;
   cursor:pointer;
+  height:46px;
+  width:160px;
+  margin-top: 7px;
+  margin-bottom:7px;
+}
+#issuesTitle>h1,#streetsTitle>h1{
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+#issuesExport>h1,#streetsExport>h1{
+  margin:0;
+  padding-top:2px;
+  padding-bottom: 2px;
 }
 /*#streetsExport>h2,#issuesExport>h2{
   position:relative;
@@ -219,23 +283,31 @@ html,body{
   margin-left: 5px;
   margin-right:5px;
 }*/
-#streetsTable{
-  margin-top: 70px;
-  margin-bottom: 70px;
+.sidebarContent{
+  flex:1;
+  display:block;
+  overflow:auto;
 }
 
-.streetRow{
-  margin-top:20px;
-  margin-bottom:20px;
+a,a:link,a:visited,a:hover,a:active{
+  color:inherit;
+  text-decoration: none;
+}
+
+.streetRow,.issueRow{
+  margin-top:10px;
   margin-left: 10px;
   margin-right: 10px;
-  min-height: 60px;
+  margin-bottom: 10px;
   background-color:#FFE3AA;
+}
+.streetRow{
+  min-height: 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.streetRow:hover{
+.streetRow:hover,.issueRow:hover{
   background-color: #D4B16A;
   cursor: pointer;
 }
@@ -258,32 +330,26 @@ html,body{
   margin-right:5px;
 }
 
-#issuesPlaceHolder{
-  margin-top: 70px;
+#issuesPlaceHolder,#streetsPlaceholder{
+  /*margin-top: 70px;*/
+  flex:1;
   width: 150px;
   margin-left: auto;
   margin-right: auto;
 }
 
-#issuesList{
-  display:flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  margin-left: auto;
-  margin-right: auto;
-  height:0;
-  margin-top: 60px;
+.issueContent{
+  height:100%;
+  width:100%;
+  margin:0;
 }
-.issue{order:2;}
-.issue.selected{
-  order: 1;
+.issueRow.selected{
   background-color: red !important;
 }
 
 .page{
   background-color:white;
   display:none;
-  position:absolute;
   overflow-y: scroll;
   height:100%;
   width:100%;
@@ -306,6 +372,7 @@ html,body{
   display:flex;
   flex-direction: row;
   justify-content: space-between;
+  background-color: #AAAAAA;
 }
 .pageTitle,.back{
   margin-top: auto;

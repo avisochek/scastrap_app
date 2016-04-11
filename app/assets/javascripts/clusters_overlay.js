@@ -55,9 +55,7 @@ clustersOverlay.prototype.createClusterIcon = function (cluster) {
 
   google.maps.event.addDomListener(clusterIcon, 'click', function() {
     if(!drag){
-      cm.issues(cluster["issues"]);
-      cm.chosenCluster(cluster);
-      plotIssues(cluster["issues"],cluster["bounds"]);
+      cm.goToCluster(cluster);
     }
     drag=false;
   });

@@ -15,7 +15,7 @@ function issuesOverlay(map) {
 issuesOverlay.prototype.createIssueIcon = function (issue) {
 
   var issueIcon = document.createElement('canvas');
-  issueIcon.id = 'issueicon_' + issue["id_"];
+  issueIcon.id = 'issueIcon_' + issue["id_"];
   this._radius = 8;
   issueIcon.width = issueIcon.height =  this._radius * 2;
   issueIcon.style.width = issueIcon.width + 'px';
@@ -40,9 +40,15 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
 
   google.maps.event.addDomListener(issueIcon, 'click', function() {
     if(!drag){
+      $("#streets").removeClass("open");
+      $("#sidebar").addClass("open");
       $("#issues").addClass("open");
-      $("#"+issue["id_"]).addClass("selected");
-    }
+      $(".issueRow").removeClass("selected");
+      $issue = $("#"+issue["id_"]);
+      $issue.addClass("selected");
+      $issue.after($(".issueRow"));
+      $(".sidebarContent").scrollTop(0);
+    };
     drag=false;
   });
 
@@ -51,7 +57,7 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
 
 
 issuesOverlay.prototype.ensureIssueIcon = function (issue){
-  var issueIcon = document.getElementById("issueicon_" + issue["id_"]);
+  var issueIcon = document.getElementById("issueIcon_" + issue["id_"]);
   if(issueIcon){
     issueIcon.style.left = (issue["xy"].x - 8) + 'px';
     issueIcon.style.top = (issue["xy"].y - 8) + 'px';

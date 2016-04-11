@@ -16,11 +16,12 @@ function exportStreets(streets,title){
       street["rank"],
       street["name"],
       street["count"],
+      street["length"],
       street["probability"],
       street["issues_per_mile"]
     ];
   });
-  data.unshift(["rank","name","number_of_issues","probability","issues_per_mile"]);
+  data.unshift(["rank","name","number_of_issues","length","probability","issues_per_mile"]);
   exportData(data,title);
 };
 
