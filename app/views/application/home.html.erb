@@ -1,14 +1,12 @@
 <div id="home">
   <div id="sidebar">
-    <div class="collapse"></div>
     <div id="streets">
       <div id="streetsTitle"><h1>Street Ranking</h1></div>
-      <!-- <div id="streetsPlaceHolder">
-        <h1>Streets</h1>
+      <div id="streetsPlaceHolder">
         <p>A street ranking will show here
-          when you select a city and a request
+          when you select a city or a request
           type from the input</p>
-      </div> -->
+      </div>
       <div id="streetsContent" class="sidebarContent" data-bind="foreach:streets">
         <div class="streetRow" data-bind="click:$root.goToStreetPage">
           <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
@@ -41,8 +39,8 @@
               href:'https://seeclickfix.com/issues/'+String(id_)}">
             <div class="issueContent">
               <div class="issueDate">
-                <!-- <h2 class="issueMonth" data-bind="text:month"></h2> -->
-                <!-- <h2 class="issueYear" data-bind="text:year"></h2> -->
+                <h2 class="issueMonth" data-bind="text:month"></h2>
+                <h2 class="issueYear" data-bind="text:year"></h2>
               </div>
               <h3 class="issueSummary" data-bind="text:summary"></h3>
               <p class="issueDescription" data-bind="text:description"></p>
@@ -56,6 +54,7 @@
         </div>
       </div>
     </div>
+    <div class="collapse"></div>
   </div>
   <div id="main">
     <div id="topRow">
@@ -66,15 +65,26 @@
       </div>
     </div>
     <div id="midRow">
-      <div id="issuesToggle" class="icon"><img id="issuesToggleIcon" src="/assets/issues_icon.png"/></div>
-      <div class="ui-widget">
-        <select id="combobox" type="text" data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'">
-          <!-- <option data-bind="text:full_name"></option> -->
-        </select>
+      <div class="rightSide">
+        <div id="issuesToggle" class="icon"><img id="issuesToggleIcon" src="/assets/issues_icon.png"/></div>
       </div>
-      <div id="mapToggle" >
-        <h3 class="mapToggleText" data-bind="if:mapMode()=='clusterMap'">Heat Map</h3>
-        <h3 class="mapToggleText" data-bind="if:mapMode()=='heatMap'">Cluster Map</h3>
+      <div class="middle">
+        <div class="ui-widget">
+          <select id="combobox" type="text" data-bind="foreach:requestTypes">
+          <!-- data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'"> -->
+            <option data-bind="text:full_name,value:id_"></option>
+          </select>
+        </div>
+      </div>
+      <div class="leftSide">
+        <div id="mapTogglePlaceholder1"></div>
+        <div id="mapToggleContainer">
+          <div id="mapTogglePlaceholder2"></div>
+          <div id="mapToggle" >
+            <h3 class="mapToggleText" data-bind="if:mapMode()=='clusterMap'">Heat Map</h3>
+            <h3 class="mapToggleText" data-bind="if:mapMode()=='heatMap'">Cluster Map</h3>
+          </div>
+        </div>
       </div>
     </div>
     <div id="content" data-bind="css:location">
@@ -84,7 +94,7 @@
     <div id="bottomRow">
       <p class="pageLink aboutLink">about</p>
       <p class="pageLink helpLink">help</p>
-      <p class="pageLink contactLink">feedback</p>
+      <p class="pageLink feedbackLink">feedback</p>
     </div>
   </div>
 </div>
@@ -107,10 +117,12 @@
       a heatMap, a set of clusters, and a street ranking for all
       open and acknowledged issues as of the last update.
     </p>
+    <hr/>
     <p>Contibutors:</p>
     <p>Allan Visochek, Lead Developer</p>
-    <p>Tanzim Hassan, Data Analyst</p>
-    <p>Ziqiang Guan, Developer</p>
+    <p>Tanzim Hassan, Machine Learning Engineer</p>
+    <p><a href="http://www.ziqiangguan.com"
+      target="blank">Ziqiang Guan, Problem Solver</a></p>
     <p>Carys Snyder, Designer</p>
   </div>
 </div>
@@ -121,39 +133,135 @@
     </div>
     <h1 class="pageTitle">Help</h1>
     <div class="spaceHolder"></div>
-    <div class="pageContent">
-      <p>
-        Scastrap currently supports three primary features:
-          <li>A map of clustered issues</li>
-          <li>A heatmap</li>
-          <li>A ranking of</li>
-      </p>
+  </div>
 
-      <h3>Cluster Map</h3>
-      <p>
-        Clustering allows
-      </p>
-      <p>
-        The cluster map is shown by default after a request
-        type is selected from the combobox. Each circle
-        represents cluster, which is a collection of issues
-        that are in the same area. The number on each circle
-        and the size represent the number of issues in each cluster.
-      </p>
-      <p>
-        Clicking a cluster will display a map of all of the
-        issues in that cluster, When a cluster is clicked,
+  <div class="pageContent">
+    <p>
+      Scastrap currently supports three primary features:
+    </p>
+    <ul>
+      <li>A map of clustered issues</li>
+      <li>A heatmap of issues</li>
+      <li>A street ranking</li>
+    </ul>
+    <hr />
+    <h3>Cluster Map</h3>
+    <img class="helpImg" src=""></img>
+    <p>
+      The cluster map presents groups of issue reports that are close
+      together, allowing the user to identify isolated and high valume
+      pockets of issues that might not otherwise be obvious.
+    </p>
+    <p>
+      It also allows for a more quantitative approach to
+      visualizing the density of issues by region,
+      since the clusters are approximately the same distance
+      apart, and display the number of issues involved.
+    </p>
+    <p>
+      The cluster map is shown by default after a request
+      type is selected from the combobox. Each circle
+      represents cluster, which is a collection of issues
+      that are in the same area. The number on each circle
+      and the size represent the number of issues in each cluster.
+    </p>
+    <img class="helpImg" src=""></img>
+    <p>
+      Clicking a cluster will display a map of all of the
+      issues associated with that cluster. Issues are represented
+      with smaller black icons. Clicking a cluster will also fill
+      the issues side panel with tiles including the date as well
+      as the summary and description (if available) of each issue.
+    </p>
+    <img class="helpImg" src=""></img>
+    <img class="helpImg" src=""></img>
+    <p>
+      The issues panel can be accessed by click the exclamation
+      mark icon in the top left. Clicking on an issue icon will
+      also open the issues side panel, and will bring the selected
+      issue to the top of the page. Each tile on the side panel
+      links to the a page on the seeclickfix website where more
+      details can be found about the selected issue.
+    </p>
+    <p>
+      The clusters for this application are obtained using
+      markov clustering as part of a data preprocessing pipeline.
+      The clusters are roughly 1000ft. in diameter.
+    </p>
+    <h3>Heatmap</h3>
+    <img class="helpImg" src=""></img>
+    <p>
+      The heatmap plots the all of the issues for a given request type
+      with the level of color intensity representing the density of
+      issues in a given area. In this case, red represents the highest level
+      of density while light blue represents the lowest. The color gradient
+      is scaled to the distribution of cluster sizes to eliminate the effect
+      of outliers, so the scale of colors on the heatmap represents the
+      relative density of issues for the selected request type.
+    </p>
+    <img class="helpImg" src=""></img>
+    <p>
+      To access the heatmap, select a requestType, and select the
+      "Heat Map" button in the upper right hand corner.
+    </p>
+    <h3>Street Ranking</h3>
+    <img class="helpImg" src=""></img>
+    <p>
+      The street ranking offers yet another way of. Once a request type is
+      selected, the street ranking will show up in the streets panel, which
+      can be accessed using the upper left hand road icon.
+      Streets are ranked by the number of issues and length of the street,
+      given the probability of that many issues occuring by chance on a street
+      of that length. The street ranking can be saved along with additional details
+      by clicking the export button at the bottom of the streets panel.
+    </p>
+    <h3>Exporting</h3>
+    <p>
+      You can export data from the app to keep track of it for
+      future reference and to gain some additional details. Data
+      Is exported in CSV format. Note that exporting is currently not
+      supported for mobile platforms.
+    </p>
+    <p>
+      To export details for a given street ranking,first select
+      the desired request type, then open the streets panel by
+      clicking the road icon in the upper right hand corner.
+      Finally click the export botton at the bottom of the
+      streets panel.
+    </p>
+    <p>
+      To export details for a given cluster,first select the desired
+      request type and then click on a cluster of interest. Open
+      the issues panel by clicking the top left
+      exclamation point icon. At the bottom of the issues
+    </p>
+    <hr/>
+    <h3>Bugs/Issues</h3>
+    <p><strong>** Note that there may be compatibility issues for older browsers **</strong></p>
+    <p>
+      If somethings not quite right, be sure to report it in the feedback
+      section so that we can fix it in the next version.
+    </p>
+    <h3>Leave Feedback!</h3>
+    <p class="pageLink feedbackLink">Comments? Questions? Ideas? Let us know!</p>
+  </div>
 
-        The clusters panel can be opened
-      </p>
-      <p>
-        The clusters for this application are obtained using
-        markov clustering as part of a data preprocessing pipeline.
-      </p>
-      <h3></h3>
+</div>
+<div id="feedbackPage" class="page">
+  <div class="pageTopRow">
+    <div class="back icon">
+      <img class="backIcon" src="/assets/back_icon.png"></img>
     </div>
+    <h1 class="pageTitle">Feedback</h1>
+    <div class="spaceHolder icon"></div>
   </div>
   <div class="pageContent">
+    <form>
+      <input class="feedbackInput" text="" type="text" name="name" placeholder="Name"></input><br/>
+      <input class="feedbackInput" text="" type="text" name="email" placeholder="Email"/><br/>
+      <input id="messageBox" class="feedbackInput" text="" type="text" name="Message" placeholder="Message"/><br/>
+      <input class="feedbackInput" text="" type="submit" value="submit"/>
+    </form>
   </div>
 </div>
 <div id="streetPage" class="page">

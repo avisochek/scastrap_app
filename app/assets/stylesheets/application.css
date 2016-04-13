@@ -45,7 +45,7 @@ html,body{
   /*margin:0;*/
   margin-bottom: 0;
   background-size: cover;
-  flex-grow: 1;
+  flex: inherit;
   display:flex;
 }
 #main{
@@ -53,19 +53,37 @@ html,body{
   display:flex;
   flex-direction: column;
   flex-shrink: 0;
-  flex-grow:1;
+  flex:1;
 }
 #topRow,#midRow,#content{
   margin-top: 10px;
   margin-left :10px;
   margin-right:10px;
 }
-#topRow,#midRow{
+#topRow{
   height:40px;
   display:flex;
   flex-direction: row;
   justify-content: space-between;
 }
+#midRow{
+  height:40px;
+  display:flex;
+  flex-direction: row;
+}
+.rightSide,.leftSide{flex:1;
+display:flex;
+flex-direction: row;
+flex-shrink:0;
+}
+.rightSide{text-align: right;}
+#mapTogglePlaceholder1{flex-grow:1;}
+#mapToggleContainer{display:flex;flex-direction: column}
+#mapTogglePlaceholder2{
+  width:100%;
+  flex-grow: 1;
+}
+.middle{flex:3}
 .icon{
   height:40px;
   width:40px;
@@ -101,25 +119,29 @@ html,body{
   background-size: 24px,24px;
   background-position: right;*/
   z-index: 1;
-  min-width: 10px !important;
 }
 .ui-autocomplete{
   max-height: 300px;
   overflow-y: scroll;
   border-radius: 10px;
   /*overflow-x: hidden;*/
-  min-width: 10px !important;
+  /*min-width: 10px !important;*/
 }
 .custom-combobox {
-    height: 30px;
+    height: 30px !important;
     margin-top: 5px;
     margin-bottom: 5px;
+    margin-left: auto!important;
+    margin-right:auto!important;
     border-color:orange !important;
     border-width:4px !important;
     /*position: relative;*/
-    display: inline-block;
+    display: flex;
+    flex-direction: row;
+
     /*position: {my: "middle top", at: "middle bottom",collision:"none"}*/
-    min-width: 10px !important;
+    min-width: 188px !important;
+    width:100% !important;
   }
   .custom-combobox-toggle {
     background: none !important;
@@ -128,49 +150,67 @@ html,body{
     border-width: 2px !important;
     border-top-right-radius: 15px !important;
     border-bottom-right-radius: 15px !important;
-    margin-left: -1px;
+    margin-left: -2px;
     position: absolute;
     top: 0;
     bottom: 0;
     padding: 0;
     height: 100%;
     width: 30px !important;
-    min-width: 10px !important;
+    /*min-width: 10px !important;*/
   }
   .custom-combobox-input {
-    width:130px !important;
     background: none !important;
     background-color: white !important;
     border-style: solid !important;
     border-width: 2px !important;
     border-top-left-radius: 15px !important;
     border-bottom-left-radius: 15px !important;
-    height:100%
+    height:30px!important;
     margin: 0;
-    padding: 5px 10px;
-    min-width: 10px !important;
+    padding: 0;
+    width:50%!important;
+    min-width: 0 !important;
+    flex:1 !important;
+    /*width:80% !important;*/
+    /*min-width: 10px !important;*/
   }
   .custom-combobox-input:focus{
     border-top-left-radius: 15px !important;
     border-bottom-left-radius: 15px !important;
     min-width: 10px !important;
   }
+  div>.ui-widget{
+    width: 100% !important;
+    max-width: 600px;
+  }
 #search{
   height:24px;
   width:24px;
 }
 #mapToggle{
-  position:relative;
-  height:20px;
-  margin-top:auto;
-  margin-bottom:0px;
+  clear:both;
+  display:block;
+  overflow:hidden;
+  /*position:relative;
+  float:right;*/
+  /*margin-top: auto;*/
+  /*bottom:0;*/
+  /*margin-bottom:auto;*/
+  /*position:relative;*/
+  /*height:20px;*/
+  /*margin-top:auto;*/
+  /*margin-bottom:0px;*/
+  /*min-width: 120px;*/
 }
 #mapToggle:hover{
   background-color: #DDDDDD;
   cursor:pointer;
+  /*min-width: 81px;*/
 }
 .mapToggleText{
-  margin:0;
+  margin-top: auto;
+  margin-bottom:0px;
 }
 #content{
   /*border-radius: 20px;*/
@@ -337,7 +377,30 @@ a,a:link,a:visited,a:hover,a:active{
   margin-left: auto;
   margin-right: auto;
 }
-
+#feedbackPage{
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+#feedbackPage>.pageContent{
+  text-align: center;
+  flex-grow:1;
+}
+.feedbackInput{
+  width: 100px;
+  height:25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+  border-radius: 10px;
+}
+#messageBox{
+  width:75%;
+  height: 30vh;
+}
 .issueContent{
   height:100%;
   width:100%;
@@ -353,7 +416,11 @@ a,a:link,a:visited,a:hover,a:active{
   overflow-y: scroll;
   height:100%;
   width:100%;
-  margin:0;
+  max-width: 600px;
+  margin-top:0;
+  margin-bottom:0;
+  margin-left: auto;
+  margin-right: auto;
   padding:0;
   top:0;
   bottom:0;
@@ -380,10 +447,14 @@ a,a:link,a:visited,a:hover,a:active{
 }
 .pageContent{
   /*overflow-y:scroll;*/
-  flex-grow: 1;
-  height:100%
+  flex: 1;
+  height:100%;
+  text-align: left;
+
 }
 #bottomRow{
+  padding-top: 5px;
+  padding-bottom:5px;
   display:flex;
   flex-direction: row;
   text-align:center;
@@ -399,6 +470,10 @@ a,a:link,a:visited,a:hover,a:active{
 .pageLink:hover{
   background-color: #DDDDDD;
   cursor: pointer;
+}
+.divider{
+  height:10px;
+  border: solid black 5px;
 }
 /* Let's get this party started */
 ::-webkit-scrollbar {
@@ -428,6 +503,8 @@ a,a:link,a:visited,a:hover,a:active{
 
 @media screen and (min-width: 500px){
   #issues,#streets{width:300px;}
+
+  /*#custom-combobox-input{width:150px !important;}*/
 }
 
 @media screen and (min-width: 800px){

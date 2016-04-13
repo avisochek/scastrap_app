@@ -30,6 +30,10 @@ $(document).ready(function(){
     $("#home").hide();
     $("#helpPage").show();
   });
+  $(".feedbackLink").click(function(e){
+    $("#home").hide();
+    $("#feedbackPage").show();
+  });
   $(".back").click(function(e){
     $(".page").hide();
     $("#home").show();
@@ -50,6 +54,7 @@ $(document).ready(function(){
     // order of observable declaration reflects
     // the flow of selection in the UI
     self.requestTypes = ko.observable();
+    self.chosenRequestTypeName = ko.observable();
     self.chosenRequestTypeId = ko.observable();
     self.clusters = ko.observable();
     self.streets = ko.observable();
@@ -72,7 +77,7 @@ $(document).ready(function(){
     };
 
     self.getData = function(requestTypeId){
-      // self.chosenRequestType(requestTypeId);
+      self.chosenRequestTypeId(requestTypeId);
       // self.location("app");
       initMap();
       clearMap();
@@ -97,15 +102,16 @@ $(document).ready(function(){
     };
 
     self.goToCluster=function(cluster){
+      self.chosenCluster(cluster);
       $.get("/issues/get_cluster/"+cluster["id_"],
         function(data){
-          self.issues(data["issues"]);//.map(
-          //   function(issue){
-          //     var date = new Date(issue["created_at"]);
-          //     issue["month"]=monthNames[date.getMonth()];
-          //     issue["year"]=date.getFullYear();
-          //     return issue;
-          // }));
+          self.issues(data["issues"].map(
+            function(issue){
+              var date = new Date(issue["created_at"]);
+              issue["month"]=monthNames[date.getMonth()];
+              issue["year"]=date.getFullYear();
+              return issue;
+          }));
           plotIssuesMap(data["issues"]);
       });
     }
@@ -132,6 +138,10 @@ $(document).ready(function(){
       if (issueMap){issueMap.setMap(issueMap.getMap() ? null : map)};
     });
 
+    self.asdfg=function(requestType){
+      console.log("asdfg");
+      console.log(requestType);};
+
     //highlite issue on map when hovering over issue row...
     self.highliteIssue=function(issue){
       console.log("asdf")
@@ -143,22 +153,22 @@ $(document).ready(function(){
 
     $("#issuesExport").click(function(e){
       title="Scastrap_issues_"
-      //title+self.chosenRequestType()["name"];
-      title+="_"+self.batch()["created_at"];
-      title+="_cluster_id#"+self.chosenCluster()["id"]+".csv";
+      title+self.chosenRequestTypeName();
+      title+="_"+self.batch()["created_at"]+".csv";
+      title+="_cluster_id#"+self.chosenCluster()["id_"]+".csv";
       exportIssues(self.issues(),title);
     });
 
     $("#streetsExport").click(function(e){
       title="Scastrap_street_ranking_";
-      //title+=self.chosenRequestType()["name"];
+      title+=self.chosenRequestTypeName();
       title+="_"+self.batch()["created_at"]+".csv";
       exportStreets(self.streets(),title);
     });
 
     $("#combobox").change(function(e){
-      // console.log("asdf");
-      self.getData($("#combobox").val())
+      self.chosenRequestTypeName($("option:selected").text());
+      self.getData($("#combobox").val());
     });
 
     self.getRequestTypeMenu();
