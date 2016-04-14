@@ -18,7 +18,8 @@
   <!-- load google maps api with library visualization-->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEs6NPvRS1jrPZTWGZUkdkFmIbdCPrBEo&libraries=visualization"></script>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-
+  <!-- load google recaptcha API -->
+  <script src='https://www.google.com/recaptcha/api.js'></script>
   <!-- use markerwithlabel.js to create marker labels with multiple characters -->
   <!-- <script src='/assets/markerwithlabel.js'></script> -->
 
@@ -34,6 +35,8 @@
   <script src="/assets/ui.js"></script>
   <!-- include export functions -->
   <script src="/assets/export.js"></script>
+  <!-- include feedback functionality -->
+  <script src="/assets/feedback.js"></script>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>

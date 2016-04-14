@@ -2,3 +2,4 @@ log/
 db/*.sqlite*
 tmp/
 .DS_Store
+config/environment_variables.yaml
