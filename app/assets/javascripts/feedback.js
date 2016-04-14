@@ -7,9 +7,9 @@ $("#feedbackForm").submit(function(e) {
            type: "POST",
            url: url,
            data: $("#feedbackForm").serialize(), // serializes the form's elements.
-           success: function(data)
+           success: function(response)
            {
-               alert(data); // show response from the php script.
+               $("#feedbackResponseMessage").text(response["message"]); // show response from the php script.
            }
          });
 

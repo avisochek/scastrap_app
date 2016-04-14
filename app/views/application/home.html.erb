@@ -257,9 +257,11 @@
   </div>
   <div class="pageContent">
     <form id="feedbackForm">
+      <p id="feedbackResponseMessage"></p>
       <input class="feedbackInput" text="" type="text" name="name" placeholder="Name"></input><br/>
       <input class="feedbackInput" text="" type="text" name="email" placeholder="Email"/><br/>
-      <input id="messageBox" text="" type="text" name="Message" placeholder="Comments/Questions/Suggestions"/><br/>
+      <input type="checkbox" name="contact">It is ok to contact me about this feedback</input>
+      <input id="messageBox" text="" type="text" name="message" placeholder="Comments/Questions/Suggestions"/><br/>
       <input id="feedbackSubmit" text="" type="submit" value="submit"/>
       <div class="g-recaptcha" data-sitekey="6LfAPR0TAAAAAGofq5IxxpMzPHmqqJBWLhWGU82I"></div>
     </form>
