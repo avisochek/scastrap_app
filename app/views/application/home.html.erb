@@ -61,14 +61,20 @@
   </div>
   <div id="main">
     <div id="topRow">
-      <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
-      <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
-      <div id="help" class="helpLink icon">
-        <img id="helpIcon" src="/assets/help_icon.png"/>
+      <div class="leftSide">
+        <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
+      </div>
+      <div class="middle">
+        <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
+      </div>
+      <div class="rightSide">
+        <div id="help" class="helpLink icon">
+          <img id="helpIcon" src="/assets/help_icon.png"/>
+        </div>
       </div>
     </div>
     <div id="midRow">
-      <div class="rightSide">
+      <div class="leftSide">
         <div id="issuesToggle" class="icon"><img id="issuesToggleIcon" src="/assets/issues_icon.png"/></div>
       </div>
       <div class="middle">
@@ -79,7 +85,7 @@
           </select>
         </div>
       </div>
-      <div class="leftSide">
+      <div class="rightSide">
         <div id="mapToggle" class="icon" >
           <h3 class="mapToggleText" data-bind="if:mapMode()=='clusterMap'">Heat Map</h3>
           <h3 class="mapToggleText" data-bind="if:mapMode()=='heatMap'">Cluster Map</h3>
@@ -259,7 +265,7 @@
       <p id="feedbackResponseMessage"></p>
       <input class="feedbackInput" text="" type="text" name="name" placeholder="Name"></input><br/>
       <input class="feedbackInput" text="" type="text" name="email" placeholder="Email"/><br/>
-      <input type="checkbox" name="contact">It is ok to contact me about this feedback</input>
+      <input type="checkbox" name="contact">It is ok to contact me.</input>
       <input id="messageBox" text="" type="text" name="message" placeholder="Comments/Questions/Suggestions"/><br/>
       <input id="feedbackSubmit" text="" type="submit" value="submit"/>
       <div class="g-recaptcha" data-sitekey="6LfAPR0TAAAAAGofq5IxxpMzPHmqqJBWLhWGU82I"></div>
@@ -268,25 +274,20 @@
 </div>
 <div id="streetPage" class="page">
   <div class="pageTopRow">
-    <div class="back icon">
-      <img class="backIcon" src="/assets/back_icon.png"></img>
+    <div class="leftSide">
+      <div class="back icon">
+        <img class="backIcon" src="/assets/back_icon.png"></img>
+      </div>
     </div>
-    <h1 class="pageTitle" data-bind="text:chosenStreetName"></h1>
-    <div class="spaceHolder"></div>
+    <div class="middle">
+      <h1 class="pageTitle" data-bind="text:chosenStreetName"></h1>
+    </div>
+    <div class="rightSide"></div>
   </div>
   <div class="pageContent">
     <div data-bind="foreach:chosenStreetStats">
       <p data-bind="text:name"></p>
       <p data-bind="text:count"></p>
     <div>
-  </div>
-</div>
-<div id="issuePage" class="page">
-  <div class="pageTopRow">
-    <div class="back icon">
-      <img class="backIcon" src="/assets/back_icon.png"></img>
-    </div>
-    <h1 class="pageTitle">Issue!</h1>
-    <div class="spaceHolder"></div>
   </div>
 </div>

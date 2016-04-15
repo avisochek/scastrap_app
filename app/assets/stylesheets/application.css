@@ -73,6 +73,10 @@ html,body{
   flex-direction: row;
   justify-content: space-between;
 }
+#help{
+  margin-right: 0;
+  margin-left: auto;
+}
 #midRow{
   height:40px;
   display:flex;
@@ -394,13 +398,11 @@ a,a:link,a:visited,a:hover,a:active{
 
 #feedbackPage{
   text-align: center;
-  display:flex;
+  display:none;
   flex-direction: column;
-  flex-shrink: 0;
 }
 #feedbackPage>.pageContent{
   text-align: center;
-  flex-grow:1;
 }
 .feedbackInput{
   width: 100px;
