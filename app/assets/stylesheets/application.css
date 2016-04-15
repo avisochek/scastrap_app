@@ -24,7 +24,14 @@ html,body{
   background-color:#FFFFFF;
   overflow:hidden;
 }
-
+#loading{
+  background-color: yellow;
+  color:black;
+  position:absolute;
+  bottom:0;
+  right:0;
+  z-index:1000;
+}
 #container{
   background-color: #D2D6D5;
   max-width: 900px;

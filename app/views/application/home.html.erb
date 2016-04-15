@@ -1,8 +1,11 @@
 <div id="home">
+  <div id="loading" data-bind="if:loading">
+    <h2>Loading...</h2>
+  </div>
   <div id="sidebar">
     <div id="streets">
       <div id="streetsTitle"><h1>Street Ranking</h1></div>
-      <div id="streetsPlaceHolder">
+      <div id="streetsPlaceHolder" data-bind="if:streets">
         <p>A street ranking will show here
           when you select a city or a request
           type from the input</p>

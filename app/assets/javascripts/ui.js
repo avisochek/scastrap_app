@@ -1,3 +1,5 @@
+//todo: include error message if the thing fails....
+
 var monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
 ];
@@ -57,51 +59,55 @@ $(document).ready(function(){
     self.chosenRequestTypeName = ko.observable();
     self.chosenRequestTypeId = ko.observable();
     self.clusters = ko.observable();
-    self.streets = ko.observable();
+    self.streets = ko.observable(false);
     self.chosenStreetName = ko.observable();
     self.chosenStreetStats = ko.observable();
     self.mapMode = ko.observable("clusterMap");
     self.issues=ko.observable(false);
     self.chosenCluster=ko.observable();
     self.batch=ko.observable();
+    self.loading=ko.observable(false);
 
 
     //Behaviors
-    // order of behaviors reflects
-    // the flow of selection in the UI
     self.getRequestTypeMenu =function(){
+      self.loading(true);
       $.get('/request_type_menu',
         function(data){
           self.requestTypes(data["requestTypes"]);
+          self.loading(false);
       });
     };
 
     self.getData = function(requestTypeId){
+      self.loading(true);
       self.chosenRequestTypeId(requestTypeId);
-      // self.location("app");
       initMap();
       clearMap();
       self.issues(false);
       self.mapMode("clusterMap");
-      $.get('/clusters/get_clusters/'+requestTypeId,
-        function(data){
-          self.clusters(data["clusters"]);
-          self.batch(data["batch"]);
-          // we're using the cluster counts here to determine
-          // the max_intensity of the heat map...
-          cluster_counts=plotClusterMap(data["clusters"]);
-          $.get('/issues/get_issues/'+requestTypeId,
-            function(data){
-              plotHeatMap(data["issues"],cluster_counts);
-          });
-      });
       $.get("/streets/ranking/"+requestTypeId,
         function(data){
           self.streets(data["streets"]);
+
+          $.get('/clusters/get_clusters/'+requestTypeId,
+            function(data){
+              self.clusters(data["clusters"]);
+              self.batch(data["batch"]);
+              // we're using the cluster counts here to determine
+              // the max_intensity of the heat map...
+              cluster_counts=plotClusterMap(data["clusters"]);
+              $.get('/issues/get_issues/'+requestTypeId,
+                function(data){
+                  plotHeatMap(data["issues"],cluster_counts);
+                  self.loading(false);
+              });
+          });
       });
     };
 
     self.goToCluster=function(cluster){
+      self.loading(true);
       self.chosenCluster(cluster);
       $.get("/issues/get_cluster/"+cluster["id_"],
         function(data){
@@ -113,18 +119,18 @@ $(document).ready(function(){
               return issue;
           }));
           plotIssuesMap(data["issues"]);
+          self.loading(false);
       });
     }
 
     self.goToStreetPage = function(street){
-      console.log(street);
+      self.loading(true);
       self.chosenStreetName(street["name"]);
-      console.log(street["id_"]);
       $.get("/streets/stats/"+street["id_"],function(data){
-        console.log(data)
         self.chosenStreetStats(data["stats"]);
         $("#home").hide();
         $("#streetPage").show();
+        self.loading(false);
       });
     };
 
