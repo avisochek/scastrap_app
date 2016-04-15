@@ -142,4 +142,6 @@ $( "#toggle" ).click(function() {
 $('.custom-combobox').click(function(){
   $(".custom-combobox-input").select();
 });
+// add initial highlited class
+$('.custom-combobox').addClass("highlited");
 });

@@ -84,12 +84,6 @@ flex-direction: row;
 flex-shrink:0;
 }
 .rightSide{text-align: right;}
-#mapTogglePlaceholder1{flex-grow:1;}
-#mapToggleContainer{display:flex;flex-direction: column}
-#mapTogglePlaceholder2{
-  width:100%;
-  flex-grow: 1;
-}
 .middle{flex:3}
 .icon{
   height:40px;
@@ -135,9 +129,9 @@ flex-shrink:0;
   /*min-width: 10px !important;*/
 }
 .custom-combobox {
-    height: 30px !important;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    /*height: 100% !important;*/
+    /*margin-top: 5px;
+    margin-bottom: 5px;*/
     margin-left: auto!important;
     margin-right:auto!important;
     /*border-color:orange !important;*/
@@ -150,7 +144,13 @@ flex-shrink:0;
     min-width: 188px !important;
     width:100% !important;
   }
+  .highlited {
+    margin-left: -5px !important;
+    margin-top: -5px !important;
+    border:5px solid orange !important;
+  }
   .custom-combobox-toggle {
+    z-index:99;
     background: none !important;
     background-color: white !important;
     border-style: solid !important;
@@ -162,9 +162,12 @@ flex-shrink:0;
     top: 0;
     bottom: 0;
     padding: 0;
-    height: 100%;
+    height: 40px !important;
     width: 30px !important;
     /*min-width: 10px !important;*/
+  }
+  .custom-combobox-toggle:hover{
+    z-index:101;
   }
   .custom-combobox-input {
     background: none !important;
@@ -173,9 +176,10 @@ flex-shrink:0;
     border-width: 2px !important;
     /*border-top-left-radius: 15px !important;*/
     /*border-bottom-left-radius: 15px !important;*/
-    height:30px!important;
+    height:40px !important;
     margin: 0;
     padding: 0;
+    padding-left: 5px;
     width:50%!important;
     min-width: 0 !important;
     flex:1 !important;
@@ -183,6 +187,7 @@ flex-shrink:0;
     /*min-width: 10px !important;*/
   }
   .custom-combobox-input:focus{
+    z-index:100;
     /*border-top-left-radius: 15px !important;*/
     /*border-bottom-left-radius: 15px !important;*/
     min-width: 10px !important;
@@ -190,16 +195,22 @@ flex-shrink:0;
   div>.ui-widget{
     width: 100% !important;
     max-width: 600px;
+    /*border:5px solid orange !important;*/
   }
 #search{
   height:24px;
   width:24px;
 }
 #mapToggle{
+  height:40px;
+  width:50px;
   clear:both;
   display:block;
-  overflow:hidden;
-  text-align: right;
+  /*overflow:hidden;*/
+  text-align: center;
+  direction:rtl;
+  margin-right: 0;
+  margin-left: auto;
   /*position:relative;
   float:right;*/
   /*margin-top: auto;*/
@@ -219,6 +230,8 @@ flex-shrink:0;
 .mapToggleText{
   margin-top: auto;
   margin-bottom:0px;
+  margin-left: auto;
+  margin-right: auto;
   /*float:left;*/
 }
 #content{
@@ -379,13 +392,6 @@ a,a:link,a:visited,a:hover,a:active{
   margin-right:5px;
 }
 
-#issuesPlaceHolder,#streetsPlaceholder{
-  /*margin-top: 70px;*/
-  flex:1;
-  width: 150px;
-  margin-left: auto;
-  margin-right: auto;
-}
 #feedbackPage{
   text-align: center;
   display:flex;

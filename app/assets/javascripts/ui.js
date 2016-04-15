@@ -5,6 +5,15 @@ var monthNames = ["January", "February", "March", "April", "May", "June",
 ];
 
 $(document).ready(function(){
+  //guides
+  $(document).click(function(e){
+    $("#streetsToggle").removeClass("highlited");
+    $("#issuesToggle").removeClass("highlited");
+  });
+  $(".custom-combobox").click(function(e){
+    $(".custom-combobox").removeClass("highlited")
+  });
+  //ui
   $("#streetsToggle").click(function(e){
     $("#sidebar").addClass("open");
     $("#streets").addClass("open");
@@ -101,6 +110,7 @@ $(document).ready(function(){
                 function(data){
                   plotHeatMap(data["issues"],cluster_counts);
                   self.loading(false);
+                  $("#streetsToggle").addClass("highlited");
               });
           });
       });
@@ -120,6 +130,7 @@ $(document).ready(function(){
           }));
           plotIssuesMap(data["issues"]);
           self.loading(false);
+          $("#issuesToggle").addClass("highlited");
       });
     }
 
