@@ -2,26 +2,37 @@ function exportIssues(issues,title){
   data=issues.map(function(issue){
     return [
       issue["id_"],
+      issue["date"],
+      issue["summary"],
+      issue["description"],
       issue["lat"],
       issue["lng"]
     ]
   });
-  data.unshift(["issue_id","lat","lng"]);
+  data.unshift(["issue_id","date created","summary","description","lat","lng"]);
   exportData(data,title);
 };
 
 function exportStreets(streets,title){
   data = streets.map(function(street){
     return [
-      street["rank"],
       street["name"],
+      street["rank"],
+      street["percentile"],
       street["count"],
       street["length"],
       street["probability"],
       street["issues_per_mile"]
     ];
   });
-  data.unshift(["rank","name","number_of_issues","length","probability","issues_per_mile"]);
+  data.unshift([
+    "rank",
+    "name",
+    "percentile",
+    "number_of_issues",
+    "length",
+    "probability",
+    "issues_per_mile"]);
   exportData(data,title);
 };
 

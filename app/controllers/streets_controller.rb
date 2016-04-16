@@ -1,68 +1,10 @@
 class StreetsController < ApplicationController
-  def factorial(n,k)
-    if n<=k
-      return k
-    else
-      return n*factorial(n-1,k)
-    end
-  end
-  def n_choose_k(n,k)
-    return factorial(n,k)/factorial(k,1)
-  end
-  def home
-  end
   def ranking
-    street_counts=Issue.where(
-      :status=>["Acknowledged","Open"],
-      :request_type_id=>params[:request_type_id]
-      ).includes(
-      :street=>["name","length"])
-      .group(:street_id).count()
-    @streets=[]
-    rank=1
-    request_type=RequestType.find(params[:request_type_id])
-    t = Street.where(:city_id=>request_type[:city_id]).sum(:length)
-    n_issues=Issue.where(
-      :status=>["Acknowledged","Open"],
-      :request_type_id=>params[:request_type_id]
-      ).count
-    street_counts.each do |street_id,count|
-      if street_id != 0 && street_id != nil && street_id != ""
-        street=Street.find(street_id)
-        probability=((1-(street[:length]/t))**(n_issues-count))
-        probability=probability*(street[:length]/t)**count
-        n_choose_k(n_issues,count)
-        @streets.push({
-          :length=>street[:length],
-          :id_=>street[:id_],
-          :name=>street[:name],
-          :count=>count,
-          :length=>street[:length],
-          :issues_per_mile=>count/street[:length],
-          :probability=>probability
-        })
-      end
-    end
-    @streets.sort_by! {|street| street[:probability]}
-    1.upto(@streets.length).each do |index|
-      @streets[index-1][:rank]=index
-    end
+    @streets=Street.ranking params[:request_type_id]
     render :json => {:streets=>@streets}
   end
   def stats
-    counts=Issue.where(
-      :status=>["Acknowledged","Open"],
-      :street_id=>params[:street_id]
-      ).includes(:reques_type).group(:request_type_id).count()
-    puts params["street_id"]
-    @stats=[]
-    counts.each do |request_type_id,count|
-      request_type=RequestType.find(request_type_id)
-      @stats.push(
-        :name=>request_type[:name],
-        :count=>count
-      )
-    end
+    @stats = Street.stats params[:street_id]
     render :json => {:stats=>@stats}
   end
 end

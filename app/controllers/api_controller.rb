@@ -159,14 +159,7 @@ class ApiController < ApplicationController
   end
 
   def bulk_upsert_cluster_issue
-    ClustersIssues.transaction do
-      bulk_cluster_issue_params["clusters_issues"].each do |cluster_issue|
-        # if ClustersIssues.where(:id_=>cluster_issue[:id_]).count>0
-          # ClustersIssues.find(cluster_issue[:id]).update(cluster_issue).save()
-        # else
-        ClustersIssues.create(cluster_issue).save()
-        # end
-      end
+    if ClustersIssues.bulk_upsert bulk_cluster_issue_params    
       render status: 200, json: {message: "asdf"}
     end
   end
