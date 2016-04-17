@@ -62,7 +62,6 @@ class ApiController < ApplicationController
 
   ## create cluster
   def bulk_upsert_cluster
-    puts "**", bulk_cluster_params,"**"
     if Cluster.bulk_upsert bulk_cluster_params[:clusters]
       render status: 200, json: {message: "success!"}
     else

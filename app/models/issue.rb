@@ -10,9 +10,7 @@ class Issue < ActiveRecord::Base
       if Issue.where(id_: issue[:id_]).count>0
         Issue.update(issue[:id_],issue).save()
       else
-        if Issue.create(issue).save()
-          puts "new issue!"
-        end
+        Issue.create(issue).save()
       end
     end
   end
