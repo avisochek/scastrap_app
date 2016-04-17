@@ -3,6 +3,13 @@ class Street < ActiveRecord::Base
   belongs_to :city
   self.primary_key = :id_
 
+  def self.bulk_upsert streets
+    streets.each do |street|
+      if Street.where(:id_=>street[:id_]).count==0
+        Street.create(street).save()
+      end
+    end
+  end
 
   def self.ranking request_type_id
     ## start by getting the number of issues for each street

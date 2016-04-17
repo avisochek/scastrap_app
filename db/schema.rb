@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160410033501) do
+ActiveRecord::Schema.define(version: 20160304040055) do
 
   create_table "batches", id: false, force: :cascade do |t|
     t.integer  "id_",        null: false
@@ -35,10 +35,10 @@ ActiveRecord::Schema.define(version: 20160410033501) do
     t.integer  "city_id"
     t.integer  "score"
     t.integer  "batch_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
     t.float    "lng"
     t.float    "lat"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "clusters", ["batch_id"], name: "index_clusters_on_batch_id"

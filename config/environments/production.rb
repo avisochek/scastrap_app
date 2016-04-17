@@ -77,6 +77,8 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
+  # don't log unnecessary things during development
+  config.log_level=:error
 
   ## mail config
   config.action_mailer.perform_deliveries = false

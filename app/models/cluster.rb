@@ -4,4 +4,12 @@ class Cluster < ActiveRecord::Base
   belongs_to :city
   belongs_to :batch
   self.primary_key = 'id_'
+
+  def self.bulk_upsert clusters
+    clusters.each do |cluster|
+      if Cluster.where(:id_=>cluster[:id_]).count==0
+        Cluster.create(cluster).save()
+      end
+    end
+  end
 end
