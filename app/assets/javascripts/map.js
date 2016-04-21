@@ -4,23 +4,214 @@
 var clusterMap,heatMap,issueMap,map,drag;
 
 function initMap(){
-  var mapOptions = {zoom:13};
+  // set map styles for heatmap view
+  var styles=[
+    {
+        "featureType": "water",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "blue"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "landscape",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f5f5f5"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#888888"
+            },
+            {
+                "lightness": 17
+            }
+        ]
+    },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 29
+            },
+            {
+                "weight": 0.2
+            }
+        ]
+    },
+    {
+        "featureType": "road.arterial",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#888888"
+            },
+            {
+                "lightness": 18
+            }
+        ]
+    },
+    {
+        "featureType": "road.local",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#888888"
+            },
+            {
+                "lightness": 16
+            }
+        ]
+    },
+    {
+        "featureType": "poi",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "featureType": "poi.park",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#dedede"
+            },
+            {
+                "lightness": 21
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.stroke",
+        "stylers": [
+            {
+                "visibility": "on"
+            },
+            {
+                "color": "#ffffff"
+            },
+            {
+                "lightness": 0
+            }
+        ]
+    },
+    {
+        "elementType": "labels.text.fill",
+        "stylers": [
+            {
+                "color": "#000000"
+            },
+            {
+                "lightness": 0
+            }
+        ]
+    },
+    {
+        "elementType": "labels.icon",
+        "stylers": [
+            {
+                "visibility": "off"
+            }
+        ]
+    },
+    {
+        "featureType": "transit",
+        "elementType": "geometry",
+        "stylers": [
+            {
+                "color": "#f2f2f2"
+            },
+            {
+                "lightness": 19
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 20
+            }
+        ]
+    },
+    {
+        "featureType": "administrative",
+        "elementType": "geometry.stroke",
+        "stylers": [
+            {
+                "color": "#fefefe"
+            },
+            {
+                "lightness": 17
+            },
+            {
+                "weight": 1.2
+            }
+        ]
+    }
+]
+var styledMap = new google.maps.StyledMapType(styles,
+  {name: "Styled Map"});
+
+  var mapOptions = {
+    mapTypeControl:false,
+    zoom:13,
+    mapTypeControlOptions: {
+      mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'map_style']
+    }
+  };
   map = new google.maps.Map(
     document.getElementById('map'),
     mapOptions
   );
+  map.mapTypes.set('map_style', styledMap);
 
-  // //prevent dragging map from triggering a
-  // //click event
-  // map.addListener('dragstart',function(){
-  //   drag = true;
-  // });
-  // map.addListener('click',function(){
-  //   drag = false;
-  // });
-  // map.addListener('mousedown',function(){
-  //   $(".issue").removeClass("selected");
-  // });
+  //reset the map when things move
+  $(window).on('resize orientationChange',function(event) {
+    google.maps.event.trigger(map, 'resize');
+  });
+  $("#map").on('resize orientationChange',function(event) {
+    google.maps.event.trigger(map, 'resize');
+  });
+  //prevent dragging map from triggering a
+  //click event
+  map.addListener('dragstart',function(){
+    drag = true;
+  });
+  map.addListener('click',function(){
+    drag = false;
+  });
+  map.addListener('mousedown',function(){
+    $(".issue").removeClass("selected");
+  });
 };
 function clearMap(){
   if (heatMap){heatMap.setMap(null);};
@@ -38,10 +229,10 @@ function plotHeatMap(issues,cluster_counts){
     data: issue_coords,
     map: null,
     radius:10,
-    opacity:0.95,
+    opacity:0.75,
     //contstrain the heatmap to the 90th percentile
     maxIntensity:cluster_counts[Math.floor(cluster_counts.sort().length*0.9)-1],
-    gradient:['rgba(0, 255, 255, 0)','rgba(0, 255, 255, 1)','rgba(0, 191, 255, 1)','rgba(0, 127, 255, 1)','rgba(0, 63, 255, 1)','rgba(0, 0, 255, 1)','rgba(0, 0, 223, 1)','rgba(0, 0, 191, 1)','rgba(0, 0, 159, 1)','rgba(0, 0, 127, 1)','rgba(63, 0, 91, 1)','rgba(127, 0, 63, 1)','rgba(191, 0, 31, 1)','rgba(255, 0, 0, 1)']
+    gradient:['rgba(255,255,255,0)','#5EEDF0','#56F2C8','#4DF395','#45F55C','#5BF63C','#8FF833','#C8F92A','#FAEC21','#FCA917','#FD5F0E']
   });
   // map.setCenter(latlngbounds.getCenter());
 };
@@ -63,7 +254,7 @@ function plotClusterMap(clusters) {
     cluster_counts.push(cluster["count"]);
   });
   clusterMap.setMap(map);
-  console.log(latlngbounds.getCenter().lng());
+  // console.log(latlngbounds.getCenter().lng());
   map.setCenter(new google.maps.LatLng(
     latlngbounds.getCenter().lat(),
     latlngbounds.getCenter().lng()));
@@ -71,7 +262,7 @@ function plotClusterMap(clusters) {
 };
 
   function plotIssuesMap(issues){
-    console.log("plotting...");
+    // console.log("plotting...");
     if (issueMap){issueMap.setMap(null);};
     // map.fitBounds(bounds)
     //
@@ -86,6 +277,8 @@ function plotClusterMap(clusters) {
     });
     issueMap.setMap(map);
     map.fitBounds(latlngbounds);
+
+
   }
   //determine weather to displar the
   //heatmap or the cluster map first

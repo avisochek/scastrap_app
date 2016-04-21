@@ -1,7 +1,13 @@
 <div id="home">
-  <div id="loading" data-bind="if:loading">
-    <h2>Loading...</h2>
+  <div data-bind="if:loading">
+  <div id="loading" >
+    <div>
+      <i class="fa fa-spinner fa-pulse fa-3x fa-fw margin-bottom"></i>
+      <span class="sr-only">Loading...</span>
+      <span class="font">Loading...</span>
+    </div>
   </div>
+</div>
   <div id="sidebar">
     <div id="streets">
       <div id="streetsTitle"><h1>Street Ranking</h1></div>
@@ -10,14 +16,28 @@
           when you select a city or a request
           type from the input</p>
       </div>
-      <div id="streetsContent" class="sidebarContent" data-bind="foreach:streets">
+      <table class="sidebarContent">
+        <thead  data-bind="if:streets">
+          <th>Rank</th>
+          <th>Street</th>
+          <th>%ile</th>
+        </thead>
+        <tbody data-bind="foreach:streets">
+          <tr class="streetRow" data-bind="click:$root.goToStreetPage">
+            <td data-bind="text:rank"></td>
+            <td data-bind="text:name"></td>
+            <td class="pct" data-bind="text:percentile.toFixed(2)"></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div id="streetsContent" class="sidebarContent" data-bind="foreach:streets">
         <div class="streetRow" data-bind="click:$root.goToStreetPage">
           <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
           <div class="name"><h2 data-bind="text:name"></h2></div>
         </div>
-      </div>
+      </div> -->
       <div id="streetsFooter">
-        <div id="streetsExport"><h1>Export</h1></div>
+        <h1>Export</h1>
       </div>
     </div>
     <div id="issues">
@@ -31,8 +51,7 @@
         </p>
       </div>
       <div id="issuesContent" class="sidebarContent"
-          data-bind="foreach:issues,
-            visible:typeof issues() != 'undefined'">
+          data-bind="foreach:issues">
         <div class="issueRow" \
           data-bind="attr:{id:id_},
           event:{mouseenter:$root.highliteIssue,
@@ -52,97 +71,122 @@
         </div>
       </div>
       <div id="issuesFooter">
-        <div id="issuesExport">
-          <h1>Export<h1>
-        </div>
+        <h1>Export<h1>
       </div>
     </div>
-    <div class="collapse"></div>
+    <div class="collapse">
+      <div>
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        <br>
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        <br>
+        <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+        <br>
+      </div>
+    </div>
   </div>
-  <div id="main">
+  <div id="main" class="row">
     <div id="topRow">
-      <div class="leftSide">
-        <div id="streetsToggle" class="icon"><img id="streetsIcon" src="/assets/street_icon.png"/></div>
+      <div class="left">
+        <div id="streetsToggle" class="icon"
+          style="background-image:url('/assets/street_icon.png')">
+        </div>
       </div>
-      <div class="middle">
-        <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div>
+      <div class="mid">
+        <!-- <div id="title"><img id="titleImage" src="/assets/scastrap_image.png"/></div> -->
+        <h1 id="title">Clustr</h1>
       </div>
-      <div class="rightSide">
-        <div id="help" class="helpLink icon">
-          <img id="helpIcon" src="/assets/help_icon.png"/>
+      <div class="right">
+        <div id="help" class="helpLink icon"
+          style="background-image:url('/assets/help_icon.png')"/>
         </div>
       </div>
     </div>
     <div id="midRow">
-      <div class="leftSide">
-        <div id="issuesToggle" class="icon"><img id="issuesToggleIcon" src="/assets/issues_icon.png"/></div>
+      <div class="left">
+        <div id="issuesToggle" class="icon"
+          style="background-image:url('/assets/issues_icon.png')"/></div>
       </div>
-      <div class="middle">
+      <div id="comboboxCol" class="mid">
         <div class="ui-widget">
           <select id="combobox" type="text" data-bind="foreach:requestTypes">
-          <!-- data-bind="options:requestTypes,optionsText:'full_name',optionsValue:'id_'"> -->
             <option data-bind="text:full_name,value:id_"></option>
           </select>
         </div>
       </div>
-      <div class="rightSide">
+      <div class="right">
         <div id="mapToggle" class="icon" >
           <h3 class="mapToggleText" data-bind="if:mapMode()=='clusterMap'">Heat Map</h3>
           <h3 class="mapToggleText" data-bind="if:mapMode()=='heatMap'">Cluster Map</h3>
         </div>
       </div>
     </div>
-    <div id="content" data-bind="css:location">
-      <div id="map">
-      </div>
-    </div>
+    <!-- <div id="content" data-bind="css:location"> -->
+    <div id="map" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+    <!-- </div> -->
     <div id="bottomRow">
-      <p class="pageLink aboutLink">about</p>
-      <p class="pageLink helpLink">help</p>
-      <p class="pageLink feedbackLink">feedback</p>
+      <p class="pageLink footerItem aboutLink">about</p>
+      <p class="pageLink footerItem helpLink">help</p>
+      <p class="pageLink footerItem feedbackLink">feedback</p>
+      <p class="footerItem" data-bind="
+        visible:lastUpdated,
+        text:'|| '+'updated: '+lastUpdated()"></p>
     </div>
   </div>
 </div>
 <div id="aboutPage" class="page">
   <div class="pageTopRow">
-    <div class="back icon">
-      <img class="backIcon" src="/assets/back_icon.png"></img>
-    </div>
-    <h1 class="pageTitle">About</h1>
-    <div class="spaceHolder icon"></div>
+    <div class="left"><div class="back icon"></div></div>
+    <div class="mid"><h1 class="pageTitle">About</h1></div>
+    <div class="left"></div>
   </div>
   <div class="pageContent">
     <p>
-      Scastrap is an open source data mining and visualization
+      Clustr is an open source data mining and visualization
       project designed to help local governments determine where
       resources are most needed.
     </p>
     <p>
       The project uses data from the See Click Fix API and features
-      a heatMap, a set of clusters, and a street ranking for all
+      a heatmap, a map of clusters, and a street ranking for all
       open and acknowledged issues as of the last update.
     </p>
     <hr/>
     <p>Contibutors:</p>
-    <p>Allan Visochek, Lead Developer</p>
+    <p class="profileLink">
+      <a href="http://avisochek.github.io" target="blank">
+        Allan Visochek, Lead Developer
+      </a>
+    </p>
     <p>Tanzim Hassan, Machine Learning Engineer</p>
-    <p><a href="http://www.ziqiangguan.com"
+    <p class="profileLink"><a href="http://www.ziqiangguan.com"
       target="blank">Ziqiang Guan, Problem Solver</a></p>
     <p>Carys Snyder, Designer</p>
   </div>
 </div>
 <div id="helpPage" class="page">
   <div class="pageTopRow">
-    <div class="back icon">
-      <img class="backIcon" src="/assets/back_icon.png"></img>
-    </div>
-    <h1 class="pageTitle">Help</h1>
-    <div class="spaceHolder"></div>
+    <div class="left"><div class="back icon"></div></div>
+    <div class="mid"><h1 class="pageTitle">Help</h1></div>
+    <div class="left"></div>
   </div>
 
   <div class="pageContent">
+    <h3>Data and Interface</h3>
     <p>
-      Scastrap currently supports three primary features:
+      Clustr uses a dataset of non-emergency issue
+      reports from the See Click Fix API. The data for the application
+      is organized by request type, which is the category under which
+      issues are reported.
+    </p>
+    <img class="helpImg" src="assets/input.png" style="width:250px;float:right;"></img>
+    <p>
+      To use the application, a request type must be first selected
+      from the main combobox. The user may search the category either by
+      by city or by request type.
+    </p>
+    <p>
+      The Clustr app features:
     </p>
     <ul>
       <li>A map of clustered issues</li>
@@ -151,26 +195,27 @@
     </ul>
     <hr />
     <h3>Cluster Map</h3>
-    <img class="helpImg" src=""></img>
+    <img class="helpImg"
+      style="height:300px;width:300px;"
+      src="assets/clusterMap.png"></img>
     <p>
       The cluster map presents groups of issue reports that are close
-      together, allowing the user to identify isolated and high valume
+      together, allowing the user to identify isolated and high volume
       pockets of issues that might not otherwise be obvious.
     </p>
     <p>
       It also allows for a more quantitative approach to
-      visualizing the density of issues by region,
-      since the clusters are approximately the same distance
-      apart, and display the number of issues involved.
+      visualizing the density of issues by region.
     </p>
     <p>
       The cluster map is shown by default after a request
       type is selected from the combobox. Each circle
-      represents cluster, which is a collection of issues
+      represents a cluster, which is a collection of issues
       that are in the same area. The number on each circle
       and the size represent the number of issues in each cluster.
     </p>
-    <img class="helpImg" src=""></img>
+    <img class="helpImg" style="height:125px;width:125px;float:right;padding-left:10px" src="assets/cluster.png"></img>
+    <img class="helpImg" style="height:125px;width:125px;float:right;" src="assets/issuesSideBar.png"></img>
     <p>
       Clicking a cluster will display a map of all of the
       issues associated with that cluster. Issues are represented
@@ -178,116 +223,139 @@
       the issues side panel with tiles including the date as well
       as the summary and description (if available) of each issue.
     </p>
-    <img class="helpImg" src=""></img>
-    <img class="helpImg" src=""></img>
+    <img class="helpImg" style="height:40px;width:40px;float:right" src="assets/issues_icon.png"></img>
     <p>
-      The issues panel can be accessed by click the exclamation
+      The issues panel can be accessed by clicking the exclamation
       mark icon in the top left. Clicking on an issue icon will
       also open the issues side panel, and will bring the selected
       issue to the top of the page. Each tile on the side panel
-      links to the a page on the seeclickfix website where more
+      links to a page on the seeclickfix website where more
       details can be found about the selected issue.
     </p>
     <p>
       The clusters for this application are obtained using
-      markov clustering as part of a data preprocessing pipeline.
-      The clusters are roughly 1000ft. in diameter.
+      markov clustering as part of the data preprocessing pipeline.
+      The clusters are roughly 2000ft. in diameter.
     </p>
     <h3>Heatmap</h3>
-    <img class="helpImg" src=""></img>
+    <img class="helpImg" style="height:300px;width:300px;" src="assets/heatMap.png"></img>
     <p>
-      The heatmap plots the all of the issues for a given request type
-      with the level of color intensity representing the density of
+      The heatmap is a visualization of issues for a given request type
+      where the level of color intensity represents the density of
       issues in a given area. In this case, red represents the highest level
       of density while light blue represents the lowest. The color gradient
       is scaled to the distribution of cluster sizes to eliminate the effect
       of outliers, so the scale of colors on the heatmap represents the
       relative density of issues for the selected request type.
     </p>
-    <img class="helpImg" src=""></img>
     <p>
-      To access the heatmap, select a requestType, and select the
-      "Heat Map" button in the upper right hand corner.
+      To access the heatmap, select a request type from the main input,
+      and then select the "Heat Map" button in the upper right hand corner.
     </p>
     <h3>Street Ranking</h3>
-    <img class="helpImg" src=""></img>
+    <img class="helpImg" style="width:200px;float:right;" src="assets/streetsSidebar.png"></img>
     <p>
-      The street ranking offers yet another way of. Once a request type is
+      The street ranking offers yet another way of understanding the
+      location of active issues. Once a request type is
       selected, the street ranking will show up in the streets panel, which
-      can be accessed using the upper left hand road icon.
-      Streets are ranked by the number of issues and length of the street,
-      given the probability of that many issues occuring by chance on a street
-      of that length. The street ranking can be saved along with additional details
+      can be accessed using the road icon in the upper left hand corner.
+    </p>
+    <p>
+      Clicking a row in the street ranking will open up a page which
+      shows the number of active issues in each category for the corresponding
+      street.
+    </p>
+    <p>
+      Streets are ranked using a formula that assigns a probability to
+      the likelihood that the number of issues present on a given street
+      would occur there by chance. The formula takes into account the
+      length of a particular street, "l", the number of active issues
+      on that street, "k", the total number of active issues for the
+      given category, "n", and the collective length of all streets in
+      the given city where issues have been reported, "t". The formular
+      is given by:
+    </p>
+      <strong> (t/l)^k*(1-(t/l))^(n-k)*(n!/(k!*(n-k)!)) </strong>
+    <p>
+      This model allows us to take into account both the density of
+      the issues that occur on a particular street, and the confidence
+      that a particular street is significant given the number of issues
+      reported.
+    </p>
+    <p> The street ranking can be saved along with additional details
       by clicking the export button at the bottom of the streets panel.
     </p>
     <h3>Exporting</h3>
+    <img class="helpImg" style="width:300px;" src="assets/export.png"></img>
     <p>
-      You can export data from the app to keep track of it for
+      It is possible to export data from the app to keep track of it for
       future reference and to gain some additional details. Data
       Is exported in CSV format. Note that exporting is currently not
       supported for mobile platforms.
     </p>
     <p>
-      To export details for a given street ranking,first select
-      the desired request type, then open the streets panel by
-      clicking the road icon in the upper right hand corner.
-      Finally click the export botton at the bottom of the
-      streets panel.
+      To export details for a given street ranking, first select
+      the desired request type from the input, then open the
+      streets panel by clicking the road icon in the upper
+      right hand corner. Finally, click the export botton at
+      the bottom of the streets panel.
     </p>
     <p>
-      To export details for a given cluster,first select the desired
-      request type and then click on a cluster of interest. Open
-      the issues panel by clicking the top left
-      exclamation point icon. At the bottom of the issues
+      To export details about the issues for a given cluster,
+      first select the desired request type and then click on
+      a cluster of interest. Open the issues panel by clicking
+      the top left exclamation point icon. Then click "Export"
+      at the bottom of the issues panel.
     </p>
     <hr/>
     <h3>Bugs/Issues</h3>
     <p><strong>** Note that there may be compatibility issues for older browsers **</strong></p>
     <p>
-      If somethings not quite right, be sure to report it in the feedback
+      If something's not quite right, be sure to report it in the feedback
       section so that we can fix it in the next version.
     </p>
     <h3>Leave Feedback!</h3>
     <p class="pageLink feedbackLink">Comments? Questions? Ideas? Let us know!</p>
+    <div class="back icon">
+    </div>
   </div>
 
 </div>
 <div id="feedbackPage" class="page">
   <div class="pageTopRow">
-    <div class="back icon">
-      <img class="backIcon" src="/assets/back_icon.png"></img>
-    </div>
-    <h1 class="pageTitle">Feedback</h1>
-    <div class="spaceHolder icon"></div>
+    <div class="left"><div class="back icon"></div></div>
+    <div class="mid"><h1 class="pageTitle">Feedback</h1></div>
+    <div class="left"></div>
   </div>
   <div class="pageContent">
     <form id="feedbackForm">
       <p id="feedbackResponseMessage"></p>
-      <input class="feedbackInput" text="" type="text" name="name" placeholder="Name"></input><br/>
-      <input class="feedbackInput" text="" type="text" name="email" placeholder="Email"/><br/>
+      Name: <input class="feedbackInput" text="" type="text" name="name" placeholder="Name"></input><br/>
+      E-mail: <input class="feedbackInput" text="" type="text" name="email" placeholder="E-mail"/><br/>
+      <br>
+      <textarea id="messageBox" text="" type="text" name="message" placeholder="Comments/Questions/Suggestions"></textarea><br/>
+      <br>
       <input type="checkbox" name="contact">It is ok to contact me.</input>
-      <input id="messageBox" text="" type="text" name="message" placeholder="Comments/Questions/Suggestions"/><br/>
+      <br><br>
+      <div class="g-recaptcha" data-sitekey="6LfAPR0TAAAAAGofq5IxxpMzPHmqqJBWLhWGU82I"></div><br>
       <input id="feedbackSubmit" text="" type="submit" value="submit"/>
-      <div class="g-recaptcha" data-sitekey="6LfAPR0TAAAAAGofq5IxxpMzPHmqqJBWLhWGU82I"></div>
     </form>
   </div>
 </div>
 <div id="streetPage" class="page">
   <div class="pageTopRow">
-    <div class="leftSide">
-      <div class="back icon">
-        <img class="backIcon" src="/assets/back_icon.png"></img>
-      </div>
-    </div>
-    <div class="middle">
-      <h1 class="pageTitle" data-bind="text:chosenStreetName"></h1>
-    </div>
-    <div class="rightSide"></div>
+    <div class="left"><div class="back icon"></div></div>
+    <div class="mid"><h1 class="pageTitle" data-bind="chosenStreetName"></h1></div>
+    <div class="left"></div>
   </div>
   <div class="pageContent">
-    <div data-bind="foreach:chosenStreetStats">
-      <p data-bind="text:name"></p>
-      <p data-bind="text:count"></p>
-    <div>
+    <table id="streetsTable">
+      <tbody data-bind="foreach:chosenStreetStats">
+        <tr class = "streetsTableRow">
+          <td data-bind="text:name" class="streetsPageName"></td>
+          <td data-bind="text:count" class="streetsPageCount"></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

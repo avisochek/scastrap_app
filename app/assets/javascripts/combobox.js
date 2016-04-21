@@ -49,7 +49,7 @@ $.widget( "custom.combobox", {
     $( "<a>" )
       .attr( "tabIndex", -1 )
       .attr( "title", "Show All Items" )
-      .tooltip()
+      //.tooltip()
       .appendTo( this.wrapper )
       .button({
         icons: {
@@ -59,6 +59,7 @@ $.widget( "custom.combobox", {
       })
       .removeClass( "ui-corner-all" )
       .addClass( "custom-combobox-toggle ui-corner-right" )
+      .attr("aria-hidden","true")
       .mousedown(function() {
         wasOpen = input.autocomplete( "widget" ).is( ":visible" );
       })

@@ -51,7 +51,7 @@ class Street < ActiveRecord::Base
     @streets.sort_by! {|street| street[:probability]}
     1.upto(@streets.length).each do |index|
       @streets[index-1][:rank]=index
-      @streets[index-1][:percentile]=index.to_f/@streets.length
+      @streets[index-1][:percentile]=(1-(index.to_f/@streets.length)).round(2)
     end
     @streets
   end

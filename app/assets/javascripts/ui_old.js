@@ -182,10 +182,10 @@ $(document).ready(function(){
     //highlite issue on map when hovering over issue row...
     self.highliteIssue=function(issue){
       console.log("asdf")
-      document.getElementById("issueIcon_"+issue["id_"]).style.background="red";
+      document.getElementById("issueIcon_"+issue["id_"]).style.backgroundColor="red";
     };
     self.unhighliteIssue=function(issue){
-      document.getElementById("issueIcon_"+issue["id_"]).style.background="none";
+      document.getElementById("issueIcon_"+issue["id_"]).style.backgroundColor="black";
     };
 
     $("#issuesFooter").click(function(e){

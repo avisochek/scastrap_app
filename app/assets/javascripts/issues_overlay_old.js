@@ -14,7 +14,7 @@ function issuesOverlay(map) {
 
 issuesOverlay.prototype.createIssueIcon = function (issue) {
 
-  var issueIcon = document.createElement('canvas');
+  var issueIcon = document.createElement('div');
   issueIcon.id = 'issueIcon_' + issue["id_"];
   this._radius = 8;
   issueIcon.width = issueIcon.height =  this._radius * 2;
@@ -24,16 +24,16 @@ issuesOverlay.prototype.createIssueIcon = function (issue) {
   issueIcon.style.top = (issue["xy"].y - this._radius) + 'px';
   issueIcon.style.position = "absolute";
   issueIcon.style.borderRadius = this._radius+"px";
-
-  var centerX = issueIcon.width / 2;
-  var centerY = issueIcon.height / 2;
-  var ctx = issueIcon.getContext('2d');
-  ctx.globalCompositeOperation = 'destination-over';
-  ctx.globalAlpha=0.8;
-  ctx.fillColor=issue["color"]
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, this._radius, 0, Math.PI * 2, true);
-  ctx.fill()
+  issueIcon.style.backgroundColor="black";
+  // var centerX = issueIcon.width / 2;
+  // var centerY = issueIcon.height / 2;
+  // var ctx = issueIcon.getContext('2d');
+  // ctx.globalCompositeOperation = 'destination-over';
+  // ctx.globalAlpha=0.8;
+  // ctx.fillColor=issue["color"]
+  // ctx.beginPath();
+  // ctx.arc(centerX, centerY, this._radius, 0, Math.PI * 2, true);
+  // ctx.fill()
   google.maps.event.addDomListener(issueIcon, 'mouseover', function() {
     $(issueIcon).css("cursor","pointer");
   });

@@ -19,7 +19,7 @@ function clustersOverlay(map) {
 
 
 clustersOverlay.prototype.createClusterIcon = function (cluster) {
-  var clusterIcon = document.createElement('canvas');
+  var clusterIcon = document.createElement('div');
   clusterIcon.id = 'clustericon_' + cluster["id_"];
   //calculate radius based on issues count
   this._radius=10*Math.pow(cluster["count"],1/3);
@@ -31,23 +31,28 @@ clustersOverlay.prototype.createClusterIcon = function (cluster) {
   clusterIcon.style.top = (cluster["xy"].y - this._radius) + 'px';
   clusterIcon.style.position = "absolute";
   clusterIcon.style.borderRadius = this._radius+"px";
-
+  clusterIcon.style.backgroundColor = "grey";
+  clusterIcon.style.opacity = 0.7;
   var centerX = clusterIcon.width / 2;
   var centerY = clusterIcon.height / 2;
-  var ctx = clusterIcon.getContext('2d');
-  var textHeight=20;
-  ctx.font = textHeight+"px Georgia";
-  textWidth = ctx.measureText(String(cluster["count"])).width;
-  ctx.fillStyle = cluster["color"];
-  ctx.fillText(
-    String(cluster["count"]),
-    (clusterIcon.width/2)-(textWidth/2),
-    (clusterIcon.height/2)+(textHeight/3));
-  //ctx.globalCompositeOperation = 'destination-over';
-  ctx.globalAlpha=0.3
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, this._radius, 0, Math.PI * 2, true);
-  ctx.fill();
+  var textHeight=25;
+  var margin = this._radius-(textHeight/2);
+  style="style='padding:0;margin-bottom:0;margin-top:"+margin+"px;'"
+  $(clusterIcon).append("<h1 "+style+">"+cluster["count"]+"</h1>");
+  // var ctx = clusterIcon.getContext('2d');
+  // var textHeight=20;
+  // ctx.font = textHeight+"px Georgia";
+  // textWidth = ctx.measureText(String(cluster["count"])).width;
+  // ctx.fillStyle = cluster["color"];
+  // ctx.fillText(
+  //   String(cluster["count"]),
+  //   (clusterIcon.width/2)-(textWidth/2),
+  //   (clusterIcon.height/2)+(textHeight/3));
+  // //ctx.globalCompositeOperation = 'destination-over';
+  // ctx.globalAlpha=0.3
+  // ctx.beginPath();
+  // ctx.arc(centerX, centerY, this._radius, 0, Math.PI * 2, true);
+  // ctx.fill();
 
   google.maps.event.addDomListener(clusterIcon, 'mouseover', function() {
     $(clusterIcon).css("cursor","pointer");
