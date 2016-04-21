@@ -66,8 +66,8 @@ clustersOverlay.prototype.createClusterIcon = function (cluster) {
 clustersOverlay.prototype.ensureIssueIcon = function (cluster) {
   var clusterIcon = document.getElementById("clustericon_" + cluster["id_"]);
   if(clusterIcon){
-    clusterIcon.style.left = (cluster["xy"].x - Math.pow(cluster["count"],1/3)) + 'px';
-    clusterIcon.style.top = (cluster["xy"].y - Math.pow(cluster["count"],1/3)) + 'px';
+    clusterIcon.style.left = (cluster["xy"].x - clusterIcon.width/2) + 'px';
+    clusterIcon.style.top = (cluster["xy"].y - clusterIcon.height/2) + 'px';
     return clusterIcon;
   }
   return this.createClusterIcon(cluster);
