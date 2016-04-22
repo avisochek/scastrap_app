@@ -39,6 +39,7 @@ class ApiController < ApplicationController
         render json: {message: "could not create resource"}
       end
     else
+      Batch.drop_old batch_params
       render json: {message: "could not create resource"}
     end
   end

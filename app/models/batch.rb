@@ -6,18 +6,22 @@ class Batch < ActiveRecord::Base
   ## delete old batches along with
   ## associated clusters and
   ## cluster_issue relationships
-  def drop_old batch
+  def self.drop_old batch
+    puts batch
+    puts "asdf"
     batches_to_drop = Batch.where(
       :city_id=>batch[:city_id]).where().not(
-        :id_=>batch[:id_]).includes(:clusters)
-    batches_to_drop.each do |batch|
-      clusters_to_drop = batch.clusters
+        :id_=>batch[:id_])
+    # puts batches_to_drop
+    batches_to_drop.each do |batch_to_drop|
+      clusters_to_drop = Cluster.where(:batch_id=>batch_to_drop[:id_])
+      # puts clusters_to_drop
       clusters_to_drop.each do |cluster|
-        clusters_issues.where(:cluster_id=>cluster[:id_]).delete_all
+        ClustersIssues.where(:cluster_id=>cluster[:id_]).all.delete_all
       end
-      clusters_to_drop.delete_all
+      clusters_to_drop.all.delete_all
     end
-    batches_to_drop.delete_all
+    batches_to_drop.all.delete_all
   end
 
 end
