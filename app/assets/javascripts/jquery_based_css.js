@@ -1,5 +1,6 @@
 $(document).on('ready',function(){
   $("#map").height(($(window).height()-150)+"px");
+  $("#noClusters").height(($(".container").height()-150)+"px");
   $(".sidebarContent").height(($(window).height()-120)+"px");
   //$("#main.open").width($(window).width()-300+"px");
 
@@ -13,6 +14,7 @@ $(document).on('ready',function(){
 
 $(window).on('resize',function(){
   $("#map").height(($(".container").height()-150)+"px");
+  $("#noClusters").height(($(".container").height()-150)+"px");
   $(".sidebarContent").height(($(window).height()-120)+"px");
   // if ($(window).width()<600){
   //   $("#main").css("margin-right",$(".container").width-600+"px");

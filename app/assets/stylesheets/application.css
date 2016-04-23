@@ -41,15 +41,15 @@ html,body,#home{
   margin-right: auto;
   height:100%;
 }
-#topRow,#midRow,#map{margin-top: 10px;display:block;}
+#topRow,#midRow,#map,#noClusters{margin-top: 10px;display:block;}
 #topRow,#midRow{height:40px;}
-#map{
+#map,#noClusters{
   position:relative;
-  background-image: url("/assets/world.png");
   background-repeat: none;
   background-size: cover;
   /*z-index: 1000;*/
 }
+#map{background-image: url("/assets/world.png");}
 
 /* icon styling */
 .icon{

@@ -4,7 +4,9 @@ class ClustersController < ApplicationController
     ## fetch the latest batch id
     @latest_batch=Batch.where(:city_id=>request_type[:city_id]).order(:id_=>:desc).first
     if @latest_batch
-      @clusters = Cluster.where(:request_type_id=>params[:request_type_id]).order(:score=> :desc)
+      @clusters = Cluster.where(
+        :request_type_id=>params[:request_type_id],
+        :batch_id=>@latest_batch[:id_]).order(:score=> :desc)
       render :json => {:clusters => @clusters,:batch=>@latest_batch}
     else
       render :response => 404

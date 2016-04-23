@@ -5,7 +5,7 @@ class ApiController < ApplicationController
 
   ## create city
   def create_city
-    if City.where(:id_=> city_params[:id_]).length == 0
+    if City.where(:id_=> city_params[:id_]).count == 0
       if City.new(city_params).save()
         render json: {message: "success!"}
       else
@@ -18,7 +18,7 @@ class ApiController < ApplicationController
 
   ## request_type
   def create_request_type
-    if RequestType.where(:id_=> request_type_params[:id_]).length == 0
+    if RequestType.where(:id_=> request_type_params[:id_]).count == 0
       if RequestType.new(request_type_params).save()
         render json: {message: "success!"}
       else
@@ -31,14 +31,13 @@ class ApiController < ApplicationController
 
   ## create batch
   def create_batch
-    if Batch.where(:id_=> batch_params[:id_]).length == 0
-      if Batch.new(batch_params).save
-        Batch.drop_old batch_params
-        render json: {message: "success!"}
-      else
-        render json: {message: "could not create resource"}
-      end
+    if Batch.where(:id_=> batch_params[:id_]).count == 0
+      puts "new batch"
+      Batch.new(batch_params).save
+      Batch.drop_old batch_params
+      render json: {message: "success!"}
     else
+      puts "no new batch"
       Batch.drop_old batch_params
       render json: {message: "could not create resource"}
     end

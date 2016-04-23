@@ -30,12 +30,6 @@
           </tr>
         </tbody>
       </table>
-      <!-- <div id="streetsContent" class="sidebarContent" data-bind="foreach:streets">
-        <div class="streetRow" data-bind="click:$root.goToStreetPage">
-          <div class="rank"><h1 class="streetText" data-bind="text:rank"></h1></div>
-          <div class="name"><h2 data-bind="text:name"></h2></div>
-        </div>
-      </div> -->
       <div id="streetsFooter">
         <h1>Export</h1>
       </div>
@@ -122,7 +116,10 @@
       </div>
     </div>
     <!-- <div id="content" data-bind="css:location"> -->
-    <div id="map" class="col-lg-12 col-md-12 col-sm-12 col-xs-12"></div>
+    <div id="map" data-bind="visible:clusters"></div>
+    <div id="noClusters" data-bind="visible:!clusters()">
+      <h2 >No active issues were identified for the chosen request type.</h3>
+    </div >
     <!-- </div> -->
     <div id="bottomRow">
       <p class="pageLink footerItem aboutLink">about</p>

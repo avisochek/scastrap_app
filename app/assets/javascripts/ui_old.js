@@ -74,7 +74,7 @@ $(document).ready(function(){
     self.requestTypes = ko.observable();
     self.chosenRequestTypeName = ko.observable();
     self.chosenRequestTypeId = ko.observable();
-    self.clusters = ko.observable();
+    self.clusters = ko.observable(true);
     self.streets = ko.observable(false);
     self.chosenStreetName = ko.observable();
     self.chosenStreetStats = ko.observable();
@@ -103,6 +103,7 @@ $(document).ready(function(){
     self.getData = function(requestTypeId){
       $("#map").css("background","none");
       self.loading(true);
+      self.clusters(true);
       self.chosenRequestTypeId(requestTypeId);
       initMap();
       clearMap();
@@ -116,15 +117,20 @@ $(document).ready(function(){
             function(data){
               self.clusters(data["clusters"]);
               self.batch(data["batch"]);
-              // we're using the cluster counts here to determine
-              // the max_intensity of the heat map...
-              cluster_counts=plotClusterMap(data["clusters"]);
-              $.get('/issues/get_issues/'+requestTypeId,
-                function(data){
-                  plotHeatMap(data["issues"],cluster_counts);
-                  self.loading(false);
-                  $("#streetsToggle").addClass("highlited");
-              });
+              if (data["clusters"].length==0){
+                self.clusters(false);
+                self.loading(false);
+              }else{
+                // we're using the cluster counts here to determine
+                // the max_intensity of the heat map...
+                cluster_counts=plotClusterMap(data["clusters"]);
+                $.get('/issues/get_issues/'+requestTypeId,
+                  function(data){
+                    plotHeatMap(data["issues"],cluster_counts);
+                    self.loading(false);
+                    $("#streetsToggle").addClass("highlited");
+                });
+              };
           });
       });
     };
@@ -181,11 +187,12 @@ $(document).ready(function(){
 
     //highlite issue on map when hovering over issue row...
     self.highliteIssue=function(issue){
-      console.log("asdf")
       document.getElementById("issueIcon_"+issue["id_"]).style.backgroundColor="red";
+      document.getElementById("issueIcon_"+issue["id_"]).style.zIndex=1000;
     };
     self.unhighliteIssue=function(issue){
       document.getElementById("issueIcon_"+issue["id_"]).style.backgroundColor="black";
+      document.getElementById("issueIcon_"+issue["id_"]).style.zIndex="none";
     };
 
     $("#issuesFooter").click(function(e){
