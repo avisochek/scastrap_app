@@ -1,11 +1,11 @@
-postgresql_settings: &postgresql_settings
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  username: postgres
-  password: ENV["DB_PASSWORD"]
-  host: 130.211.130.40
-  database: clustr
+# postgresql_settings: &postgresql_settings
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: 5
+#   username: postgres
+#   password: ENV["DB_PASSWORD"]
+#   host: 130.211.130.40
+#   database: clustr
 
 development:
   adapter: sqlite3
@@ -14,7 +14,7 @@ development:
   timeout: 5000
 
 production:
-  <<: *postgresql_settings
+  url: <%= ENV['DATABASE_URL'] %>
 
 test:
   adapter: sqlite3
