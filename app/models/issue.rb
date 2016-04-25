@@ -8,9 +8,9 @@ class Issue < ActiveRecord::Base
   def self.bulk_upsert issues
     self.bulk_issue_params(issues)["issues"].each do |issue|
       if Issue.where(id_: issue[:id_]).count>0
-        Issue.update(issue[:id_],issue_params).save()
+        Issue.update(issue[:id_],issue).save()
       else
-        Issue.create(issue_params).save()
+        Issue.create(issue).save()
       end
     end
   end
