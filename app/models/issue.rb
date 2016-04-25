@@ -6,7 +6,7 @@ class Issue < ActiveRecord::Base
   self.primary_key = 'id_'
 
   def self.bulk_upsert issues
-    bulk_issue_params(issues).each do |issue|
+    self.bulk_issue_params(issues)["issues"].each do |issue|
       if Issue.where(id_: issue[:id_]).count>0
         Issue.update(issue[:id_],issue_params).save()
       else
@@ -16,7 +16,7 @@ class Issue < ActiveRecord::Base
   end
 
   private
-    def bulk_issue_params issues
+    def self.bulk_issue_params issues
       issues.permit(:issues=>[
         :id_,
         :request_type_id,
