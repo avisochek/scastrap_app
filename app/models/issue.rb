@@ -17,7 +17,7 @@ class Issue < ActiveRecord::Base
 
   private
     def issue_params issue
-      issue.permit!([:id_,
+      return issue.permit([:id_,
                     :request_type_id,
                     :created_at,
                     :status,
