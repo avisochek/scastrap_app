@@ -20,8 +20,11 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
+# use this to implement the google recaptcha
+# by contacting google's server
 gem 'http'
+# use this to que the lang requests to the api
+gem 'delayed_job_active_record'
 
 # gem 'puma'
 # gem 'bootstrap-sass',       '3.2.0.0'
