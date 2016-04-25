@@ -9,7 +9,7 @@ class ClustersController < ApplicationController
         :batch_id=>@latest_batch[:id_]).order(:score=> :desc)
       render :json => {:clusters => @clusters,:batch=>@latest_batch}
     else
-      render :response => 404
+      render :json => {:clusters => [],:batch=>nil}
     end
   end
   def show_cluster
