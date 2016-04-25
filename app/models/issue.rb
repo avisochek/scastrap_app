@@ -7,7 +7,7 @@ class Issue < ActiveRecord::Base
 
   def self.bulk_upsert issues
     issues.each do |issue|
-      issue.permit([:id_,
+      issue.permit!([:id_,
                     :request_type_id,
                     :created_at,
                     :status,
