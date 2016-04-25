@@ -111,7 +111,7 @@ class ApiController < ApplicationController
       #                 :address,
       #                 :summary,
       #                 :description])
-      params[:issues]
+      params
     end
 
     def bulk_cluster_issue_params

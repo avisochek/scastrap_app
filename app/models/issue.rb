@@ -7,6 +7,16 @@ class Issue < ActiveRecord::Base
 
   def self.bulk_upsert issues
     issues.each do |issue|
+      if Issue.where(id_: issue[:id_]).count>0
+        Issue.update(issue[:id_],issue).save()
+      else
+        Issue.create(issue).save()
+      end
+    end
+  end
+
+  private
+    def issue_params issue
       issue.permit!([:id_,
                     :request_type_id,
                     :created_at,
@@ -18,11 +28,5 @@ class Issue < ActiveRecord::Base
                     :address,
                     :summary,
                     :description])
-      if Issue.where(id_: issue[:id_]).count>0
-        Issue.update(issue[:id_],issue).save()
-      else
-        Issue.create(issue).save()
-      end
     end
-  end
 end
