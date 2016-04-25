@@ -14,12 +14,13 @@ class Cluster < ActiveRecord::Base
   end
   private
     def self.bulk_cluster_params clusters
-      clusters.permit(:clusters=>[:id_,
-                    :request_type_id,
-                    :score,
-                    :city_id,
-                    :batch_id,
-                    :lng,
-                    :lat])
+      clusters.permit(:clusters=>[
+        :id_,
+        :request_type_id,
+        :score,
+        :city_id,
+        :batch_id,
+        :lng,
+        :lat])
     end
 end
