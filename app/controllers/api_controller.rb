@@ -100,17 +100,18 @@ class ApiController < ApplicationController
     end
 
     def bulk_issue_params
-      params.permit(:issues=>[:id_,
-                      :request_type_id,
-                      :created_at,
-                      :status,
-                      :lng,
-                      :lat,
-                      :street_id,
-                      :city_id,
-                      :address,
-                      :summary,
-                      :description])
+      # params.permit(:issues=>[:id_,
+      #                 :request_type_id,
+      #                 :created_at,
+      #                 :status,
+      #                 :lng,
+      #                 :lat,
+      #                 :street_id,
+      #                 :city_id,
+      #                 :address,
+      #                 :summary,
+      #                 :description])
+      params[:issues]
     end
 
     def bulk_cluster_issue_params
