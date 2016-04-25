@@ -45,7 +45,7 @@ class ApiController < ApplicationController
 
   ## create street
   def bulk_upsert_street
-    if Street.delay.bulk_upsert(bulk_street_params[:streets])
+    if Street.delay.bulk_upsert(params)
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
@@ -54,7 +54,7 @@ class ApiController < ApplicationController
 
   ## create issue
   def bulk_upsert_issue
-    if Issue.delay.bulk_upsert(bulk_issue_params[:issues])
+    if Issue.delay.bulk_upsert(params)
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
