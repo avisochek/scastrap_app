@@ -17,16 +17,17 @@ class Issue < ActiveRecord::Base
 
   private
     def issue_params issue
-      return issue.permit([:id_,
-                    :request_type_id,
-                    :created_at,
-                    :status,
-                    :lng,
-                    :lat,
-                    :street_id,
-                    :city_id,
-                    :address,
-                    :summary,
-                    :description])
+      issue.permit([
+        :id_,
+        :request_type_id,
+        :created_at,
+        :status,
+        :lng,
+        :lat,
+        :street_id,
+        :city_id,
+        :address,
+        :summary,
+        :description])
     end
 end
