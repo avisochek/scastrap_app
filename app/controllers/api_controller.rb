@@ -63,7 +63,7 @@ class ApiController < ApplicationController
 
   ## create cluster
   def bulk_upsert_cluster
-    if Cluster.delay.bulk_upsert(bulk_cluster_params[:clusters])
+    if Cluster.delay.bulk_upsert(params)
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
@@ -72,7 +72,7 @@ class ApiController < ApplicationController
 
   ## cluster_issue
   def bulk_upsert_cluster_issue
-    if ClustersIssues.delay.bulk_upsert(bulk_cluster_issue_params[:clusters_issues])
+    if ClustersIssues.delay.bulk_upsert(params)
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
