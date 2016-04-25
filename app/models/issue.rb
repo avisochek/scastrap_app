@@ -7,6 +7,7 @@ class Issue < ActiveRecord::Base
 
   def self.bulk_upsert issues
     issues.each do |issue|
+      puts issue.keys
       if Issue.where(id_: issue[:id_]).count>0
         Issue.update(issue[:id_],issue).save()
       else
