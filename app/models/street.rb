@@ -4,7 +4,7 @@ class Street < ActiveRecord::Base
   self.primary_key = :id_
 
   def self.bulk_upsert streets
-    self.bulk_street_params(streets)["streets"].each do |street|
+    streets.each do |street|
       if Street.where(:id_=>street[:id_]).count==0
         Street.create(street).save()
       end
@@ -71,12 +71,4 @@ class Street < ActiveRecord::Base
     end
     @stats
   end
-
-  private
-    def self.bulk_street_params streets
-      streets.permit(:streets=>[:id_,
-                              :city_id,
-                              :name,
-                              :length])
-    end
 end

@@ -45,7 +45,7 @@ class ApiController < ApplicationController
 
   ## create street
   def bulk_upsert_street
-    if Street.delay.bulk_upsert(params)
+    if Street.delay.bulk_upsert(bulk_street_params[:streets])
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
@@ -54,7 +54,7 @@ class ApiController < ApplicationController
 
   ## create issue
   def bulk_upsert_issue
-    if Issue.delay.bulk_upsert(params)
+    if Issue.delay.bulk_upsert(bulk_issue_params[:issues])
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
@@ -63,7 +63,7 @@ class ApiController < ApplicationController
 
   ## create cluster
   def bulk_upsert_cluster
-    if Cluster.delay.bulk_upsert(params)
+    if Cluster.delay.bulk_upsert(bulk_cluster_params[:clusters])
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
@@ -72,7 +72,7 @@ class ApiController < ApplicationController
 
   ## cluster_issue
   def bulk_upsert_cluster_issue
-    if ClustersIssues.delay.bulk_upsert(params)
+    if ClustersIssues.delay.bulk_upsert(bulk_cluster_issue_params[:clusters_issues])
       render status: 200, json: {message: "success!"}
     else
       render status: 403, json: {message: "could not create resource"}
