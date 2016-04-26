@@ -4,7 +4,6 @@ class CreateBatches < ActiveRecord::Migration
       t.integer :id_, null: false
       t.string :created_at
       t.belongs_to :city
-      t.timestamps null: false
     end
   end
 end

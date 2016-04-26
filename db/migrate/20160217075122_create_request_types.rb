@@ -4,7 +4,6 @@ class CreateRequestTypes < ActiveRecord::Migration
       t.integer :id_, null: false
       t.string :name
       t.belongs_to :city, index: true
-      t.timestamps null: false
     end
   end
 end

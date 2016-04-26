@@ -5,7 +5,6 @@ class CreateClustersIssues < ActiveRecord::Migration
       t.belongs_to :issue
       t.belongs_to :batch
       t.belongs_to :city
-      t.timestamps null: false
     end
   end
 end

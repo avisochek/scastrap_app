@@ -5,7 +5,6 @@ class CreateCities < ActiveRecord::Migration
       t.float :lat
       t.float :lng
       t.string :name
-      t.timestamps null: false
     end
   end
 end

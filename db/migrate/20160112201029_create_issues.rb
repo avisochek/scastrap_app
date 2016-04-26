@@ -12,7 +12,6 @@ class CreateIssues < ActiveRecord::Migration
       t.string :summary
       t.float :lng
       t.float :lat
-      t.timestamps null: false
     end
   end
 end
