@@ -1,5 +1,6 @@
 class Batch < ActiveRecord::Base
   has_many :clusters
+  has_many :clusters_issues
   belongs_to :city
   self.primary_key = 'id_'
 

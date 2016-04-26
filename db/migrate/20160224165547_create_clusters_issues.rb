@@ -3,6 +3,8 @@ class CreateClustersIssues < ActiveRecord::Migration
     create_table :clusters_issues do |t|
       t.belongs_to :cluster
       t.belongs_to :issue
+      t.belongs_to :batch
+      t.belongs_to :city
       t.timestamps null: false
     end
   end
