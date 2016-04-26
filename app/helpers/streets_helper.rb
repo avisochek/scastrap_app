@@ -15,8 +15,9 @@ module StreetsHelper
     ## n is the number of issues,
     ## and k is the number of issues
     ## that occur on this street
-    probability=((1-(l/t))**(n-k))
-    probability*=((l/t)**k)
+    probability=((BigDecimal.new((1-(l/t)).to_s))**(n-k))
+    probability*=(BigDecimal((l/t).to_s)**k)
     probability*=n_choose_k(n,k)
+    probability.to_f
   end
 end
