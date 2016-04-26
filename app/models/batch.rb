@@ -8,16 +8,15 @@ class Batch < ActiveRecord::Base
   ## associated clusters and
   ## cluster_issue relationships
   def self.drop_old batch
-  #  puts batch
-    batches_to_drop = Batch.where(
+    Batch.where(
       :city_id=>batch[:city_id]).where().not(
-        :id_=>batch[:id_])
-    clusters_to_drop = Cluster.where(:city_id=>batch[:city_id]).where().not(:batch_id=>batch[:id_])
-    clusters_to_drop.each do |cluster|
-      ClustersIssues.where(:cluster_id=>cluster[:id_]).delete_all
-    end
-    clusters_to_drop.delete_all
-    batches_to_drop.delete_all
+        :id_=>batch[:id_]).delete_all
+    Cluster.where(
+      :city_id=>batch[:city_id]).where().not(
+        :batch_id=>batch[:id_]).delete_all
+    ClustersIssues.where(
+      :city_id=>batch[:city_id]).where().not(
+        :batch_id=>batch[:id_]).delete_all
   end
 
 end
