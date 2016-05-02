@@ -6,7 +6,7 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <link rel="icon"
       type="image/png"
-      href="assets/world.png">
+      href="<%=asset_path 'world.png' %>"/>
   <!--jquery ui stylesheet -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <!-- font awesome -->
@@ -27,25 +27,25 @@
   <!-- use markerwithlabel.js to create marker labels with multiple characters -->
   <!-- <script src='/assets/markerwithlabel.js'></script> -->
 
-  <script src="assets/jquery_based_css.js"></script>
+  <script src="<%=asset_path 'jquery_based_css.js' %>"></script>
 
   <!-- <script src="assets/bootstrap.js"></script> -->
 
 
   <!-- load code for combobox-->
-  <script src="/assets/combobox.js"></script>
+  <script src="<%=asset_path 'combobox.js' %>"></script>
   <!-- custom map interface for generating
   heatmap and cluster map from data-->
-  <script src="/assets/clusters_overlay_old.js"></script>
-  <script src="/assets/issues_overlay_old.js"></script>
-  <script src="/assets/map.js"></script>
+  <script src="<%=asset_path 'clusters_overlay_old.js' %>"></script>
+  <script src="<%=asset_path 'issues_overlay_old.js' %>"></script>
+  <script src="<%=asset_path 'map.js' %>"></script>
 
   <!-- include code for knockout and jquery based ui -->
-  <script src="/assets/ui_old.js"></script>
+  <script src="<%=asset_path 'ui_old.js' %>"></script>
   <!-- include export functions -->
-  <script src="/assets/export.js"></script>
+  <script src="<%=asset_path 'export.js' %>"></script>
   <!-- include feedback functionality -->
-  <script src="/assets/feedback.js"></script>
+  <script src="<%=asset_path 'feedback.js' %>"></script>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>

@@ -83,7 +83,7 @@
     <div id="topRow">
       <div class="left">
         <div id="streetsToggle" class="icon"
-          style="background-image:url('/assets/street_icon.png')">
+          style="background-image:url('<%= asset_path 'street_icon.png'%>')">
         </div>
       </div>
       <div class="mid">
@@ -92,14 +92,14 @@
       </div>
       <div class="right">
         <div id="help" class="helpLink icon"
-          style="background-image:url('/assets/help_icon.png')"/>
+          style="background-image:url('<%= asset_path 'help_icon.png' %>')"/>
         </div>
       </div>
     </div>
     <div id="midRow">
       <div class="left">
         <div id="issuesToggle" class="icon"
-          style="background-image:url('/assets/issues_icon.png')"/></div>
+          style="background-image:url('<%= asset_path 'issues_icon.png' %>')"/></div>
       </div>
       <div id="comboboxCol" class="mid">
         <div class="ui-widget">
@@ -176,7 +176,7 @@
       is organized by request type, which is the category under which
       issues are reported.
     </p>
-    <img class="helpImg" src="assets/input.png" style="width:250px;float:right;"></img>
+    <img class="helpImg" src= "<%= asset_path 'input.png'%>" style="width:250px;float:right;"></img>
     <p>
       To use the application, a request type must be first selected
       from the main combobox. The user may search the category either by
@@ -194,7 +194,7 @@
     <h3>Cluster Map</h3>
     <img class="helpImg"
       style="height:300px;width:300px;"
-      src="assets/clusterMap.png"></img>
+      src="<%= asset_path 'clusterMap.png' %>"></img>
     <p>
       The cluster map presents groups of issue reports that are close
       together, allowing the user to identify isolated and high volume
@@ -211,8 +211,8 @@
       that are in the same area. The number on each circle
       and the size represent the number of issues in each cluster.
     </p>
-    <img class="helpImg" style="height:125px;width:125px;float:right;padding-left:10px" src="assets/cluster.png"></img>
-    <img class="helpImg" style="height:125px;width:125px;float:right;" src="assets/issuesSideBar.png"></img>
+    <img class="helpImg" style="height:125px;width:125px;float:right;padding-left:10px" src="<%= asset_path 'cluster.png' %>"></img>
+    <img class="helpImg" style="height:125px;width:125px;float:right;" src= "<%= asset_path 'issuesSideBar.png' %>"></img>
     <p>
       Clicking a cluster will display a map of all of the
       issues associated with that cluster. Issues are represented
@@ -220,7 +220,7 @@
       the issues side panel with tiles including the date as well
       as the summary and description (if available) of each issue.
     </p>
-    <img class="helpImg" style="height:40px;width:40px;float:right" src="assets/issues_icon.png"></img>
+    <img class="helpImg" style="height:40px;width:40px;float:right" src="<%= asset_path 'issues_icon.png'%>"></img>
     <p>
       The issues panel can be accessed by clicking the exclamation
       mark icon in the top left. Clicking on an issue icon will
@@ -235,7 +235,7 @@
       The clusters are roughly 2000ft. in diameter.
     </p>
     <h3>Heatmap</h3>
-    <img class="helpImg" style="height:300px;width:300px;" src="assets/heatMap.png"></img>
+    <img class="helpImg" style="height:300px;width:300px;" src= "<%= asset_path 'heatMap.png' %>"></img>
     <p>
       The heatmap is a visualization of issues for a given request type
       where the level of color intensity represents the density of
@@ -250,7 +250,7 @@
       and then select the "Heat Map" button in the upper right hand corner.
     </p>
     <h3>Street Ranking</h3>
-    <img class="helpImg" style="width:200px;float:right;" src="assets/streetsSidebar.png"></img>
+    <img class="helpImg" style="width:200px;float:right;" src="<%= asset_path'streetsSidebar.png'%>"></img>
     <p>
       The street ranking offers yet another way of understanding the
       location of active issues. Once a request type is
@@ -283,7 +283,7 @@
       by clicking the export button at the bottom of the streets panel.
     </p>
     <h3>Exporting</h3>
-    <img class="helpImg" style="width:300px;" src="assets/export.png"></img>
+    <img class="helpImg" style="width:300px;" src="<%= asset_path 'export.png'%>"></img>
     <p>
       It is possible to export data from the app to keep track of it for
       future reference and to gain some additional details. Data
