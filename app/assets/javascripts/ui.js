@@ -86,8 +86,9 @@ $(document).ready(function(){
 
     self.lastUpdated=ko.computed(function(){
       if (typeof self.batch() !='undefined'){
-        var d=new Date(self.batch()["created_at"]);
-        return (d.getMonth()+1)+'-'+d.getDate()+'-'+d.getFullYear()
+        // set month, because this doesn't work when it is compiled...
+        d.setMonth( d.getMonth( ) + 1 );
+        return d.getMonth()+'-'+d.getDate()+'-'+d.getFullYear()
       }else{return false}
     });
     //Behaviors
