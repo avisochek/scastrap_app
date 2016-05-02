@@ -1,0 +1,649 @@
+/* basic page styling */
+/* line 3, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+img, embed, object, video {
+  max-width: 100%;
+}
+
+/* line 4, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.left, .mid, .right {
+  position: relative;
+  height: 100% !important;
+  float: left;
+}
+
+/* line 9, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.left, .right {
+  width: 20%;
+}
+
+/* line 10, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.mid {
+  width: 60%;
+}
+
+/* line 11, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+html, body, #home {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* line 17, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#loading {
+  background-color: rgba(224, 222, 224, 0.8);
+  color: black;
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 25, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#loading span {
+  font-size: 30px;
+}
+
+/* line 26, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#loading div {
+  padding-top: 45vh;
+}
+
+/* line 27, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.container {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100%;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* line 38, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#main {
+  min-width: 300px;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+}
+
+/* line 45, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#topRow, #midRow, #map, #noClusters {
+  margin-top: 10px;
+  display: block;
+}
+
+/* line 46, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#topRow, #midRow {
+  height: 40px;
+}
+
+/* line 47, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#map, #noClusters {
+  position: relative;
+  background-repeat: none;
+  background-size: cover;
+  /*z-index: 1000;*/
+}
+
+/* line 53, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#map {
+  background-image: url(/assets/world-3e8559752d2260ea52b95e92ef4a3a5f0e92e57178b078e71aaf4639819df9b5.png);
+}
+
+/* icon styling */
+/* line 56, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.icon {
+  height: 40px;
+  width: 40px;
+  background-size: 100%,100%;
+  background-repeat: no-repeat;
+}
+
+/* line 62, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.icon:hover {
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+}
+
+/*keep icons to the side...*/
+/* line 68, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streetsToggle, #issuesToggle {
+  position: absolute;
+  left: 0;
+}
+
+/* line 72, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#help, #mapToggle {
+  position: absolute;
+  right: 0;
+}
+
+/* line 76, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#title {
+  height: 100%;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  padding-top: auto;
+  padding-bottom: auto;
+}
+
+/*---map toggle icon---*/
+/* line 86, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#mapToggle {
+  margin-top: -5px;
+  height: 40px;
+  width: 50px;
+  clear: both;
+  text-align: center;
+  direction: rtl;
+}
+
+/* line 94, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#mapToggle > h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 22px !important;
+}
+
+/* line 100, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#mapToggle > h3:hover {
+  font-size: 25px !important;
+  z-index: 10000;
+}
+
+/*--- styling for guide indicators ---*/
+/* line 106, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.highlited {
+  outline: 5px solid orange !important;
+}
+
+/*---combobox---*/
+/* line 112, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.ui-autocomplete {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+/*reduce ui-autocomplete height for sideways mobile view*/
+@media screen and (max-height: 400px) {
+  /* line 119, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  .ui-autocomplete {
+    max-height: 180px;
+  }
+}
+/* line 123, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.custom-combobox {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  text-align: left !important;
+  display: block;
+}
+
+/* line 130, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.custom-combobox-toggle {
+  /*margin:0 !important;*/
+  margin-bottom: 6px;
+  padding: 0 !important;
+  border-style: solid !important;
+  border-width: 2px !important;
+  position: absolute !important;
+  height: 37px !important;
+  width: 20% !important;
+  border-color: lightgrey !important;
+  text-align: center;
+  color: grey !important;
+  background: none !important;
+  float: left;
+}
+
+/* line 146, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.custom-combobox-toggle:hover {
+  z-index: 101;
+  border-color: grey !important;
+}
+
+/* line 150, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.custom-combobox-input {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  height: 40px !important;
+  width: 78% !important;
+  float: left;
+}
+
+/* line 158, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+div > .ui-widget {
+  height: 100% !important;
+  width: 100% !important;
+  max-width: 600px;
+  text-align: center;
+}
+
+/* keep button right size */
+@media screen and (min-width: 425px) {
+  /* line 166, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  .custom-combobox-input {
+    width: 83% !important;
+  }
+
+  /* line 167, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  .custom-combobox-toggle {
+    width: 15% !important;
+  }
+}
+@media screen and (min-width: 600px) {
+  /* line 170, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  .custom-combobox-input {
+    width: 87% !important;
+  }
+
+  /* line 171, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  .custom-combobox-toggle {
+    width: 12% !important;
+  }
+}
+/* main footer */
+/* line 175, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#bottomRow {
+  position: relative;
+  min-height: 21px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* line 183, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.footerItem {
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 0;
+  display: inline-block;
+}
+
+/* line 189, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.pageLink:hover {
+  outline: solid black 2px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* home/main/sidebar */
+/* line 196, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#home.open {
+  min-width: 600px;
+}
+
+/* line 197, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#main.open {
+  float: left;
+  width: 60%;
+}
+
+/* line 198, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#sidebar {
+  height: 100%;
+  display: none;
+  float: left;
+}
+
+/* line 203, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#sidebar.open {
+  display: block;
+  width: 40%;
+}
+
+/* keep the sidebar approximately 250-300px*/
+@media screen and (min-width: 800px) {
+  /* line 209, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  #sidebar.open {
+    width: 35%;
+  }
+
+  /* line 212, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  #main.open {
+    width: 65%;
+  }
+}
+@media screen and (min-width: 1000px) {
+  /* line 217, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  #sidebar.open {
+    width: 30%;
+  }
+
+  /* line 220, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+  #main.open {
+    width: 70%;
+  }
+}
+/* sidebar */
+/* line 226, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.collapse {
+  height: 100%;
+  background-color: #cccacc;
+  width: 10%;
+  float: left;
+}
+
+/* line 232, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.collapse:hover {
+  cursor: pointer;
+  background-color: #aeacae;
+}
+
+/* line 236, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.collapse div {
+  padding-top: 45vh;
+  padding-left: 2px;
+}
+
+/* line 240, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streets, #issues {
+  background-color: #e0dee0;
+  position: relative;
+  display: none;
+  margin: 0;
+  height: 100% !important;
+  width: 89% !important;
+  top: 0;
+  left: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  text-align: center;
+  float: left;
+}
+
+/* line 254, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streets.open, #issues.open {
+  display: block;
+}
+
+/* line 255, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#issuesTitle, #streetsTitle {
+  position: relative;
+  height: 60px;
+  width: 100%;
+  margin-top: 0;
+  background-color: #e0dee0;
+}
+
+/* line 262, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streetsFooter, #issuesFooter {
+  position: relative;
+  min-height: 60px;
+  height: 60px;
+  width: 100%;
+  margin: 0;
+  background-color: #e0dee0;
+}
+
+/* line 270, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streetsFooter:hover, #issuesFooter:hover {
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+/* line 274, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#issuesTitle > h1, #streetsTitle > h1 {
+  margin: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* line 279, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#issuesFooter > h1, #streetsFooter > h1 {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* line 284, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.sidebarContent {
+  display: block;
+  margin-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-collapse: collapse;
+  overflow: auto;
+}
+
+/* line 293, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+a, a:link, a:visited, a:hover, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+/*sidebar content*/
+/* line 299, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetRow {
+  margin: 10px;
+  min-height: 60px;
+  justify-content: space-between;
+}
+
+/* line 304, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetRow td {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* line 308, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetRow .pct {
+  padding-left: 10px;
+}
+
+/* line 309, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetRow:hover, .issueRow:hover {
+  background-color: #D4B16A;
+  cursor: pointer;
+}
+
+/* line 313, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.issueRow {
+  margin: 10px;
+  background-color: rgba(212, 177, 106, 0.4);
+}
+
+/* line 317, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.rank {
+  height: 40px;
+  border-radius: 25px;
+  background-color: #BEB9B5;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 10px;
+}
+
+/* line 325, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.name {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* line 329, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetText {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+/* selected issue */
+/* line 336, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.issueRow.selected {
+  background-color: rgba(255, 223, 222, 0.6) !important;
+  color: #9d4a46;
+}
+
+/* line 340, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.issueRow.selected:hover {
+  background-color: #ffdfde !important;
+}
+
+/*all pages*/
+/* line 345, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.page {
+  background-color: white;
+  display: none;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0;
+}
+
+/* line 358, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.pageTopRow, .pageContent {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* line 362, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.pageTopRow {
+  height: 60px;
+  width: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #BEB9B5;
+}
+
+/* line 369, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.back {
+  background-position: 0,0;
+}
+
+/* line 370, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.pageTitle, .back {
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+/* line 375, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.back {
+  background-image: url(/assets/back_icon-e5566e8dc59c4cc8d6ac8847fd993e111e734cf155a6f4c3077d920514c2d198.png);
+}
+
+/* line 376, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.pageContent {
+  text-align: left;
+}
+
+/* line 377, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.divider {
+  height: 10px;
+  border: solid black 5px;
+}
+
+/*feedback page*/
+/* line 383, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#feedbackPage {
+  text-align: center;
+  display: none;
+}
+
+/* line 387, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#feedbackPage > .pageContent {
+  text-align: center;
+}
+
+/* line 390, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.feedbackInput {
+  width: 90%;
+  height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 5px;
+}
+
+/* line 399, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.g-recaptcha {
+  width: 304px;
+  float: none;
+  text-align: center;
+  margin: auto;
+}
+
+/* line 405, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#messageBox {
+  width: 90%;
+  height: 30vh;
+}
+
+/*streets page*/
+/* line 411, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streetsPage {
+  overflow-y: hidden;
+}
+
+/* line 412, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+#streetsTable {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 416, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetsPageName {
+  text-align: right;
+}
+
+/* line 417, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetsPageCount {
+  text-align: center;
+  width: 50%;
+}
+
+/* line 421, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.streetsTableRow:nth-child(even) {
+  background-color: #CCCCCC;
+}
+
+/*about page*/
+/* line 424, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+.profileLink:hover {
+  cursor: pointer;
+  outline: solid black 2px;
+}
+
+/* scrollbar */
+/* line 430, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: white;
+  border-radius: 3px;
+}
+
+/* line 435, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+/* line 440, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  background: rgba(200, 200, 200, 0.8);
+  -webkit-box-shadow: inset 0 0 6px rgba(100, 100, 100, 0.5);
+}
+
+/* line 446, /home/allan/Desktop/Scastrap/app/app/assets/stylesheets/application.scss */
+::-webkit-scrollbar-thumb:window-inactive {
+  background: #c8c8c8;
+}
