@@ -1,1 +1,0 @@
-$(function(){$("#feedbackForm").submit(function(e){var a="feedback";$.ajax({type:"POST",url:a,data:$("#feedbackForm").serialize(),success:function(e){$("#feedbackResponseMessage").text(e.message)}}),e.preventDefault()})});
